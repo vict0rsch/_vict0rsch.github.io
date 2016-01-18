@@ -58,7 +58,7 @@ timezone:    UTC+1
 future:      false
 show_drafts: nil
 limit_posts: 0
-pygments:    true
+highlighter: pygment
 
 relative_permalinks: true
 
@@ -78,12 +78,12 @@ port:        4000
 baseurl:     /
 lsi:         false
 
-maruku:
-  use_tex:    false
-  use_divs:   false
-  png_engine: blahtex
-  png_dir:    images/latex
-  png_url:    /images/latex
+# maruku:
+#   use_tex:    false
+#   use_divs:   false
+#   png_engine: blahtex
+#   png_dir:    images/latex
+#   png_url:    /images/latex
 
 rdiscount:
   extensions: []
