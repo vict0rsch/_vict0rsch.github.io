@@ -17,7 +17,7 @@ inc:
   about_link:   
   
   # Product Information
-  resources_link: resources.md
+  resources_link: /resources
   tagline:      "Get started with Keras and Lasagne"
   
   # Comments
@@ -43,7 +43,7 @@ inc:
   google_font: 'Droid+Sans:400,700'
   
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
-  tutorials_link: tutorials
+  tutorials_link: /tutorials
 
 url:         http://blablaurl.com
 source:      .
@@ -98,6 +98,7 @@ kramdown:
   toc_levels: 1..6
   smart_quotes: lsquo,rsquo,ldquo,rdquo
   use_coderay: false
+  input: GFM
 
   coderay:
     coderay_wrap: div

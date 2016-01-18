@@ -1,10 +1,12 @@
 article {
     background:#fff;
     padding:60px 0;
-    font-size:18px;
+    font-size:15px;
 
     .container > header, .container > section, .container > footer {
-        margin:0 8em;
+        margin:0 2em;
+        text-align: justify;
+        text-justify: inter-word;
     }
 
     .social {
@@ -72,6 +74,10 @@ article {
         color:$text;
         font-weight:400;
         margin:0 0 1.5em;
+
+        code {
+            font-size: 0.7em;
+        }
     }
     
     
@@ -96,11 +102,12 @@ article {
         font-style: italic;
 
         p {
-            font-size:14px;
+            font-size:12px;
             line-height:1.1;
             color:$accent;
-            font-weight:600;
+            font-weight:500;
             font-style: italic;
+            padding: 0 8em 0 2em;
         }
     }
 
@@ -184,13 +191,13 @@ article {
     pre {
         border: 0;
         padding: 1.5em 3em;
-        margin:0 -3em 1.5em;
+        margin:0 0em 1.5em;
         background: whitesmoke;
         border: 0;
         border-radius: 2px;
         border-bottom:1px solid #eee;
         width:100%;
-        font-size:0.8em;
+        font-size:1em;
         overflow-x: auto;
         display:block;
         

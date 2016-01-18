@@ -9,6 +9,7 @@ excerpt: "Focus on how to format your data, understand thei dimensions and walk 
 
 author:
   name: Victor Schmidt
+  twitter: vict0rsch
 
 ---
 
@@ -18,18 +19,18 @@ Table Of Contents
 
 **[Recap](#recap)**
   
-**[Batch, Time and Data](#batch-time-and-data)**
+**[Batch, Time and Data](#dimensions)**
   
-**[Backpropagation Through Time](backpropagation-through-Time)**
+**[Backpropagation Through Time](#backpropagation)**
   
-**[Example with Lasagne](example-with-lasagne)**
+**[Example with Lasagne](#lasagne)**
   
-**[Example with Keras](example-with-Keras)**
+**[Example with Keras](#keras)**
 
 
 
-Recap
----
+##Recap
+
 My point here is to undertand how to handle dimensions and therefore understand how to implement recurrent neural networks. As you may already know, there is a lot of ways of using RNNs. I'm going to focus on [Andrej Karpathy](http://karpathy.github.io/)'s illustration which I find clear and to the point :
 
 ![Karpathy's RNNs illustration](http://karpathy.github.io/assets/rnn/diags.jpeg)
@@ -42,8 +43,8 @@ I'd like to add two minor points to this:
 * Second, regarding depth, the chart shows a one-layered network. Adding a second layer would be vertically drawn: it would mean adding (horizontally aligned) green boxes on top of the existing ones, pointing both to the right and the top, taking their inputs from the first layer. 
 
 
-Batch, Time and Data
----
+##Dimensions
+
 With recurrent networks, we speak of time. Time means we feed examples one **after** the other. Does it mean **online learning?** Certainly not. You can still use batches! Wait... batch after batch is the common way to train networks! So what's new?
 
 The difference between a feedforward and a recurrent network is that *batches* are made of *sequences*, representing timesteps. To recall A. Karpathy's examples, these sequences can be words of a sentence or frames of a video. Or values of a time-series (financial valuations, electroencephalogram measures ...).
@@ -66,8 +67,7 @@ So let's get back to dimensions:
 * each one containing `seq_len` timesteps
 * and each of this timestep being `input_features`-dimensional, that is to say your examples have `input_features` features. 
 
-Backpropagation through time
----
+##Backpropagation
 
 Quick and simple explanation on [Wikipedia](https://en.wikipedia.org/wiki/Backpropagation_through_time#Algorithm):
 
@@ -75,13 +75,15 @@ Quick and simple explanation on [Wikipedia](https://en.wikipedia.org/wiki/Backpr
 
 The idea is to unfold through time the network's graph (in this example, `seq_len = 3`) and then apply the original backpropagation algorithm.
 
-Example with Lasagne
----
+
+
+##Lasagne
+
 Let's have a quick look at Lasagne's [recurrent.py](https://github.com/Lasagne/Lasagne/blob/master/examples/recurrent.py) example.
 
 The **task** is the following, which is simply an addition:
 
-```python
+{% highlight python %}
 # [...]
 MAX_LENGTH = 55
 # [...]
@@ -107,17 +109,17 @@ the target for the
     conference on machine learning (ICML-13). 2013.
 
 '''
-```
+{% endhighlight %}
 So the point of the netowrk here would be to learn how to add numbers based on a sequence: the sequence is made of of a couple numbers `(a, b)`. `a` is to be added to the sum if `b` is `1`. There are exactly two `b` that are `1`, the others are `0`.
 
 The **input layer** is therefore declared as follows:
 
-```python
+{% highlight python %}
 # First, we build the network, starting with an input layer
 # Recurrent layers expect input of shape
 # (batch size, max sequence length, number of features)
 l_in = lasagne.layers.InputLayer(shape=(N_BATCH, MAX_LENGTH, 2))
-```
+{% endhighlight %}
 
 This means the input data will have 3 dimensions:
 
@@ -127,26 +129,27 @@ This means the input data will have 3 dimensions:
 
 Which corresponds to a shape `(batch_size = N_BATCH, seq_len = MAX_LENGTH, input_features = 2)` for the input data.
 
-Example with Keras
----
+
+
+## Keras
+
 Here we'll look at [imdb_lstm.py](https://github.com/fchollet/keras/blob/master/examples/imdb_lstm.py) and refer to the [documentation](http://keras.io/layers/embeddings/). This one is a little harder than the previous one. 
 
 What is the **task**? The aim is to classify IMDB movie reviews and say whether or not they are positive regarding the movie. To do so, we'll use Keras's "IMDB Movie reviews sentiment classification" dataset:
 >Dataset of 25,000 movies reviews from IMDB, labeled by sentiment (positive/negative). Reviews have been preprocessed, and each review is encoded as a sequence of word indexes (integers). For convenience, words are indexed by overall frequency in the dataset, so that for instance the integer "3" encodes the 3rd most frequent word in the data. 
 
-```python
+{% highlight python %}
 max_features = 20000
 maxlen = 100  # cut texts after this number of words (among top max_features most common words)
 batch_size = 32
 
-(X_train, y_train), (X_test, y_test) = imdb.load_data(nb_words=max_features,
-                                                      test_split=0.2)
+(X_train, y_train), (X_test, y_test) = imdb.load_data(nb_words = max_features, test_split = 0.2)
 
 
 X_train = sequence.pad_sequences(X_train, maxlen=maxlen)
 X_test = sequence.pad_sequences(X_test, maxlen=maxlen)
+{% endhighlight %}
 
-```
 Here we simply load the data. `X_train` is a list of reviews and `X_train[i]` is a list of words, indexed by integers.  
 There are `max_features` different words in those reviews.  
 There are 25,000 examples, split between 20,000 for training and 5,000 for testing.  
@@ -155,14 +158,16 @@ There are 25,000 examples, split between 20,000 for training and 5,000 for testi
 
 Then how is the data input into the network? Using an `embedding` layer:
 
-```python
+{% highlight python %}
 model = Sequential()
 model.add(Embedding(max_features, 128, input_length=maxlen))
 model.add(LSTM(128))
 [...]
-``` 
+{% endhighlight %}
+
 Look at C. Olah's [post](http://colah.github.io/posts/2014-07-NLP-RNNs-Representations/) to learn more on those embedding layers. What you need to know, indepently from the task is that these layers are built as follows:
-> `keras.layers.embeddings.Embedding(input_dim, output_dim, [...])`  
+> `keras.layers.embeddings.Embedding(input_dim, output_dim, [...])` 
+>   
 > input_dim: int >= 0. Size of the vocabulary
 
 And their outpus have shapes
