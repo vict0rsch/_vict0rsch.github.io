@@ -35,9 +35,9 @@ namespace :site do
 end
 
 
-Automate publishing
+# Automate publishing
 
-Once repo is ready you can render your website and push compiled sources into master branch. But doing it manually is a pain, so let’s add simple rake task. Create (if you don’t have one yet) a Rakefile and add following into it:
+# Once repo is ready you can render your website and push compiled sources into master branch. But doing it manually is a pain, so let’s add simple rake task. Create (if you don’t have one yet) a Rakefile and add following into it:
 
 ############
 ############
