@@ -14,8 +14,17 @@ layout: base
             {% if site.inc.facebook %}
             <a href="http://facebook.com/{{ site.inc.facebook }}" title="Like on Facebook" target="_blank"><i class="icon icon-facebook"></i></a>
             {% endif %}
-            <a href="/feed.xml" title="RSS Feed">
-                <i class="icon icon-rss"></i>
+            {% if site.inc.mail %}
+            <a href="mailto:{{ site.inc.mail }}" title="Send me a mail!" target="_blank"><i class="icon icon-mail"></i></a>
+            {% endif %}
+            {% if site.inc.linkedin %}
+            <a href="{{ site.inc.linkedin }}" title="Linkedin" target="_blank"><i class="icon icon-linkedin"></i></a>
+            {% endif %}
+            {% if site.inc.github %}
+            <a href="{{ site.inc.github }}" title="Github" target="_blank"><i class="icon icon-github"></i></a>
+            {% endif %}
+            <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss"></i> -->
             </a>
         </div>
     </section>
