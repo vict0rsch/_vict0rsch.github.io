@@ -87,7 +87,8 @@ article {
         padding: 0;
         list-style-position: outside;
         padding-left: 1.5em;
-        
+        font-size:15px;
+
         li {
             font-weight:400;
             margin-bottom:0.5em;
@@ -107,7 +108,16 @@ article {
             color:$accent;
             font-weight:500;
             font-style: italic;
-            padding: 0 8em 0 2em;
+            padding: 0 15% 0 2em;
+        }
+
+        ul{
+            font-size:12px;
+            line-height:1.1;
+            color:$accent;
+            font-weight:500;
+            font-style: italic;
+            padding: 0 15% 0 4em;
         }
     }
 
@@ -158,7 +168,9 @@ article {
 
     img {
         max-width:100%;
-        margin:1em 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: inherit;
     }
 
 

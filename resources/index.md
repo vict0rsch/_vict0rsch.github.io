@@ -60,7 +60,8 @@ Starting with Deep Learning
 Reading papers
 ---
 If you like reading papers and read a lot of papers (or at least once a month) I suggest you download and use **[Mendeley](https://www.mendeley.com/dashboard/)**:
-> Free reference manager and PDF organizer
+
+	>Free reference manager and PDF organizer
 
 The point is that you will be able to store and organize the papers you read to find them later on without having to dig in the web. Moreover it is super-useful to generate Latex bibliographies.
 

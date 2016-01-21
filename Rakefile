@@ -44,7 +44,7 @@ end
 
 
 # Change your GitHub reponame
-GITHUB_REPONAME = "vict0rsch/vict0rsch.github.com"
+GITHUB_REPONAME = "vict0rsch/vict0rsch.github.io"
 
 
 desc "Generate blog files"

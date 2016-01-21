@@ -58,7 +58,7 @@ timezone:    UTC+1
 future:      false
 show_drafts: nil
 limit_posts: 0
-highlighter: pygment
+highlighter: pygments
 
 relative_permalinks: true
 
@@ -113,6 +113,7 @@ redcloth:
 
 #
 # jekyll-assets: see more at https://github.com/ixti/jekyll-assets
+# bundle exec jekyll serve
 #
 assets:
 
