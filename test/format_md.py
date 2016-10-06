@@ -4,16 +4,16 @@ import os
 def highlight(content):
     for i in range(len(content)):
         if ("```" in content[i]) and ("python" in content[i]):
-            content[i] = "{% highlight python %} \n"
+            content[i] = "{% highlight python %}\n"
         if ("```" in content[i]) and ("python" not in content[i]):
-            content[i] = "{% endhighlight %} \n \n"
+            content[i] = "{% endhighlight %}\n \n"
     return content
 
 
 def titles(content):
     for i in range(len(content)):
         hashtags = count_hashtags(content[i])
-        if content[i][hashtags] != " ":
+        if content[i][hashtags] != " " and hashtags > 0:
             content[i] = content[i][:hashtags] + " " + content[i][hashtags:]
     return content
 
@@ -50,22 +50,47 @@ def get_main_title(content):
     return "", -1
 
 
+def one_line_quote(content):
+    new_content = []
+    i = 0
+    while i < len(content):
+        print content[i][
+                    len(content[i]) - len(content[i].strip()) - 1
+                    ]
+        if content[i][
+                    len(content[i]) - len(content[i].strip()) - 1
+                    ] == ">":
+            line = ""
+            while content[i] != "":
+                print content[i]
+                line += content[i]
+                i += 1
+            new_content.append(line)
+            print '\n'
+        else:
+            new_content.append(content[i])
+            i += 1
+    return new_content
+
+
 def front_matter(content):
     if '---' not in content[0] and 'layout' not in content[1]:
-        matter = "---\nlayout: post\n\n"
-        matter += "author:\n  name: Victor Schmidt\n  twitter: vict0rsch\n\n"
-        title, index = get_main_title(content)
-        matter += "title: " + title + "\n\n---\n\n"
+        if content[0][0] != "-":
+            matter = "---\nlayout: post\n\n"
+            matter += "author:\n  name: Victor Schmidt"
+            matter += "\n  twitter: vict0rsch\n\n"
+            title, index = get_main_title(content)
+            matter += "title: " + title + "\n\n---\n\n"
 
-        if index > 0:
-            content[index] = ""
+            if index > 0:
+                content[index] = ""
 
-        new_content = []
-        new_content.append(matter)
-        for line in content:
-            new_content.append(line)
+            new_content = []
+            new_content.append(matter)
+            for line in content:
+                new_content.append(line)
 
-        return new_content
+            return new_content
     return content
 
 
@@ -82,6 +107,8 @@ def check_file(file_name):
         print 'titles'
         content = table_of_contents(content)
         print 'table_of_contents'
+        content = one_line_quote(content)
+        print 'one_line_quote'
 
     with open(file_name + 'test', "w") as f2:
         for line in content:
