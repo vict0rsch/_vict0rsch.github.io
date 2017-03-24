@@ -1,7 +1,7 @@
 article {
     background:#fff;
     padding:60px 0;
-    font-size:15px;
+    font-size:1em;
 
     .container > header, .container > section, .container > footer {
         margin:0 2em;
@@ -73,7 +73,7 @@ article {
         line-height:1.5;
         color:$text;
         font-weight:400;
-        margin:0 0 1.5em;
+        margin:0 0 0.5em;
 
         code {
             font-size: 0.7em;
@@ -87,7 +87,7 @@ article {
         padding: 0;
         list-style-position: outside;
         padding-left: 1.5em;
-        font-size:15px;
+        font-size:inherit;
 
         li {
             font-weight:400;
@@ -97,24 +97,28 @@ article {
     
     blockquote {
         border:0;
-        font-size:14px;
+        font-size:0.8em;
         margin:1.2em -4em 1.2em 0;
         padding:0;
         font-style: italic;
 
         p {
-            font-size:12px;
-            line-height:1.1;
-            color:$accent;
+            font-size:1em;
+            line-height:1.8;
+            color:#68838B;
             font-weight:500;
             font-style: italic;
-            padding: 0 15% 0 2em;
+            padding: 0 2% 0 1em;
+            background-color: #fafafa;
+            background-clip: border-box;
+            border-left: 2px solid #e6e6e6;
+            width: 90%;
         }
 
         ul{
-            font-size:12px;
-            line-height:1.1;
-            color:$accent;
+            font-size:1em;
+            line-height:1.8;
+            color:#68838B;
             font-weight:500;
             font-style: italic;
             padding: 0 15% 0 4em;
@@ -129,18 +133,18 @@ article {
 
     h2 {
         font-size:1.5em;
-        margin:0.5em 0 1em;
-        font-weight:600;
+        margin:2em 0 0.7em;
+        font-weight:400;
     }
 
     h3 {
         font-size:1.3em;
-        font-weight:600;
+        font-weight:400;
     }
 
     h4 {
         font-size:1.2em;
-        font-weight:600;
+        font-weight:400;
     }
 
     hr {
@@ -186,7 +190,7 @@ article {
 
     .subtitle {
         font-size: 1.4em;
-        margin: 0.2em 0;
+        margin: 0.5em 0;
         color: $textmuted;
         font-weight: 300;
     }
@@ -206,8 +210,8 @@ article {
         margin:0 0em 1.5em;
         background: whitesmoke;
         border: 0;
-        border-radius: 2px;
-        border-bottom:1px solid #eee;
+        border-radius: 0px;
+        border-bottom:0px solid #eee;
         width:100%;
         font-size:1em;
         overflow-x: auto;
@@ -220,8 +224,7 @@ article {
     }
     
     code {
-        border-bottom:1px solid #ddd;
-        border-radius:2px;
+        border-radius:1px;
         color:#222;
     } 
 
@@ -265,5 +268,19 @@ article {
             box-shadow:0 2px 5px rgba(0,0,0,0.5);
         }
     }
+    /* custom */
+    .dark {
+        font-size: 0.6em;
 
+        &:hover{
+            background-color: rgb(100,100,100);
+            color:#87CEEB;
+        }
+    }
+    #cancel_dark_for_good {
+        color:#87CEEB;
+        &:hover {
+            color: #99fcff;
+        }
+    }
 }

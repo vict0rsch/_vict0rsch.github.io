@@ -12,30 +12,37 @@ layout: base
 
     <div class="container">
         <header>
+            {% if page.special_post != true %}
             <div class="meta">
-                By <address><a rel="author" href="{{ page.author.link }}" title="{{ page.author.name }}" target="_blank">{{ page.author.name }}</a></address> &mdash;
-                <time pubdate datetime="{{ page.date | date: "%Y-%d-%B" }}" title="{{ page.date | date: "%B %d, %Y" }}">{{ page.date | date: "%B %d, %Y" }}</time>
+                <span class='meta_text'>By</span> <address><a rel="author" href="{{ page.author.link }}" title="{{ page.author.name }}" target="_blank">{{ page.author.name }}</a></address> <span class='meta_text'>&mdash;
+                <time pubdate datetime="{{ page.date | date: "%Y-%d-%B" }}" title="{{ page.date | date: "%B %d, %Y" }}">{{ page.date | date: "%B %d, %Y" }}</time></span>
             </div>
-            <h1 class="title">{{ page.title }}</h1>
+            {% endif %}
+            <h1 class="title">{{ page.title }}</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read in the dark</a></span>
             {% if page.subtitle %}<h2 class="subtitle">{{ page.subtitle }}</h2>{% endif %}
         </header>
 
         <section>
+            <div id='post-content'>
             {{ content }}
+            </div>
             {% include _social.html %}
         </section>
-
+        
         <footer>
             <address>
                {% if page.author.image %}<img src="/images/{{ page.author.image }}">{% endif %}
                 <p>Written by <strong><a rel="author" href="https://twitter.com/{{ page.author.twitter }}" title="{{ page.author_name }}" target="_blank">{{ page.author.name }}</a></strong><br>
                 <span class="muted">{{ page.author.bio }}</span>
+                {% if page.author.github %}
+                <iframe src="https://ghbtns.com/github-btn.html?user={{page.author.github}}&type=follow&count=false&size=small" frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                {% endif %}
                 </p>
             </address>
 
         </footer>
 
-        {% if site.inc.disqus.shortname %}
+        {% if site.inc.disqus.shortname and page.comments %}
         <section>
             {% include _disqus.html %}
         </section>

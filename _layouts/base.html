@@ -4,7 +4,8 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% if page.title %}{{ page.title }} &mdash; {{ site.inc.title }}{% else %}{{ site.inc.title }} &mdash; {{ site.inc.subtitle }}{% endif %}</title>
-    {% if site.inc.google_font %}<link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font }}" rel="stylesheet" type="text/css">{% endif %}
+    {% if site.inc.google_font_headers %}<link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font_headers }}" rel="stylesheet" type="text/css">{% endif %}
+    {% if site.inc.google_font_body %}<link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font_body }}" rel="stylesheet" type="text/css">{% endif %}
     {% stylesheet main %}
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/images/{{ site.inc.logo }}"/>
@@ -26,7 +27,11 @@
     <meta property="og:description" content="{{ page.excerpt }}"/>
     <meta name="description" content="{{ page.excerpt }}"/>
     {% endif %}
-    <meta property="og:site_name" content="{{ site.inc.title }}">     
+    <meta property="og:site_name" content="{{ site.inc.title }}">
+    {% if site.inc.analytics.google and jekyll.environment == 'production' %}
+        {% include _google-analytics.html %}
+    {% endif %}
+
 </head>
 <body>
     
@@ -34,9 +39,8 @@
     <header>
         <nav id="navigation">
             <a class="brand" href="/">
-                <img src="/images/{{ site.inc.logo }}" alt="Inc">
+                <img src="/images/{{ site.inc.logo }}" alt="Home"> Home
             </a>
-            <a href="/" class="home">Posts</a>
             {% if site.inc.resources_link %}<a href="{{ site.inc.resources_link }}">Resources</a>{% endif %}
             {% if site.inc.about_link %}<a href="{{ site.inc.about_link }}">About</a>{% endif %}
         </nav>
@@ -58,6 +62,7 @@
             <a href="/">Posts</a> &middot;
             {% if site.inc.resources_link %}<a href="{{ site.inc.resources_link }}">Resources</a> &middot; {% endif %}
             {% if site.inc.about_link %}<a href="{{ site.inc.about_link }}">About</a>{% endif %}
+            <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small" frameborder="0" scrolling="0" width="160px" height="20px" align="top"></iframe>
         </nav>
         
         <nav class="social">

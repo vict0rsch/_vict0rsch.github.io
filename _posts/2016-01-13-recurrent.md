@@ -5,11 +5,14 @@ title: On recurrent nets and Data Dimensions
 subtitle: ""
 cover_image: blog-cover.jpg
 
+comments: true
+
 excerpt: "Focus on how to format your data, understand thei dimensions and walk through Keras and Lasagne examples."
 
 author:
   name: Victor Schmidt
   twitter: vict0rsch
+  github: vict0rsch
 
 ---
 
@@ -34,6 +37,7 @@ Recap
 My point here is to undertand how to handle dimensions and therefore understand how to implement recurrent neural networks. As you may already know, there is a lot of ways of using RNNs. I'm going to focus on [Andrej Karpathy](http://karpathy.github.io/)'s illustration which I find clear and to the point :
 
 ![Karpathy's RNNs illustration](http://karpathy.github.io/assets/rnn/diags.jpeg)
+
 > Each rectangle is a vector and arrows represent functions (e.g. matrix multiply). Input vectors are in red, output vectors are in blue and green vectors hold the RNN's state (more on this soon). From left to right: **(1)** Vanilla mode of processing without RNN, from fixed-sized input to fixed-sized output (e.g. image classification). **(2)** Sequence output (e.g. image captioning takes an image and outputs a sentence of words). **(3)** Sequence input (e.g. sentiment analysis where a given sentence is classified as expressing positive or negative sentiment). **(4)** Sequence input and sequence output (e.g. Machine Translation: an RNN reads a sentence in English and then outputs a sentence in French). **(5)** Synced sequence input and output (e.g. video classification where we wish to label each frame of the video). Notice that in every case are no pre-specified constraints on the lengths sequences because the recurrent transformation (green) is fixed and can be applied as many times as we like.
 
 I'd like to add two minor points to this:
@@ -167,10 +171,12 @@ model.add(LSTM(128))
 {% endhighlight %}
  
 Look at C. Olah's [post](http://colah.github.io/posts/2014-07-NLP-RNNs-Representations/) to learn more on those embedding layers. What you need to know, indepently from the task is that these layers are built as follows:
+
 > `keras.layers.embeddings.Embedding(input_dim, output_dim, [...])`  
 > input_dim: int >= 0. Size of the vocabulary
 
 And their outpus have shapes
+
 > 3D tensor with shape: `(nb_samples, sequence_length, output_dim)`
 
 So once again what goes into the regular RNN (an LSTM layer in this case) is data of shape `(batch_size = 32, seq_len = maxlen, input_features = 128)`
