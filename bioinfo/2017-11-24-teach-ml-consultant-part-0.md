@@ -312,17 +312,14 @@ For instance if you like to go to `~/Documents/Github/vict0rsch/deep_learning`, 
 
 ```
 ~ $ myFavouritePath=~/Documents/Github/vict0rsch/deep_learning
-
 ~ $ cd $myFavouritePath
-
 ~/Documents/Github/vict0rsch/deep_learning $ echo $myFavouritePath
 /Users/victor/Documents/experiments/test
-
 ~/Documents/Github/vict0rsch/deep_learning $ echo $HOME
 /Users/victor
 ```
 
-Variables are not remembered. If you open a new terminal window, `$myFavouritePath` will be empty and won't do anything. More on that later!
+Variables you define yourself are not remembered. If you open a new terminal window, `$myFavouritePath` will be empty and won't do anything. More on that later!
 
 ## Printing stuff (`echo`)
 
@@ -337,9 +334,7 @@ You can also print something **in** a text file using `>` and `>>`. If the text 
 
 ```
 ~ $ echo $myFavouritePath > test.txt
-
 ~ $ echo $myFavouritePath > test.tx
-
 ~ $ cat test.txt
 /Users/victor/Documents/experiments/test
 ```
@@ -348,7 +343,6 @@ Eventhough we wrote `$myFavouritePath`'s value twice in `test.txt`, since `>` ov
 
 ```
 ~ $ echo $myFavouritePath >> test.txt
-
 ~ $ cat test.txt
 /Users/victor/Documents/experiments/test
 /Users/victor/Documents/experiments/test
@@ -378,6 +372,8 @@ We'll create a dummy example to test the command:
 ~/Documents $ mkdir ./test
 ~/Documents $ cd ./test
 ~/Documents $ mkdir ./folder1
+~/Documents $ ls
+folder1
 ~/Documents $ cp ./folder1 ./fodler2
 cp: ./folder1 is a directory (not copied).
 ~/Documents $ cp -r ./folder1 ./fodler2
