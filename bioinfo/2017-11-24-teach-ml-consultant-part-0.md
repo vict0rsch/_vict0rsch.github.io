@@ -209,71 +209,87 @@ However the first command will only work from your Home folder.
 
 ### Create empty text file (`touch`)
 
-If you want to create an empty text file, use `touch`:
+If you want to create an empty text file, use `touch`. You can create several files by putting a space between the paths to the files:
 
 ```
-~/ILoveExcel $ touch ./revenue.csv
+~/ILoveExcel $ touch ./revenue.csv ./costs_company_x.csv
 ```
 
 As you can see if you run `ls`, a new file is here! It is empty though. We'll see later how to write to it from the terminal (you can still edit it with Excel or any text editor from your Finder!).
 
+### Create a new directory (`mkdir`)
+
+_Making_ a new directory is pretty straight forward with `mkdir`: this command takes, as `ls` and `touch`, a path as argument:
+
+```
+~/ILoveExcel $ mkdir ./Costs
+```
+
+With this command, we created a folder called `Revenues` in the `ILoveExcel` folder. `mkdir` can only create the _last_ directory in the path given. You can not create the folder `foo/bar/` if `foo` does not already exist. You can however create several directories in a row by adding a space between them:
+
+```
+~/ILoveExcel $ mkdir ./Revenues ./Revenues/Company_X ./Costs/Company_X
+```
+
 
 ### Copy a file (`cp`)
 
-I'm sure you could have guessed it, the command to copy a file is `cp`. It takes 2 arguments: the path to the file you want to copy **from**, then (with a white space in between) the path you want to copy **to**, including the new name. Take `revenue.csv` in `ILoveExcel` and  duplicate it as `revenue_company_x.csv`:
+I'm sure you could have guessed it, the command to copy a file is `cp`. It takes 2 arguments: the path to the file you want to copy **from**, then (with a white space in between) the path you want to copy **to**, including the new name you want to give it. Take `revenue.csv` in `ILoveExcel` and  duplicate it as `01-01-18.csv`:
 
 ```
-~/Documents $ cp ./revenue.csv ./revenue_company_x.csv
+~/ILoveExcel $ cp ./revenue.csv ./Revenues/Company_X/revenue_01-01-18.csv
 ```
 
-Note that if you copy the file to a different directory, all directories in between your current location and the destination should exist *before* you copy the file as `cp` does not create directories on the fly.
+Note that if you copy the file to a different directory as in the example, all directories in between your current location and the destination should exist *before* you copy the file as `cp` does not create directories on the fly (as with `mkdir`).
 
 
 ### Move and Rename a File (`mv`)
 
-It's time to **move** `revenue_company_x.csv` to the proper location: in `ILoveExcel/Revenues`. We'll also **rename** it. Both at the same time! The `mv` command is used to move and/or rename files and directories:
+It's time to **move** `costs.csv` to its proper location in `Costs/Company_X`. We'll also **rename** it. Both at the same time! The `mv` command is used to move and/or rename files and directories:
 
 ```
-~/Documents $ mv ./ILoveExcel/revenue_company_x.csv ./ILoveExcel/Revenues/company_x.csv
+~/ILoveExcel $ mv ./costs.csv ./Costs/Company_X/costs_01-01-18.csv
 ```
 
 `mv` also works for directories. Rename `ILoveExcel` to `Excel`:
 
 ```
-~/Documents $ mv ./ILoveExcel ./Excel
+~/ILoveExcel $ cd
+~ $ mv ./ILoveExcel ./Excel
+~ $ cd ./Excel
 ```
 Running `ls` you can check that the content is (obviously) preserved.
 
 ### Edit a text file (`nano`)
 
-`nano` is a very simple text editor that runs in the terminal. It means you will not open another application like Word or TextEdit to write to a file. Let's try it with `company_x.csv`:
+`nano` is a very simple text editor that runs in the terminal. It means you will not open another application like Word or TextEdit to write to a file. Let's try it with `revenue_01-01-18.csv`:
 
 ```
-~/Documents/Excel/Revenues $ nano ./company_x.csv
+~/Excel $ nano ./Revenue/Company_X/revenue_01-01-18.csv
 ```
 That's it! Now you can just write text in your file. But don't try and use the mouse, it is useless in `nano`. What happens is `nano` does not handle the information sent from the mouse, so your Terminal keeps this information: you can't move the cursor by simply clicking somewhere (let alone drag and dropping words or right-clicking to spell-check).
 
 Ok so <span class='highlight'>write a few lines to it, enjoy your power and now save and quit</span>. How do you do that? Well, `nano` tells you how! At the bottom of the terminal, a few lines describe possible actions amongst which: 
 `^O Write Out` (= Save) and `^X Exit`. So you have to press `ctrl + O` (*not* zero) to save, then specify the name of the file (in our case just press `Enter` to keep the same name and location) and then `ctrl + X`.
 
-`nano` can also be used to create a *new* file: if `company_x.csv` had not existed before we ran the command, the file would have been created when we saved it.
+`nano` can also be used to create a *new* file: if `revenue_01-01-18.csv` had not existed before we ran the command, the file would have been created when we saved it.
 
 ### See what is in a text file (`cat`)
 
 To have the shell print out to you what is in a text file <span class='highlight'>use `cat`</span>:
 
 ```
-~/Documents/Excel/Revenues $ cat ./company_x.csv
+~/Excel $ cat ./Revenue/Company_X/revenue_01-01-18.csv
 ``` 
 
 You should see what you wrote earlier.
 
 ### Delete a file (`rm`)
 
-Say we don't need `company_x.csv` anymore and we want *remove* it. Run `rm` with the path to the file:
+Remember the `revenue.csv` file we copied earlier. As it is now in `Revenue/Company_X`, we don't need it anymore and we'll *remove* it. Run `rm` with the path to the file:
 
 ```
-~/Documents/Excel/Revenues $ rm ./company_x.csv
+~/Excel $ rm ./revenue.csv
 ```
 
 Be careful with `rm`: the file is not sent to the Bin for potential later recovery. It is plainly deleted and your file can't be brought back (at least not without a lot of sweat)!
@@ -281,7 +297,8 @@ Be careful with `rm`: the file is not sent to the Bin for potential later recove
 Now you know what, since you soon won't be a Consultant anymore, you don't need a folder full of Excel sheets anymore! Delete the `Excel` directory:
 
 ```
-~/Documents $ rm ./Excel
+~/Excel
+~ $ rm ./Excel
 rm: ./Excel: is a directory
 ```
 Wait... What? I know Excel is a directory! Why won't `rm` delete it? We'll have a look at that a bit later, when we learn how to use options with commands such as `rm`.
