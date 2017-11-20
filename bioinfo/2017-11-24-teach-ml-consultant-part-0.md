@@ -298,7 +298,7 @@ Be careful with `rm`: the file is not sent to the Bin for potential later recove
 Now you know what, since you soon won't be a Consultant anymore, you don't need a folder full of Excel sheets anymore! Delete the `Excel` directory:
 
 ```
-~/Excel
+~/Excel $ cd
 ~ $ rm ./Excel
 rm: ./Excel: is a directory
 ```
@@ -311,11 +311,11 @@ You can define *variables* in your shell. These things are a way to store some k
 For instance if you like to go to `~/Documents/Github/vict0rsch/deep_learning`, you can store this location as a string of characters in a variable and then *call* it to get its value in the appropriate context. This is exactly what your system does with your `home` folder: the location associated with `~` is actually stored in a variable called... `HOME`.
 
 ```
-~ $ myFavouritePath=~/Documents/Github/vict0rsch/deep_learning
+~ $ myFavouritePath=~/Excel/Revenues
 ~ $ cd $myFavouritePath
-~/Documents/Github/vict0rsch/deep_learning $ echo $myFavouritePath
-/Users/victor/Documents/experiments/test
-~/Documents/Github/vict0rsch/deep_learning $ echo $HOME
+~/Excel/Revenues $ echo $myFavouritePath
+/Users/victor/Excel/Revenues
+~/Excel/Revenues $ echo $HOME
 /Users/victor
 ```
 
@@ -326,26 +326,27 @@ Variables you define yourself are not remembered. If you open a new terminal win
 Did you notice the `echo` in the command above? It means we want to print something. Running it with your variable as an argument means you want to print the variable (more on this topic [here](https://www.howtogeek.com/howto/29980/whats-the-difference-between-single-and-double-quotes-in-the-bash-shell/)).
 
 ```
-~ $ echo hello
+~/Excel/Revenues $ cd ..
+~/Excel $ echo hello
 hello
 ```
 
 You can also print something **in** a text file using `>` and `>>`. If the text file does not exist, it is created in both cases. If it does exist however, `>` will overwrite the file:
 
 ```
-~ $ echo $myFavouritePath > test.txt
-~ $ echo $myFavouritePath > test.tx
-~ $ cat test.txt
-/Users/victor/Documents/experiments/test
+~/Excel $ echo $myFavouritePath > test.txt
+~/Excel $ echo $myFavouritePath > test.tx
+~/Excel $ cat test.txt
+/Users/victor/Excel/Revenues
 ```
 
 Eventhough we wrote `$myFavouritePath`'s value twice in `test.txt`, since `>` overwrites, it is only present once. On the other hand, `>>` will add a line at the end of the file:
 
 ```
-~ $ echo $myFavouritePath >> test.txt
-~ $ cat test.txt
-/Users/victor/Documents/experiments/test
-/Users/victor/Documents/experiments/test
+~/Excel $ echo $myFavouritePath >> test.txt
+~/Excel $ cat test.txt
+/Users/victor/Excel/Revenues
+/Users/victor/Excel/Revenues
 ```
 
 Now since `test.txt` already had `$myFavouritePath`'s value once as per the previous commands, using `>>` will add a new one.
@@ -354,81 +355,83 @@ Now since `test.txt` already had `$myFavouritePath`'s value once as per the prev
 
 Most of the commands you'll ever run can take optionnal values. To tell a command that you want to specify an option you will use **flags**. These have a weird name but really, they are just letters with a `-` sign in front of it. As you'll see in the next section `rm` for instance has various options, including `-r` and `-f`. One can run `rm -r -f ...` or `rm -rf ...` equivalently.
 
-### Delete a directory (`rm -rf`)
-
-To delete a directory we need to specify to `rm` that we want it to act *recursively*, meaning delete a directory and all it contains. We'll also specify that we are sure we want to delete things and not be asked about it, *forcing* deletion:
-
-```
-~/Documents $ rm -rf ./Excel
-```
-
 ### Copy a directory (`cp -r`)
 
-Just like a directory has to be deleted recursively, copying a directory means we want also to copy everything it contains! We'll therefore use the same `-r` flag with cp.
+To copy a non empty directory, we need to tell the `cp` command that we want to *recursively* copy it, meaning we want to copy the directory itself along with every file and child directory it contains. 
 
-We'll create a dummy example to test the command:
+If the directory is empty, then `cp` has only one object to copy, the directory itself, and that it can do. But if the directory contains files, then `cp` has to copy the directory *and* all the files it contains. And if the directory to be copied contains files and directories, then `cp` has to copy the directory, all the files it contains, and do the same with the children directories. This is why we need `cp` to be recursive.
+
+We'll therefore use the `-r` flag:
 
 ```
-~/Documents $ mkdir ./test
-~/Documents $ cd ./test
-~/Documents $ mkdir ./folder1
+~/Excel $ ls 
+Costs Revenues
+~/Excel $ cp ./Costs ./CostsCopy
+cp: ./Costs is a directory (not copied).
+~/Documents $ cp -r ./Costs ./CostsCopy
 ~/Documents $ ls
-folder1
-~/Documents $ cp ./folder1 ./fodler2
-cp: ./folder1 is a directory (not copied).
-~/Documents $ cp -r ./folder1 ./fodler2
-~/Documents $ ls
-folder1 folder2
+Costs CostsCopy Revenues
 ```
+### Delete a directory (`rm -rf`)
+
+We don't actually need two versions of `Costs`, let's remove the copy. As for copying, deleting a directory requires a *recursive* deletion (except if it's empty). We'll also specify that we are sure we want to delete things and don't want to be asked about it, *forcing* deletion:
+
+```
+~/Excel $ rm -rf ./CostsCopy
+```
+Again be extremely **careful**, you can't recover from `rm -rf`.
+
 
 ### See hidden files (`ls -a`)
 
-Some files and directories on your computer are hidden. It is different from saying they are protected or whatever, it means they are not displayed by default. They all start with a `.` (and this is how you make a file/directory hidden: prepend a dot to its name).
+Some files and directories on your computer are hidden. It is different from saying they are protected or whatever, it simply means they are not displayed by default. They all start with a `.` (and this is how you make a file/directory hidden: prepend a dot to its name).
 
-To see those, <span class='highlight'>run `ls -a`</span>:
+To see those, <span class='highlight'>run `ls -a` in your home</span>:
 
 ```
+~/Excel $ cd
 ~ $ ls -a
-.       .Trash              Applications        Desktop       Downloads     Movies        Pictures      anaconda      pem
-..      .bash_history       CLionProjects       Documents     Library       Music         Public        bin           nltk_data
+.       .Trash              Applications  Desktop       Downloads     Library       Music         Public        nltk_data
+..      .bash_history       CLionProjects Documents     IloveExcel    Movies        Pictures      bin           pem
 ```
 
 The first two elements, `.` and `..` symbolize the current and parent directory. If you look into `.bash_history` (`cat` or `nano`) you'll see the history of all commands you have run! To go through this history, press the `up` key!
 
 ### Wildcards (`*`)
 
-This `*` is called a wildcard and basically means "anything". When specifying a path as argument to a command (as you know, this happens a lot), the `*` matches any number and kind of characters. Let's look at examples with `ls` in a dummy directory (`#` are *comments*, they are not taken into account as commands, this is just me talking to you).
+This `*` is called a wildcard and basically means "anything". When specifying a path as argument to a command (as you know, this happens a lot), the `*` matches any number and kind of characters. Let's look at examples with `ls` in a dummy directory.
 
 First <span class='highlight'>create a few files and directories</span>:
 
 ```
-~ $ mkdir ./dummy
-~ $ cd ./dummy
-~/dummy $ mkdir ./ab1 ./ab2 ./cb1 ./cb2 ./d1 ./d2 ./db
-~/dummy $ touch ./test0.txt ./ab1/test1.txt ./cb1/test2.txt
+~ $ cd ./Excel
+~/Excel $ mkdir ./dummy
+~/Excel $ cd ./dummy
+~/Excel/dummy $ mkdir ./ab1 ./ab2 ./cb1 ./cb2 ./d1 ./d2 ./db
+~/Excel/dummy $ touch ./test0.txt ./ab1/test1.txt ./cb1/test2.txt
 ```
 
 <span class='highlight'>See everything</span>: the content of the current directory, and the content of children directories:
 
 ```
-~/dummy $ ls ./*
+~/Excel/dummy $ ls ./*
 ```
 
 Idem, but only for files and directories <span class='highlight'>ending</span> with a "2" (the wildcard stands for any number and kind of characters but the 3 is mandatory). Note that test2.txt does not show up as it is in cb1/ which is not listed by ls *2
 
 ```
-~/dummy $ ls ./*2
+~/Excel/dummy $ ls ./*2
 ```
 Idem, <span class='highlight'>starting</span> with an "a"
 
 ```
-~/dummy $ ls ./a*
+~/Excel/dummy $ ls ./a*
 ```
 
 Idem, <span class='highlight'>containing</span> a "b", anywhere: be it in the beginning, end or middle
 
 ```
-~/dummy $ ls ./*b*
+~/Excel/dummy $ ls ./*b*
 ```
 
 # Going Further
@@ -438,9 +441,9 @@ Idem, <span class='highlight'>containing</span> a "b", anywhere: be it in the be
 You can run several commands in one by adding `&&` or `;` in between, for instance:
 
 ```
-~ $ cd && pwd ; which python
+~ $ cd && pwd ; echo $myFavouritePath
 /Users/victor
-/Users/victor/anaconda3/bin/python
+/Users/victor/Excel/Revenues
 ```
 
 ## Autocomplete
@@ -453,30 +456,88 @@ Your OS is case sensitive, that is to say that upper and lower case letters are 
 
 ## Configuration files
 
-When you open a new terminal window, `Bash` automatically runs a text file located in your `home` called `.bash_profile`. This (hidden) file can contain any type of command which `Bash` understands. For instance if you want to print `Hackerman` every time you open a new terminal, you can either run `~ $ echo "Hackerman"` each time (not very nice) or add this command to your `.bash_profile`.
+When you open a new terminal window, `Bash` automatically runs a text file located in your `home` called `.bash_profile`. This (hidden) file can contain any type of command which `Bash` understands. For instance if you want to print `Hackerman` every time you open a new terminal, you can either run `~ $ echo Hackerman` each time (not very nice) or add this command to your `.bash_profile`.
 
-To do so, in your `home` create a new file called `.bash_profile` and add a line with `echo "Hackerman"`. You have various options to do so, either using `echo`, `nano` or `micro`.
+To do so, in your `home` create a new file called `.bash_profile` and add a line with `echo Hackerman`. You have various options to do so, either using `echo` or `nano`.
 
-If you want variables to be remembered across terminals, `.bash_profile` is a good place to store it. If you add another line containing `myFavouritePath=~/Documents/Github/vict0rsch/deep_learning` in this file, then every time you open a terminal, `Bash` will execute `.bash_profile` therefore printing `Hackerman` and defining a variable called `myFavouritePath`.
+If you want a custom variable to be remembered across terminals, `.bash_profile` is a good place to store it. If you add another line containing `myFavouritePath=Users/victor/Excel/Revenues` in this file, then every time you open a terminal, `Bash` will execute `.bash_profile` therefore printing `Hackerman` and defining a variable called `myFavouritePath`.
 
 Finally, for the changes in `.bash_profile` to be taken into account in the current terminal, you have to `source` it, meaning `Bash` will run the file's content.
 
 ```
 ~ $ echo echo Hackerman >> ./.bash_profile
-~ $ echo myFavouritePath=~/Documents/Github/vict0rsch/deep_learning >> ./.bash_profile
+~ $ echo myFavouritePath=Users/victor/Excel/Revenues >> ./.bash_profile
 ~ $ source ./.bash_profile
+```
+
+### Know where a program is stored (`which`)
+
+When you run a command as `cp` or `nano`, what happens is that your shell executes a programm which is stored somewhere on your hard drive. There is a command to know where exactly this program is stored:
+
+```
+~ $ which nano
+/usr/bin/nano
+~ $ which cp
+/bin
 ```
 
 ### The `PATH`
 
+How does your computer know where to find a program to be executed? How does it know that there is such a thing as `nano` and `cp`?
+
+Your computer does not look everywhere for a program which is called `nano`. It looks in specific directories. These directories are listed in a specific variable called the `PATH`. This variables is an ordered list of directories in which programs are stored. These directories are separated by `:`:
+
+```
+~ $ echo $PATH
+/Users/victor/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/sbin:/usr/sbin:/sbin
+```
+
+As exepected, the `PATH` lists, amongst others, `/usr/bin` where `nano` is stored and `/bin` where `cp` is stored. You should know that the order here is important: when running `nano`, your computer will execute the first program called `nano`, looking first (in my case) in `/Users/victor/.local/bin` then in `/usr/local/bin` etc. If no such program exists, you will get an error: `bash: [YourNonExistingCommand]: command not found`. For instance if you install a program and it is not stored in one of these directories, you won't be able to run it from the command line.
+
+
 ### `alias`
 
-A variable is meant to me used by other programs. For instance, one of t
+A variable is meant to me used by other programs. For instance the `PATH` and `HOME` variables are extremely useful for your shell to run properly. You can also store **commands** using `alias`. It's pretty simple: you say that something is an `alias`, you give it a name, then you say what it should do:
+
+```
+~ $ alias hello="echo hello, I am the hello alias"
+~ $ hello
+hello, I am the hello alias
+```
+
+You just created your first personal command! Congrats! As for variables, if you want this alias to be permanent and work in new terminals, add it to your `.bash_profile`:
+
+```
+~ $ echo alias hello=\"echo hello, I am the hello alias\" >> .bash_profile
+```
+
+`\` here is needed to tell `echo` we actually want to write those `"`. You could obviously write or delete this line using `nano`.
 
 
 ## Package management
 
+You know you can install regular programs by downloading them from the web (or installing them with a CD? You're that old?). Luckily you can do the same for programs which run in the terminal! If you want to install a new version of python, another commandline text editor and many other things you should use a *package manager*. 
+
+The name is pretty transparent: package managers are programs which *manage* software you install. It keeps track of there version, it downloads it from trusted sources and you can easily update them. 
+
+A popular Mac package manager is [`Brew`](https://brew.sh). We'll install it!
+
+```
+~ $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+```
+Press the `return` key (=`enter`), allow things with your password and there you go!
+
+This command dowloads a file from `githubusercontent.com` using the `curl` program and executes it using `ruby` (which is a programming language). 
+
 ### Improving on Nano: Micro
+
+`nano` is not too bad but it's pretty basic. Using `brew` we can get a much nicer command-line text editor: `Micro`. 
+
+```
+~ $ brew install micro
+```
+
+Micro colors things according to the language contained in the text file, it supports the mouse (so you can use your mouse to select text and so on) and it uses the keys you are used to using: `ctrl + s` to save, `ctrl + z` to cancel, `ctrl + q` to quit etc (note: it uses `ctrl` not `command`).
 
 ## Exercise : be more productive with Oh-my-zsh
 
