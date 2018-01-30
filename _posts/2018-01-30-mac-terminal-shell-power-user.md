@@ -38,7 +38,7 @@ Also, syntax highlighting!
 
 `brew install micro`
 
-<script src="https://asciinema.org/a/JwIHf47OsYkCkf3O2iFI87dHF.js" id="asciicast-14" async data-theme='monokai' speed='2'></script>
+<script src="https://asciinema.org/a/JwIHf47OsYkCkf3O2iFI87dHF.js" id="asciicast-JwIHf47OsYkCkf3O2iFI87dHF" async data-theme='monokai' speed='2'></script>
 
 ## Shell: ZSH
 
