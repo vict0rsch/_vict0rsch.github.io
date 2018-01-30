@@ -14,9 +14,11 @@ author:
 
 ---
 
-#Mac Terminal Power User
+# Mac Terminal Power User
 
 This article details my personnal configuration. Feel free to suggest improvements in the comments!
+
+The videos of my terminal are recorded with [Asciinema](https://asciinema.org). **You can pause a video and copy-paste the texts!**
 
 ## Terminal: iTerm2
 

@@ -63,6 +63,22 @@ article {
         color: $text;
         font-weight: 400;
         margin: 0 0 0.5em;
+        a {
+            code {
+                font-size: 0.7em;
+                .highlight {
+                    color: #F44336;
+                }
+                color:$accent;
+                text-decoration:none;
+                transition:all 0.2s ease;
+                
+                &:hover {
+                    color:darken($accent, 50%);
+                    text-decoration:none;
+                }
+            }
+        }
         code {
             font-size: 0.7em;
             color: #21272d;
