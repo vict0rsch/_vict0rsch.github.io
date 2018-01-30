@@ -1,3 +1,19 @@
+---
+layout: post
+
+title: MacOS Terminal and Shell Setup with configuration files
+subtitle: "Make your Terminal beautifully efficient"
+cover_image: datacenter.jpg
+comments: true
+excerpt: "That's my personal setup: links, descriptions and configuration. From ZSH to Pyenv through Spaceship and Tmux"
+
+author:
+  name: Victor Schmidt
+  twitter: vict0rsch
+  github: vict0rsch
+
+---
+
 #Mac Terminal Power User
 
 This article details my personnal configuration. Feel free to suggest improvements in the comments!
