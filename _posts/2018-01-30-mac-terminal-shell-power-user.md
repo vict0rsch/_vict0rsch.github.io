@@ -3,7 +3,7 @@ layout: post
 
 title: MacOS Terminal and Shell Setup with configuration files
 subtitle: "Make your Terminal beautifully efficient"
-cover_image: datacenter.jpg
+cover_image: power_button.jpg
 comments: true
 excerpt: "That's my personal setup: links, descriptions and configuration. From ZSH to Pyenv through Spaceship and Tmux"
 
@@ -137,6 +137,8 @@ eval "$(pyenv init -)"
 source /usr/local/opt/autoenv/activate.sh
 ```
 
+<script src="https://asciinema.org/a/nOuUy9LWuWYp739nVTnzNisbh.js" id="asciicast-nOuUy9LWuWYp739nVTnzNisbh" async data-theme='monokai' speed='2'></script>
+
 ## Tmux
 
 Tmux is a way to run proccesses which do not depend on your shell being active. So if you close the terminal, the process will continue. If you work remotely and the SSH connection is broken the remote process will not stop. Then you just need to grab it back!
@@ -146,3 +148,11 @@ Tmux has sessions which have windows (a bit like the terminal's tabs) and window
 My conf file (`~/.tmux.conf`) is as follows:
 
 So `tmux new -s test` starts a session called `test` then `^f c` creates a new window in the session, `^f ,` renames the current window `shift + arrow` navigates through windows `^f :` opens tmux's console (`kill-session` could be useful for instance or `source ~/.tmux.conf`), `^f v` splits the current window vertically into panes and `^f arrow` navigates through the panes. If youy close the terminal and open a new one, `tmux a -t test` to grab it back.
+
+
+## `.zshrc` + `.tmux.conf`
+
+These files should lie in your `home` folder. Here are mine (add a `.` to their names):
+
+* [.tmux.conf](/files/tmux.conf)
+* [`.zshrc`](/files/zshrc)
