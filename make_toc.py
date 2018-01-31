@@ -47,7 +47,7 @@ def get_toc_from_links(links):
         3: [0] + ['i', 'ii', 'iii', 'iv', 'v', 'vi', 'vii', 'viii',
                   'ix', 'x', 'xi', 'xii']
     }
-    for link, title, h_type in links:
+    for link, _title, h_type in links:
         if h_type == 1:
             current[h_type] += 1
             current[2] = 0
@@ -58,9 +58,8 @@ def get_toc_from_links(links):
         elif h_type == 3:
             current[h_type] += 1
 
-        toc += ['{}{}. {}'.format(
-                '&nbsp;' * h_type * 6, items[h_type][current[h_type]], link
-                )]
+        toc += ['{}{}. {}'.format('&nbsp;' * h_type * 6,
+                                  items[h_type][current[h_type]], link)]
 
     return toc
 
@@ -107,6 +106,14 @@ def drop_toc(toc, file_path, count_separators=3):
 
 
 def make_toc(file_path, update):
+    """Create a Table of Content of the file in file_path
+    
+    Arguments:
+        file_path {string} -- [file to create a TOC in]
+        update {boolean} -- [if there is a TOC in the file, should it be updated?]
+    """
+
+    
     toc_tuples, has_toc = get_toc_tuples(file_path)
     if not has_toc or update:
         link_tuples = get_links_from_tuples(toc_tuples)
@@ -117,8 +124,9 @@ def make_toc(file_path, update):
 
 
 if __name__ == '__main__':
-    path = './bioinfo/'
-    file_name = '2017-11-24-teach-ml-consultant-part-0.md'
-    file_path = path + file_name
-    update = True
-    make_toc(file_path, update)
+    path = './_posts/'
+    file_to_TOC = '2018-01-30-mac-terminal-shell-power-user.md'
+    file_to_TOC_path = path + file_to_TOC
+    should_update = True
+    if 'y' in input("Create TOC in " +  file_to_TOC_path + '? '):
+        make_toc(file_to_TOC_path, should_update)
