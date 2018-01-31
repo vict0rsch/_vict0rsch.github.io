@@ -150,9 +150,9 @@ My conf file (`~/.tmux.conf`) is as follows:
 So `tmux new -s test` starts a session called `test` then `^f c` creates a new window in the session, `^f ,` renames the current window `shift + arrow` navigates through windows `^f :` opens tmux's console (`kill-session` could be useful for instance or `source ~/.tmux.conf`), `^f v` splits the current window vertically into panes and `^f arrow` navigates through the panes. If youy close the terminal and open a new one, `tmux a -t test` to grab it back.
 
 
-## `.zshrc` + `.tmux.conf`
+## Files
 
-These files should lie in your `home` folder. Here are mine (add a `.` to their names):
+These files should lie in your `home` folder:
 
 * [.tmux.conf](/files/tmux.conf)
-* [`.zshrc`](/files/zshrc)
+* [`.zshrc`](/files/zshrc.txt)
