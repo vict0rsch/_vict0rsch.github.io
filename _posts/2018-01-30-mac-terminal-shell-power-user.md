@@ -38,6 +38,7 @@ The vast majority of things here would work for **Linux**.
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;vi. <a href="#useful-function">Useful `function`</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;d. <a href="#python">Python</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i. <a href="#configuration">Configuration</a>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ii. <a href="#ide">IDE</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;e. <a href="#tmux">Tmux</a>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;f. <a href="#files">Files</a>
 
@@ -47,7 +48,7 @@ The vast majority of things here would work for **Linux**.
 
 ### Colors
 
-`git clone https://github.com/mbadolato/iTerm2-Color-Schemes` wherever you want then in iTerm2 go to `preferences > profiles > colors > color preset > import... ` then chose the cloned folder. I use `Tomorrow Night`.
+`git clone https://github.com/mbadolato/iTerm2-Color-Schemes` wherever you want then in iTerm2 go to `preferences > profiles > colors > color preset > import... ` then chose the cloned folder and its `shemes` folder. You should see a buch of files like `deep.itermcolors`: just select them all and click on `open`. There you go! I use `Tomorrow Night`.
 
 ### Enable Word Jump
 
@@ -127,6 +128,8 @@ alias cdp='cd ..'#quicker to type in :p
 alias ipy="python -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'" #user the powerline in the iPython shell
 ```
 
+If you're going to use `gsort` from the `fs` alias, do install `coreutils` first: `brew install coreutils`
+
 ### Useful `function`
 
 ```sh
@@ -162,6 +165,12 @@ source /usr/local/opt/autoenv/activate.sh
 
 <script src="https://asciinema.org/a/nOuUy9LWuWYp739nVTnzNisbh.js" id="asciicast-nOuUy9LWuWYp739nVTnzNisbh" async data-theme='monokai' speed='2'></script>
 
+### IDE
+
+I use [Visual Code](https://code.visualstudio.com) as it is pretty complete yet lightweight. `git` source control is very well embedded in the editor, there are plenty of extensions and everything is customizable. I know also a lot of people using [Pycharm](https://www.jetbrains.com/pycharm/).
+
+I also use Visual Code for Web Development (React, Markdown for this blog, Flask).
+
 ## Tmux
 
 Tmux is a way to run proccesses which do not depend on your shell being active. So if you close the terminal, the process will continue. If you work remotely and the SSH connection is broken the remote process will not stop. Then you just need to grab it back!
@@ -178,4 +187,4 @@ So `tmux new -s test` starts a session called `test` then `^f c` creates a new w
 These files should lie in your `home` folder:
 
 * [.tmux.conf](/files/tmux.conf)
-* [`.zshrc`](/files/zshrc.txt)
+* [.zshrc](/files/zshrc.txt)
