@@ -58,7 +58,7 @@ timezone:    UTC+1
 # Show future posts
 future:      false
 show_drafts: nil
-limit_posts: 5
+limit_posts: 500
 highlighter: rouge
 
 relative_permalinks: false

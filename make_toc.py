@@ -107,13 +107,12 @@ def drop_toc(toc, file_path, count_separators=3):
 
 def make_toc(file_path, update):
     """Create a Table of Content of the file in file_path
-    
+
     Arguments:
         file_path {string} -- [file to create a TOC in]
         update {boolean} -- [if there is a TOC in the file, should it be updated?]
     """
 
-    
     toc_tuples, has_toc = get_toc_tuples(file_path)
     if not has_toc or update:
         link_tuples = get_links_from_tuples(toc_tuples)
@@ -125,8 +124,8 @@ def make_toc(file_path, update):
 
 if __name__ == '__main__':
     path = './_posts/'
-    file_to_TOC = '2018-01-30-mac-terminal-shell-power-user.md'
+    file_to_TOC = '2016-12-03-aws_gpu.md'
     file_to_TOC_path = path + file_to_TOC
     should_update = True
-    if 'y' in input("Create TOC in " +  file_to_TOC_path + '? '):
+    if 'y' in input("Create TOC in " + file_to_TOC_path + '? '):
         make_toc(file_to_TOC_path, should_update)
