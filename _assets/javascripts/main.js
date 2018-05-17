@@ -11,11 +11,11 @@ function go_dark() {
   })
   /* See also .highlight when editing code background */
   $("article code").each(function (index) {
-    $(this).css('background-color', 'rgb(160, 160, 160)').css('color', 'rgb(50,50,50)');
+    $(this).css('background-color', 'rgb(130, 130, 130)').css('color', 'rgb(50,50,50)');
     elements.push(this)
   })
   $("article pre").each(function (index) {
-    $(this).css('background-color', 'rgb(160, 160, 160)').css('color', 'rgb(50,50,50)');
+    $(this).css('background-color', 'rgb(130, 130, 130)').css('color', 'rgb(50,50,50)');
     elements.push(this)
   })
   $("article h1").each(function (index) {
