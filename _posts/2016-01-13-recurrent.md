@@ -7,7 +7,7 @@ cover_image: blog-cover.jpg
 
 comments: true
 
-excerpt: "Focus on how to format your data, understand thei dimensions and walk through Keras and Lasagne examples."
+excerpt: "Focus on how to format your data, understand their dimensions and walk through Keras and Lasagne examples."
 
 author:
   name: Victor Schmidt
@@ -15,7 +15,6 @@ author:
   github: vict0rsch
 
 ---
-
 
 Table Of Contents
 ---

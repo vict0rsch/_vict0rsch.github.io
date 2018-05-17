@@ -1,10 +1,11 @@
 ---
 layout: post
 
-title: Save and Restore a Tensorflow model with its Dataset using simple_save
+title: "Save and Restore a Tensorflow model with its Dataset using simple_save"
 subtitle: "Restoring a graph, finding the appropriate Tensors and Operations"
-cover_image: datacenter.jpg
+cover_image: tf.png
 comments: true
+
 excerpt: "The saved_model API allows for easy saving. Restoring the model and performing inference is a bit trickier when the input Tensors come from a tf.data.Dataset. We'll see here how this works."
 
 author:
@@ -36,7 +37,7 @@ Here is a skeleton of how my code worked (careful, it's **wrong**):
 
 Saving
 
-```python
+{% highlight python %}
 
 features_ph = tf.Placeholder(...)
 labels_ph = tf.Placeholder(...)
@@ -47,7 +48,7 @@ iterator = dataset.make_initializable_iterator()
 
 input_tensor, labels_tensor = iterator.get_next()
 
-logits = my_model_funciton(input_tensor)
+logits = my_model_function(input_tensor)
 opt_op = my_optimizing_function(logits, labels_tensor)
 
 with tf.Session() as sess:
@@ -58,11 +59,11 @@ with tf.Session() as sess:
     # training
     ...
     tf.saved_model.simple_save(...)
-```
+{% endhighlight %}
 
 Restoring
 
-```python
+{% highlight python %}
 dataset = tf.data.Dataset.from_tensor_slices(
             (features_data_ph, labels_data_ph))
 iterator = dataset.make_initializable_iterator()
@@ -82,7 +83,7 @@ with tf.Session() as sess:
 
     restored_logits.eval(session=sess)
 >>> "FailedPreconditionError (see above for traceback): GetNext() failed because the iterator has not been initialized [...]"
-```
+{% endhighlight %}
 
 Can you spot what's wrong here?
 
@@ -92,7 +93,7 @@ Can you spot what's wrong here?
 
 So we need to find the right initializing operation. An easy way to do that is to build the `Iterator` in another way:
 
-```python
+{% highlight python %}
 dataset = tf.data.Dataset.from_tensor_slices(
     (features_data_ph, labels_data_ph)
 )
@@ -101,9 +102,11 @@ iterator = tf.data.Iterator.from_structure(
 dataset_init_op = iterator.make_initializer(
     dataset, name='dataset_init')
 input_tensor, labels_tensor = iterator.get_next()
-```
+{% endhighlight %}
 
-Now the operation is super easy to grab from the restored graph: `dataset_init_op = graph.get_operation_by_name('dataset_init')`
+Now the operation is super easy to grab from the restored graph:
+
+`dataset_init_op = graph.get_operation_by_name('dataset_init')`
 
 
 # Code
@@ -120,7 +123,7 @@ In a new graph, we then restore the saved model with `tf.saved_model.loader.load
 
 Lastly we run an inference for both batches in the dataset, and check that the saved and restored model both yield the same values. They do!
 
-```python
+{% highlight python %}
 import os
 import shutil
 import numpy as np
@@ -297,4 +300,4 @@ if __name__ == '__main__':
     # Check if original inference and restored inference are equal
     valid = (values == restored_values).all()
     print('\nInferences match: ', valid)
-```
+{% endhighlight %}
