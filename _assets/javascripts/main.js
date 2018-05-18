@@ -1,3 +1,18 @@
+function selectAndCopyText(containerid) {
+  if (document.selection) { // IE
+    var range = document.body.createTextRange();
+    range.moveToElementText(document.getElementById(containerid));
+    range.select();
+    document.execCommand('copy');
+  } else if (window.getSelection) {
+    var range = document.createRange();
+    range.selectNode(document.getElementById(containerid));
+    window.getSelection().removeAllRanges();
+    window.getSelection().addRange(range);
+    document.execCommand('copy');
+  }
+}
+
 function go_dark() {
   console.log('Going dark')
   var elements = []
@@ -196,4 +211,30 @@ $(function () {
 
   });
 
+  $('article').each(function (index) {
+    $(this).append('<button class="btn btn-outline" id="copiedFeedback">code copied !</button>')
+  })
+
+  $('.highlight pre').each(function (index) {
+    $(this).append('<button class="copyCode btn btn-outline" id="copyCode' + index + '">Copy code</button>')
+    $(this).on("mouseover", function () {
+      $('#copyCode' + index).css('display', 'inline-block');
+    });
+    $(this).on("mouseout", function () {
+      $('#copyCode' + index).css('display', 'none');
+    });
+    const el = this;
+    $('#copyCode' + index).click(function (event) {
+      event.preventDefault();
+      $(el).find('code').each(function () {
+        $(this).attr('id', 'codeToCopy' + index);
+        selectAndCopyText('codeToCopy' + index);
+        $('#copiedFeedback').show()
+        setTimeout(function () {
+          $('#copiedFeedback').css('display', 'none');
+        }, 3000);
+      });
+      return false;
+    })
+  })
 });/*final*/
