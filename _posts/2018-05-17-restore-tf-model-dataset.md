@@ -27,7 +27,7 @@ It took me a long time to figure it out. I had to go through several StackOverfl
 
 I kept running into this error :
 
-```text
+```
 FailedPreconditionError (see above for traceback): GetNext() failed because the iterator has not been initialized
 ```
 
@@ -289,7 +289,7 @@ if __name__ == '__main__':
     print('\nInferences match: ', valid)
 {% endhighlight %}
 
-```shell
+```
 $ python3 save_and_restore.py
 
 Epoch 0, batch 0 | Sample value: [-0.13851789 -0.3087595   0.12804556  0.20013677 -0.08229901]

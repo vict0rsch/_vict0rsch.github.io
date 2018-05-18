@@ -97,7 +97,7 @@ Make ZSH suggest commands with [zsh-autosuggestions](https://github.com/zsh-user
 
 * More `spaceship` conf:
 
-```sh
+{% highlight bash %}
 SPACESHIP_CHAR_SYMBOL="╍ᗇ " #beginning of the line
 SPACESHIP_PROMPT_ADD_NEWLINE=true #add line to prompt
 SPACESHIP_TIME_SHOW=true #show execution time of the previous command if it's longer than usual
@@ -107,12 +107,11 @@ SPACESHIP_PYENV_SYMBOL='🐍  '#symbol of pyenv python version
 SPACESHIP_PYENV_COLOR=blue #color of pyenv python version
 SPACESHIP_DIR_TRUNC=0 #show all dirs, don't truncate to the last 3 or whatever
 SPACESHIP_DIR_TRUNC_REPO=true #if in a git repo -> show dirs with respect to the repo's root
-```
+{% endhighlight %}
 
 ### Useful `alias`
 
-```sh
-
+{% highlight bash %}
 alias conf='micro ~/.zshrc'
 alias ignore='micro .gitignore'
 alias src='source ~/.zshrc'
@@ -126,13 +125,13 @@ alias dow='cd ~/Downloads'
 alias pm='python manage.py'
 alias cdp='cd ..'#quicker to type in :p
 alias ipy="python -c 'import IPython; IPython.terminal.ipapp.launch_new_instance()'" #user the powerline in the iPython shell
-```
+{% endhighlight %}
 
 If you're going to use `gsort` from the `fs` alias, do install `coreutils` first: `brew install coreutils`
 
 ### Useful `function`
 
-```sh
+{% highlight bash %}
 function coam (){
 	git commit -a -m $1
 } # "coam 'hello' " will commit all pending documents with a message of "hello"
@@ -142,7 +141,7 @@ function cds () {
 	ls;
 } # "cds ~/Documents" goes there and lists the files
 
-```
+{% endhighlight %}
 
 ## Python
 
@@ -156,12 +155,12 @@ With these, adding a `.env` file in the folder that should use the `virtualenv` 
 
 A few lines should be added to your `.zshrc` for pyenv and autoenv to work correctly:
 
-```sh
+{% highlight bash %}
 export PATH="/Users/victor/.pyenv:$PATH"
 eval "$(pyenv init -)"
 
 source /usr/local/opt/autoenv/activate.sh
-```
+{% endhighlight %}
 
 <script src="https://asciinema.org/a/nOuUy9LWuWYp739nVTnzNisbh.js" id="asciicast-nOuUy9LWuWYp739nVTnzNisbh" async data-theme='monokai' speed='2'></script>
 
