@@ -18,8 +18,14 @@ GITHUB_REPONAME = "vict0rsch/vict0rsch.github.io"
 # Enable Google Analytics
 ENV["JEKYLL_ENV"] = "production"
 
+desc "Replace ``` by highlight tags if language is specified"
+task :replace do
+  exec('python blockquotes_to_highlight.py')
+end
+
 desc "Generate blog files"
 task :generate do
+  system('python blockquotes_to_highlight.py')
   Jekyll::Site.new(Jekyll.configuration({
     "source"      => ".",
     "destination" => "_site",
