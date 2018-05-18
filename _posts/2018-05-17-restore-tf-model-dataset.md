@@ -63,8 +63,7 @@ with tf.Session() as sess:
 Restoring
 
 {% highlight python %}
-dataset = tf.data.Dataset.from_tensor_slices(
-            (features_data_ph, labels_data_ph))
+dataset = tf.data.Dataset.from_tensor_slices((features_data_ph, labels_data_ph))
 iterator = dataset.make_initializable_iterator()
 input_tensor, labels_tensor = iterator.get_next()
 
@@ -208,31 +207,31 @@ if __name__ == '__main__':
             tf.global_variables_initializer().run(session=sess)
             for epoch in range(3):
                 batch = 0
-                # Initialize dataset
-                # (could feed epochs in Dataset.repeat(epochs))
+                # Initialize dataset (could feed epochs in Dataset.repeat(epochs))
                 sess.run(
                     dataset_init_op,
                     feed_dict={
                         features_data_ph: features,
                         labels_data_ph: labels,
                         batch_size_ph: 32
-                    }
-                )
+                    })
+                values = []
                 while True:
                     try:
                         if epoch < 2:
                             # Training
-                            _, values = sess.run([opt_op, logits])
-                            print(epoch, batch, values[0])
+                            _, value = sess.run([opt_op, logits])
+                            print('Epoch {}, batch {} | Sample value: {}'.format(epoch, batch, value[0]))
                             batch += 1
                         else:
                             # Final inference
-                            values = sess.run(logits)
-                            print(epoch, batch, values[0])
+                            values.append(sess.run(logits))
+                            print('Epoch {}, batch {} | Final inference | Sample value: {}'.format(epoch, batch, values[-1][0]))
                             batch += 1
                     except tf.errors.OutOfRangeError:
                         break
             # Save model state
+            print('\nSaving...')
             cwd = os.getcwd()
             path = os.path.join(cwd, 'simple')
             shutil.rmtree(path, ignore_errors=True)
@@ -247,16 +246,19 @@ if __name__ == '__main__':
             tf.saved_model.simple_save(
                 sess, path, inputs_dict, outputs_dict
             )
+            print('Ok')
     # Restoring
     graph2 = tf.Graph()
     with graph2.as_default():
         with tf.Session(graph=graph2) as sess:
             # Restore saved values
+            print('\nRestoring...')
             tf.saved_model.loader.load(
                 sess,
                 [tag_constants.SERVING],
                 path
             )
+            print('Ok')
             # Get restored placeholders
             labels_data_ph = graph2.get_tensor_by_name('labels_data_ph:0')
             features_data_ph = graph2.get_tensor_by_name('features_data_ph:0')
@@ -277,29 +279,37 @@ if __name__ == '__main__':
 
             )
             # Compute inference for both batches in dataset
-            for _ in range(2):
-                restored_values = sess.run(restored_logits)
-                print(restored_values[0])
+            restored_values = []
+            for i in range(2):
+                restored_values.append(sess.run(restored_logits))
+                print('Restored values: ', restored_values[i][0])
+
     # Check if original inference and restored inference are equal
-    valid = (values == restored_values).all()
+    valid = all((v == rv).all() for v, rv in zip(values, restored_values))
     print('\nInferences match: ', valid)
 {% endhighlight %}
 
 ```shell
 $ python3 save_and_restore.py
-0 0 [-0.35928762 -0.19438529  0.10040186  0.17297073 -0.6134796 ]
-0 1 [ 0.09662652 -0.04785472 -0.18622595 -0.21482113  0.19705738]
-1 0 [-0.33089647 -0.19087324 -0.02834633  0.0427071  -0.49164948]
-1 1 [ 0.06050131  0.00975212 -0.2111744  -0.25762773  0.2569645 ]
-2 0 [-0.3587499  -0.18573113 -0.12040734 -0.05728728 -0.38345984]
-2 1 [ 0.03078173  0.03761462 -0.22916263 -0.27559632  0.28450522]
+
+Epoch 0, batch 0 | Sample value: [-0.13851789 -0.3087595   0.12804556  0.20013677 -0.08229901]
+Epoch 0, batch 1 | Sample value: [-0.00555491 -0.04339041 -0.05111827 -0.2480045  -0.00107776]
+Epoch 1, batch 0 | Sample value: [-0.19321944 -0.2104792  -0.00602257  0.07465433  0.11674127]
+Epoch 1, batch 1 | Sample value: [-0.05275984  0.05981954 -0.15913513 -0.3244143   0.10673307]
+Epoch 2, batch 0 | Final inference | Sample value: [-0.26331693 -0.13013336 -0.12553    -0.04276478  0.2933622 ]
+Epoch 2, batch 1 | Final inference | Sample value: [-0.07730117  0.11119192 -0.20817074 -0.35660955  0.16990358]
+
+Saving...
 INFO:tensorflow:Assets added to graph.
 INFO:tensorflow:No assets to write.
-INFO:tensorflow:SavedModel written to: b'/some_path/simple/saved_model.pb'
-INFO:tensorflow:Restoring parameters from b'/some_path/simple/variables/variables'
-[-0.3587499  -0.18573113 -0.12040734 -0.05728728 -0.38345984]
-[ 0.03078173  0.03761462 -0.22916263 -0.27559632  0.28450522]
+INFO:tensorflow:SavedModel written to: b'/some/path/simple/saved_model.pb'
+Ok
+
+Restoring...
+INFO:tensorflow:Restoring parameters from b'/some/path/simple/variables/variables'
+Ok
+Restored values:  [-0.26331693 -0.13013336 -0.12553    -0.04276478  0.2933622 ]
+Restored values:  [-0.07730117  0.11119192 -0.20817074 -0.35660955  0.16990358]
 
 Inferences match:  True
-
 ```
