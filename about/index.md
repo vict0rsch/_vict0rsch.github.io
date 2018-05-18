@@ -14,26 +14,33 @@ author:
 ---
 
 
-I'm Victor Schmidt. I come from Paris, France and started this blog in Dec. 16. Why? Because I was fed up of only using Github's `readme.md` files to explain what I was doing.
+I'm Victor Schmidt. I come from Paris, France and started this blog in Dec 16. Why? Because I was fed up of only using Github's `readme.md` files to explain what I was doing.
 
-To quickly sum up my **learning track** I went to a French Engineering school (École polytechnique) then took a gap year to work at [Rythm](https://rythm.co) and travel from India to Japan. Now I'm currently an MSc. student at UCL (Machine Learning).
+To quickly sum up my learning track I went to a French Engineering school (**École polytechnique**) then took a gap year to work at [**Rythm**](https://rythm.co) and travelled from India to Japan for 6 months.
+I then pursued an MSc. in Machine Learning at **University College London** (UCL). 
 
-[My resume](ResumeVictorSchmidt.pdf)
+I **now** work as an NLP Data Scientist at the French Ministry for the Economy and Finance fighting financial fraud, as part of the [Public Interest Entrepreneurs program](https://entrepreneur-interet-general.etalab.gouv.fr/defi/2017/09/26/hopkins/).
+<br>
+[My resume](ResumeVictorSchmidt.pdf), my [LinkedIn](https://fr.linkedin.com/in/victor-schmidt-30418083).
 <br>
 
 #### This blog 
-Here you'll find tutorials about **how to implement Neural Nets** with Keras and Lasagne. You'll also find **resources**  I find interesting (see top of the page) and **posts** to explain stuff or just let my thoughts get lost.
+Here you'll find:
 
-Please use the **comments** but don't expect me to solve your problems : being a student with side projects (such as this blog) I most probably won't have the time. If I do however it will be with pleasure!
+* [**Tutorials**](http://vict0rsch.github.io/tutorials/) about how to implement Neural Nets with Keras and Lasagne. 
+* [**Resources**](http://vict0rsch.github.io/resources/) I find interesting (see top of the page) - (Needs an update, working on it)
+* [**Posts**](http://vict0rsch.github.io) to explain issues I ran into and solved, random thoughts or pieces of advice.
 
-Don't hesitate on leaving comments, topics you'd like me to go deeper into or new ones I should scratch. Just keep in mind I'm no expert ;)
+Please use the **comments** but don't expect me to solve your problems : having a full-time job and many side projects (such as this blog or [Metada](https://metada.org)) I most probably won't have the time. If I do however, it will be with pleasure!
+
+Don't hesitate on leaving comments, topics you'd like me to go deeper into or new ones I should scratch.
 
 Cheers!
 
 ____________________________________________________________________________________
 
 ### Disclaimer
-This blog is still under construction. Feel free to signal broken links and typos. However don't mention the tutorial's, I know I have work there.
+Feel free to signal broken links and typos. I know I have work to do to update the tutorials, I might one day. If you want to help updating them, get in touch.
 
 And yes, I know Facebook and Twitter buttons aren't aligned. I can't have them do so. Any help is welcome.
 
