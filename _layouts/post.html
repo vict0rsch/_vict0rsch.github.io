@@ -32,12 +32,16 @@ layout: base
         <footer>
             <address>
                {% if page.author.image %}<img src="/images/{{ page.author.image }}">{% endif %}
-                <p>Written by <strong><a rel="author" href="https://twitter.com/{{ page.author.twitter }}" title="{{ page.author_name }}" target="_blank">{{ page.author.name }}</a></strong><br>
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/{{ page.author.twitter }}" title="{{ page.author_name }}" target="_blank">{{ page.author.name }}</a></strong>
                 <span class="muted">{{ page.author.bio }}</span>
                 {% if page.author.github %}
-                <iframe src="https://ghbtns.com/github-btn.html?user={{page.author.github}}&type=follow&count=false&size=small" frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user={{page.author.github}}&type=follow&count=false&size=small" frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
                 {% endif %}
                 </p>
+            {% if page.bottom_date %}
+            <div class='postDate'>{{ page.bottom_date }}</div>
+            {% endif %}
             </address>
 
         </footer>

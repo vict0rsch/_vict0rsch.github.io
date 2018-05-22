@@ -232,13 +232,15 @@ article {
             // padding: 5px 10px 5px 10px;
             // text-decoration: none;
             font-size: 0.6em;
+            background-color: rgb(248,248,248);
             position: absolute;
             top:10px;
             right: 10px;
             display: none;
           }
           .copyCode:hover{
-              color: black
+              color: black;
+              background-color: rgb(248,248,248);
           }
           
         //   .copyCode:hover {
@@ -290,25 +292,94 @@ article {
     /* custom */
     .dark {
         font-size: 0.6em;
+        margin: 15px 0px 10px;
         &:hover {
             background-color: rgb(100, 100, 100);
             color: #87CEEB;
         }
     }
-    #cancel_dark_for_good {
-        color: #87CEEB;
-        &:hover {
-            color: #99fcff;
-        }
-    }
+
     #copiedFeedback{
         display: none;
         position: fixed;
         bottom: 20px;
         right: 40px;
-        font-size: 0.7em;
-        border-color:rgb(44, 153, 44);
-        color:rgb(44, 153, 44);
+        font-size: 0.8em;
+        border-color:rgba(107, 196, 107,0);
+        color:white;
+        background-color: rgb(107, 196, 107);
         cursor: default;
+    }
+    .postDate{
+        color:grey
+    }
+    .followGithub{
+        margin-left: 5px;
+    }
+
+    // .tocColumn {
+    //     float: left;
+    //     width: 50%;
+    //     padding: 10px;
+    // }
+    
+    // /* Clear floats after the columns */
+    // .tocRow:after {
+    //     content: "";
+    //     display: table;
+    //     clear: both;
+    // }
+    
+    // /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
+    // @media screen and (max-width: 600px) {
+    //     .tocColumn {
+    //         width: 100%;
+    //     }
+    // }
+
+    #markdown-toc{
+        height: auto;
+        ul, ol{
+            @media screen and (max-width: 1000px) {
+                @media screen and (max-width: 600px) {
+                    -moz-column-count: 1;
+                    -webkit-column-count: 1;
+                    column-count: 1;
+                }
+                -moz-column-count: 2;
+                -webkit-column-count: 2;
+                column-count: 2;
+            }
+            margin: 10px 0px;
+            -moz-column-count: 3;
+            -moz-column-gap: 20px;
+            -webkit-column-count: 3;
+            -webkit-column-gap: 20px;
+            column-count: 3;
+            column-gap: 20px;
+        }
+        li {
+            margin-left: 10px;
+            a {
+                // Header 1
+                font-size: 1.2em;
+            }
+            ul, ol{
+                li {
+                    a{
+                        // Header 2
+                        font-size: 1em;
+                    }
+                    ul, ol {
+                        li {
+                            a {
+                                // Header 3
+                                font-size: 0.8em;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }
