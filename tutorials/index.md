@@ -5,6 +5,8 @@ special_post: true
 title : Deep-Learning Implementations Tutorial
 subtitle : Ready to use Keras and Lasagne? I'll soon do Tensorflow also.
 
+bottom_date: Jan. 2016
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch

@@ -4,6 +4,8 @@ special_post: true
 
 title : "Keras Tutorials : Feedforward or Recurrent?"
 subtitle : Chose left or right wisely
+bottom_date: Jan. 2016
+
 
 author:
   name: Victor Schmidt

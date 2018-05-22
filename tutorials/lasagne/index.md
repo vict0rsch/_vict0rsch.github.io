@@ -5,6 +5,8 @@ special_post: true
 title : "Lasagne Tutorials : Feedforward or Recurrent?"
 subtitle : Chose left or right wisely
 
+bottom_date: Jan. 2016
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch

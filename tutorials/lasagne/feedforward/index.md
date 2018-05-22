@@ -3,7 +3,9 @@ layout: post
 special_post: true
 
 title : "Lasagne Feedforward Tutorial"
-subtitle : Code walk-through
+subtitle : Code walk-through - Jan. 2016
+bottom_date: Jan. 2016
+
 
 author:
   name: Victor Schmidt
