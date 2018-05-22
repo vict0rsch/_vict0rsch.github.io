@@ -15,96 +15,16 @@ author:
 
 ---
 
+1. 
+{:toc}
+
 # Introduction
 
 I recently found my self in a tricky situation. Never had it been easier to save and restore a Tensorflow model than with `tf.saved_model.simple_save` and then `tf.saved_model.loader.load`. On the other hand, very little documentation exists regarding the interaction with the Dataset API and how to restore a saved `tf.data.Dataset`'s `Iterator`.
 
-This post contains standalone and deterministic code (at the end) to make it easily reproducible for you. It runs under python 3 and Tensorflow 1.8.
+This post contains standalone and deterministic code to make it easily reproducible for you: we create a model, train it, save it, restore it and check that inferences match.
 
-# What was my issue?
-
-It took me a long time to figure it out. I had to go through several StackOverflow questions and many blog posts to even phrase my problem. I even got to Google's second search page..!
-
-I kept running into this error :
-
-```
-FailedPreconditionError (see above for traceback): GetNext() failed because the iterator has not been initialized
-```
-
-## Code draft
-
-Here is a skeleton of how my code worked (careful, it's **wrong**):
-
-Saving
-
-{% highlight python %}
-
-features_ph = tf.Placeholder(...)
-labels_ph = tf.Placeholder(...)
-
-dataset = tf.data.Dataset.from_tensor_slices((features_data_ph, labels_data_ph))
-iterator = dataset.make_initializable_iterator()
-
-input_tensor, labels_tensor = iterator.get_next()
-
-logits = my_model_function(input_tensor)
-opt_op = my_optimizing_function(logits, labels_tensor)
-
-with tf.Session() as sess:
-    sess.run(dataset_init_op, feed_dict={
-        features_data_ph: some_numpy_values,
-        labels_data_ph: some_other_numpy_values
-    })
-    # training
-    ...
-    tf.saved_model.simple_save(...)
-{% endhighlight %}
-
-Restoring
-
-{% highlight python %}
-dataset = tf.data.Dataset.from_tensor_slices((features_data_ph, labels_data_ph))
-iterator = dataset.make_initializable_iterator()
-input_tensor, labels_tensor = iterator.get_next()
-
-with tf.Session() as sess:
-    tf.saved_model.loader.load(...)
-
-    restored_labels_data_ph = graph2.get_tensor_by_name(...)
-    restored_features_data_ph = graph2.get_tensor_by_name(...)
-    restored_logits = graph2.get_tensor_by_name(...)
-
-    sess.run(iterator.initializer, feed_dict={
-        restored_features_data_ph: some_numpy_values,
-        restored_labels_data_ph: some_other_numpy_values
-    })
-
-    restored_logits.eval(session=sess)
->>> "FailedPreconditionError (see above for traceback): GetNext() failed because the iterator has not been initialized [...]"
-{% endhighlight %}
-
-<br/>
-
-Can you spot what's wrong here?
-
-# What's happening?
-
-`tf.saved_model.simple_save` freezes a `graph`'s variables from a `session`'s values. When `tf.saved_model.loader.load` is called, it restores variables in the current default graph. However when we call `iterator.initializer`, we don't initilaize the *restored* `Iterator`, we initialize the *new* one! But `restored_logits` still depends on the restored graph's `input_tensor`, which itself was built from the *restored* `Iterator`.
-
-So we need to find the right initializing operation. An easy way to do that is to build the `Iterator` in another way:
-
-{% highlight python %}
-dataset = tf.data.Dataset.from_tensor_slices((features_data_ph, labels_data_ph))
-iterator = tf.data.Iterator.from_structure(dataset.output_types, dataset.output_shapes)
-dataset_init_op = iterator.make_initializer(dataset, name='dataset_init')
-input_tensor, labels_tensor = iterator.get_next()
-{% endhighlight %}
-
-Now the operation is super easy to grab from the restored graph:
-
-{% highlight python %}
-dataset_init_op = graph.get_operation_by_name('dataset_init')
-{% endhighlight %}
+The code runs under python 3 and Tensorflow 1.8.
 
 
 # Code
@@ -313,3 +233,92 @@ Restored values:  [-0.07730117  0.11119192 -0.20817074 -0.35660955  0.16990358]
 
 Inferences match:  True
 ```
+
+# FailedPreconditionError
+
+Before reaching this working piece of code, I kept running into this error :
+
+```
+FailedPreconditionError (see above for traceback): GetNext() failed because the iterator has not been initialized
+```
+
+It took me a long time to figure it out. I had to go through several StackOverflow questions and many blog posts to even phrase my problem. I even got to Google's second search page..!
+
+Saving worked fine, restoring the graph too, Tensors were fetched and initialized, what could go wrong?
+
+## Code draft
+
+Here is a skeleton of how my code worked (careful, it's **wrong**):
+
+Saving
+
+{% highlight python %}
+
+features_ph = tf.Placeholder(...)
+labels_ph = tf.Placeholder(...)
+
+dataset = tf.data.Dataset.from_tensor_slices((features_data_ph, labels_data_ph))
+iterator = dataset.make_initializable_iterator()
+
+input_tensor, labels_tensor = iterator.get_next()
+
+logits = my_model_function(input_tensor)
+opt_op = my_optimizing_function(logits, labels_tensor)
+
+with tf.Session() as sess:
+    sess.run(dataset_init_op, feed_dict={
+        features_data_ph: some_numpy_values,
+        labels_data_ph: some_other_numpy_values
+    })
+    # training
+    ...
+    tf.saved_model.simple_save(...)
+{% endhighlight %}
+
+Restoring
+
+{% highlight python %}
+dataset = tf.data.Dataset.from_tensor_slices((features_data_ph, labels_data_ph))
+iterator = dataset.make_initializable_iterator()
+input_tensor, labels_tensor = iterator.get_next()
+
+with tf.Session() as sess:
+    tf.saved_model.loader.load(...)
+
+    restored_labels_data_ph = graph2.get_tensor_by_name(...)
+    restored_features_data_ph = graph2.get_tensor_by_name(...)
+    restored_logits = graph2.get_tensor_by_name(...)
+
+    sess.run(iterator.initializer, feed_dict={
+        restored_features_data_ph: some_numpy_values,
+        restored_labels_data_ph: some_other_numpy_values
+    })
+
+    restored_logits.eval(session=sess)
+>>> "FailedPreconditionError (see above for traceback): GetNext() failed because the iterator has not been initialized [...]"
+{% endhighlight %}
+
+<br/>
+
+Can you spot what's wrong here?
+
+# Initializing the Iterator
+
+`tf.saved_model.simple_save` freezes a `graph`'s variables from a `session`'s values. When `tf.saved_model.loader.load` is called, it restores variables in the current default graph. However when we call `iterator.initializer`, we don't initilaize the *restored* `Iterator`, we initialize the *new* one! But `restored_logits` still depends on the restored graph's `input_tensor`, which itself was built from the *restored* `Iterator`.
+
+So we need to find the right initializing operation. An easy way to do that is to build the `Iterator` in another way:
+
+{% highlight python %}
+dataset = tf.data.Dataset.from_tensor_slices((features_data_ph, labels_data_ph))
+iterator = tf.data.Iterator.from_structure(dataset.output_types, dataset.output_shapes)
+dataset_init_op = iterator.make_initializer(dataset, name='dataset_init')
+input_tensor, labels_tensor = iterator.get_next()
+{% endhighlight %}
+
+Now the operation is super easy to grab from the restored graph:
+
+{% highlight python %}
+dataset_init_op = graph.get_operation_by_name('dataset_init')
+{% endhighlight %}
+
+And that solved it, leading to the piece of code in the beginning. Enjoy!
