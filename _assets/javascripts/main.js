@@ -13,6 +13,36 @@ function selectAndCopyText(containerid) {
   }
 }
 
+function processToc(){
+  // splitToc();
+  $('#markdown-toc').before('<button class="btn btn-outline" id="toggleTocButton">Show Table of contents</button>');
+  $('#markdown-toc').hide();
+  var tocCounter = 0;
+  $('#toggleTocButton').click(function(){
+    $('#markdown-toc').toggle();
+    if (tocCounter % 2 === 0) {
+      $('#toggleTocButton').text('Hide Table of contents');
+    } else {
+      $('#toggleTocButton').text('Show Table of contents');
+    }
+    tocCounter += 1;
+  })
+}
+
+function splitToc(){
+  const els = $('#markdown-toc').children();
+  console.log(els);
+  const firstCol = els.slice(0, Math.floor(els.length / 2));
+  const secondCol = els.slice(Math.floor(els.length / 2));
+  const toc = '<div class="tocRow" id="markdown-toc"><div class="tocColumn" id="firstTocColumn"></div><div class="tocColumn" id="secondTocColumn"></div></div>'
+  $('#markdown-toc').replaceWith(toc);
+  $('#firstTocColumn').append('<ol></ol>');
+  $('#firstTocColumn').first().append(firstCol);
+  $('#secondTocColumn').append('<ol></ol>');
+  $('#secondTocColumn').first().append(secondCol);
+
+}
+
 function go_dark() {
   console.log('Going dark')
   var elements = []
@@ -54,18 +84,6 @@ function go_dark() {
     $(this).css('color', '#e0e0eb');
     elements.push(this)
   });
-  $("article a").each(function (index) {
-    $(this).css('color', '#87CEEB');
-    elements.push(this)
-  });
-  $("article a, .dark").hover(
-    function () {
-      $(this).css('color', '#99fcff');
-    },
-    function () {
-      $(this).css('color', '#87CEEB');
-    }
-  );
   $("blockquote p").each(function (index) {
     $(this).css('background-color', 'rgb(113,113,113)');
     elements.push(this)
@@ -74,12 +92,10 @@ function go_dark() {
     $(this).css('background-color', 'rgb(100,100,100)');
     elements.push(this)
   });
-
-
-
+  
   $('#disqus_thread').css('background-color', 'silver').css('padding', '15px');
   elements.push($('#disqus_thread'))
-
+  
   $('.highlight').each(function () {
     $(this).children().css('background-color', 'rgb(130, 130, 130)')
     elements.push($(this).children())
@@ -130,7 +146,31 @@ function go_dark() {
     $(this).css('color', '#f392aa');
     elements.push(this)
   });
-
+  
+  $(".copyCode").each(function (index) {
+    $(this).css('background-color', 'rgb(130, 130, 130');
+    elements.push(this);
+  });
+  $(".copyCode:hover").each(function (index) {
+    $(this).css('background-color', 'rgb(130, 130, 130');
+    elements.push(this);
+  });
+  // If these values are modified so should those in add_cancel_btn
+  $("article a, #toggleTocButton, .copyCode").each(function (index) {
+    $(this).css('color', '#87CEEB');
+    $(this).css('border-color', '#87CEEB');
+    elements.push(this)
+  });
+  $("article a, .dark, #toggleTocButton, .copyCode").hover(
+    function () {
+      $(this).css('color', '#99fcff');
+      $(this).css('border-color', '#99fcff');
+    },
+    function () {
+      $(this).css('color', '#87CEEB');
+      $(this).css('border-color', '#87CEEB');
+    }
+  );
 
   return elements
 }
@@ -142,6 +182,20 @@ function add_cancel_btn(elements) {
   $('#remember_dark_choice').remove()
   $('#remember_title').remove()
   $('#title_buttons').append(cancel)
+
+  $("#cancel_dark_for_good").css('color', '#87CEEB').css('border-color', '#87CEEB');
+  $("#cancel_dark_for_good").hover(
+    function () {
+      $(this).css('color', '#99fcff');
+      $(this).css('border-color', '#99fcff');
+    },
+    function () {
+      $(this).css('color', '#87CEEB');
+      $(this).css('border-color', '#87CEEB');
+    }
+  );
+
+  $('#cancel_dark_for_good')
 
   $('#cancel_dark_for_good').click(function () {
     localStorage['remember_dark_choice'] = '0';
@@ -157,12 +211,14 @@ function add_cancel_btn(elements) {
     $('.anchorjs-link').css('font-weight', 'normal')
     $('.anchorjs-link').css('line-height', '1')
     $('.anchorjs-link').css('padding-left', '0.375em')
-    $("article a").hover(
+    $("article a, .dark, #toggleTocButton, .copyCode").hover(
       function () {
-        $(this).css('color', 'black');
+        $(this).css('color', '#173858');
+        $(this).css('border-color', '#1c699c');
       },
       function () {
-        $(this).css('color', '#2077b2');
+        $(this).css('color', '#1c699c');
+        $(this).css('border-color', '#2077b2');
       }
     );
     $("#night_mode").hover(
@@ -237,4 +293,7 @@ $(function () {
       return false;
     })
   })
+  processToc();
+  
+
 });/*final*/
