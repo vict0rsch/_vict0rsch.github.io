@@ -13,7 +13,7 @@ inc:
   gplus:
   github:       https://github.com/vict0rsch/deep_learning
   linkedin:     https://fr.linkedin.com/in/victor-schmidt-30418083
-  mail:         vsch@pm.me
+  mail:         vsch@pm.me   
   about_link:   
   
   # Product Information
@@ -57,7 +57,7 @@ timezone:    UTC+1
 
 # Show future posts
 future:      false
-show_drafts: false
+show_drafts: nil
 limit_posts: 500
 highlighter: rouge
 
@@ -71,23 +71,8 @@ markdown:      kramdown
 markdown_ext:  kramdown, markdown,mkd,mkdn,md
 textile_ext:   textile
 kramdown:
-  syntax_highlighter: rouge
-  parse_block_html: true
-  auto_ids: true
-  footnote_nr: 1
-  entity_output: as_char
-  toc_levels: 1..6
-  smart_quotes: lsquo,rsquo,ldquo,rdquo
-  use_coderay: false
   input: GFM
-
-  coderay:
-    coderay_wrap: div
-    coderay_line_numbers: inline
-    coderay_line_numbers_start: 1
-    coderay_tab_width: 4
-    coderay_bold_every: 10
-    coderay_css: style
+  syntax_highlighter: rouge
 excerpt_separator: "<!-- more -->"
 
 safe:        false
@@ -108,6 +93,23 @@ rdiscount:
 
 redcarpet:
   extensions: []
+
+kramdown:
+  auto_ids: true
+  footnote_nr: 1
+  entity_output: as_char
+  toc_levels: 1..6
+  smart_quotes: lsquo,rsquo,ldquo,rdquo
+  use_coderay: false
+  input: GFM
+
+  coderay:
+    coderay_wrap: div
+    coderay_line_numbers: inline
+    coderay_line_numbers_start: 1
+    coderay_tab_width: 4
+    coderay_bold_every: 10
+    coderay_css: style
 
 redcloth:
   hard_breaks: true
