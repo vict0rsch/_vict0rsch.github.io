@@ -242,6 +242,7 @@ if (localStorage['remember_dark_choice'] == '1' && $(location).attr('href').leng
 }
 
 $(function () {
+  $('details').details();
   $(".full img").on("click", function () {
     $(this).toggleClass("zoom");
   });

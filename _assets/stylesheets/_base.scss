@@ -317,3 +317,51 @@ a {
         background:none;
     }
 }
+details {
+    &:focus {
+        outline: none;
+      }
+
+    summary {
+        cursor: pointer;
+        &:focus {
+            outline: none;
+          }
+        &::before {
+            position: relative;
+            /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
+            content: "";
+            display: inline-block;
+            /* By using an em scale, the arrows will size with the font */
+            width: 0.8em;
+            height: 0.8em;
+            border-right: 0.2em solid #68838B;
+            border-top: 0.2em solid #68838B;
+            transform: rotate(45deg);
+            margin-right: 0.5em;
+        }
+        &::-webkit-details-marker {
+            display: none;
+        }
+        margin-bottom: 0.8em;
+    }
+    &.open, &[open] {
+        &:focus {
+            outline: none;
+          }
+        summary::before {
+            position: relative;
+            /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
+            content: "";
+            display: inline-block;
+            /* By using an em scale, the arrows will size with the font */
+            width: 0.8em;
+            height: 0.8em;
+            border-right: 0.2em solid #68838B;
+            border-top: 0.2em solid #68838B;
+            transform: rotate(135deg);
+            margin-right: 0.5em;
+        }
+    }
+    color: #68838B;
+}
