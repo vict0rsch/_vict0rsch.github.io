@@ -26,9 +26,6 @@ This post contains standalone and deterministic code to make it easily reproduci
 
 The code runs under python 3 and Tensorflow 1.8.
 
-{% details Read more about that **thing**... %}
-  That **thing** is...
-{% enddetails %}
 
 
 # Code
