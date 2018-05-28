@@ -1,0 +1,19 @@
+--- 
+layout: base
+---
+
+<article>
+    <div class="container">
+        <header>
+            <h1 class="title">{{ page.title }}</h1>
+            {% if page.subtitle %}
+            <h2 class="subtitle">{{ page.subtitle }}</h2>{% endif %}
+        </header>
+
+        <section>
+            <div id='post-content'>
+                {{ content }}
+            </div>
+        </section>
+    </div>
+</article>

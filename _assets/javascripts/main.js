@@ -1,3 +1,15 @@
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function (searchString, position) {
+    var subjectString = this.toString();
+    if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+      position = subjectString.length;
+    }
+    position -= searchString.length;
+    var lastIndex = subjectString.lastIndexOf(searchString, position);
+    return lastIndex !== -1 && lastIndex === position;
+  };
+}
+
 function selectAndCopyText(containerid) {
   if (document.selection) { // IE
     var range = document.body.createTextRange();
@@ -13,12 +25,13 @@ function selectAndCopyText(containerid) {
   }
 }
 
-function processToc(){
+function processToc() {
   // splitToc();
   $('#markdown-toc').before('<button class="btn btn-outline" id="toggleTocButton">Show Table of contents</button>');
+  $('#markdown-toc').wrap('<div id="toc-container"></div>')
   $('#markdown-toc').hide();
   var tocCounter = 0;
-  $('#toggleTocButton').click(function(){
+  $('#toggleTocButton').click(function () {
     $('#markdown-toc').toggle();
     if (tocCounter % 2 === 0) {
       $('#toggleTocButton').text('Hide Table of contents');
@@ -29,7 +42,7 @@ function processToc(){
   })
 }
 
-function splitToc(){
+function splitToc() {
   const els = $('#markdown-toc').children();
   console.log(els);
   const firstCol = els.slice(0, Math.floor(els.length / 2));
@@ -92,10 +105,10 @@ function go_dark() {
     $(this).css('background-color', 'rgb(100,100,100)');
     elements.push(this)
   });
-  
+
   $('#disqus_thread').css('background-color', 'silver').css('padding', '15px');
   elements.push($('#disqus_thread'))
-  
+
   $('.highlight').each(function () {
     $(this).children().css('background-color', 'rgb(130, 130, 130)')
     elements.push($(this).children())
@@ -146,7 +159,7 @@ function go_dark() {
     $(this).css('color', '#f392aa');
     elements.push(this)
   });
-  
+
   $(".copyCode").each(function (index) {
     $(this).css('background-color', 'rgb(130, 130, 130');
     elements.push(this);
@@ -242,6 +255,11 @@ if (localStorage['remember_dark_choice'] == '1' && $(location).attr('href').leng
 }
 
 $(function () {
+  $('img').each(function (index) {
+    if ($(this).attr('src') === '/images/ld-ed.png') {
+      $(this).css('max-width', '550px');
+    }
+  })
   $('details').details();
   $(".full img").on("click", function () {
     $(this).toggleClass("zoom");
@@ -295,6 +313,26 @@ $(function () {
     })
   })
   processToc();
-  
+
+  if (window.location.href.endsWith("/search/")) {
+    SimpleJekyllSearch({
+      searchInput: document.getElementById('search-input'),
+      resultsContainer: document.getElementById('results-container'),
+      json: '/search.json',
+      searchResultTemplate: '<li><a href="{url}">{title}</a><span class="search-date">{date}</span><p><span><span class="search-subtitle">{subtitle}</span><br/></span><span class="search-excerpt">{excerpt}</span></p></li>'
+    })
+    
+  }
+  $('#search-input').keyup(function(){
+    console.log('changing');
+    setTimeout(function(){
+      $('.search-subtitle').each(function (index) {
+        if (!$(this).text().trim().length) {
+          $(this).parent().hide();
+          console.log('hiding');
+        }
+      })
+    }, 200)
+  })
 
 });/*final*/

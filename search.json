@@ -1,0 +1,26 @@
+---
+---
+[
+  {% for post in site.posts %}
+    {
+      "title"    : {{ post.title | escape | json }},
+      "url"      : "{{ site.url }}{{ post.url }}",
+      "category" : {% if post.category %}{{ post.category | json }}{% else %}""{% endif %},
+      "tags"     : {{ post.tags | join: ', ' | json }},
+      "date"     : {{ post.date | date: "%Y-%m-%d" | json }},
+      "subtitle" : {% if post.subtitle %}{{ post.subtitle | json }}{% else %}" "{% endif %},
+      "excerpt"  : {% if post.excerpt %}{{ post.excerpt | json }}{% else %}" "{% endif %}    
+    } ,
+  {% endfor %}
+  {% for post in site.pages %}
+    {
+      "title"    : {{ post.title | escape | json }},
+      "url"      : "{{ site.url }}{{ post.url }}",
+      "category" : {% if post.category %}{{ post.category | json }}{% else %}""{% endif %},
+      "tags"     : {{ post.tags | join: ', ' | json }},
+      "date"     : {% if post.date %}{{ post.date | date: "%Y-%m-%d" | json }}{% else %}" "{% endif %},
+      "subtitle" : {% if post.subtitle %}{{ post.subtitle | json }}{% else %}" "{% endif %},
+      "excerpt"  : {% if post.excerpt %}{{ post.excerpt | json }}{% else %}" "{% endif %}    
+    } {% unless forloop.last %},{% endunless %}
+  {% endfor %}
+]

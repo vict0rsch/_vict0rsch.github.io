@@ -19,6 +19,7 @@ inc:
   # Product Information
   resources_link: /resources
   about_link: /about
+  search_link: /search
   tagline:      "Get started with Keras and Lasagne"
   
   # Comments

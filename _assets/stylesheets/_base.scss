@@ -1,3 +1,43 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+
+html,
+body {
+height: 100%;
+}
+
+#wrapper {
+min-height: 100%;
+}
+
+#main {
+overflow: auto;
+padding-bottom: 180px;
+/* must be same height as the footer */
+}
+
+#footer {
+position: relative;
+margin-top: -180px;
+/* negative value of footer height */
+height: 180px;
+clear: both;
+}
+
+
+/* Opera Fix thanks to Maleika (Kohoutec) */
+
+body:before {
+content: "";
+height: 100%;
+float: left;
+width: 0;
+margin-top: -32767px;
+/* thank you Erik J - negate effect of float*/
+}
+
 body {
     margin:0;
     border:0;
@@ -11,6 +51,56 @@ body {
 
 .MathJax {
     font-size: 60% !important;
+}
+
+.search-excerpt{
+    font-size: 0.7em;
+    font-style: italic;
+}
+.search-date{
+    font-size: 0.7em;
+    padding-left: 20px;
+}
+
+.search-subtitle{
+    font-size: 0.85em;
+}
+
+#results-container{
+    list-style: none;
+    padding: 0;
+    li{
+        padding-left: 1.3em;
+        &::before{
+            content: "\f0fb"; /* FontAwesome Unicode */
+            font-family: FontAwesome;
+            display: inline-block;
+            margin-left: -1.3em; /* same as padding-left set on li */
+            width: 1.3em; /* same as padding-left set on li */
+        }
+    }
+}
+// #search-link{
+//     &::after{
+//         content: "\f002"; /* FontAwesome Unicode */
+//         font-family: FontAwesome;
+//         display: inline-block;
+//     }
+// }
+#search-input{
+    width: 70%;
+    text-align: center;
+    height: 50px;
+    font-size: 1.2em;
+    border-top: 0px;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 1px solid lightgrey;
+    margin: auto;
+}
+#search-input-div{
+    width: 100%;
+    text-align: center;
 }
 
 .is-visible {
@@ -323,10 +413,17 @@ details {
       }
 
     summary {
+        color: #68838B;
         cursor: pointer;
+
+        &::after{
+            color: inherit;
+        }
+
         &:focus {
             outline: none;
-          }
+        }
+
         &::before {
             position: relative;
             /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
@@ -363,5 +460,5 @@ details {
             margin-right: 0.5em;
         }
     }
-    color: #68838B;
+    
 }
