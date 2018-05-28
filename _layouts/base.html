@@ -34,26 +34,32 @@
 
 </head>
 <body>
-    
-<section class="site-nav">
-    <header>
-        <nav id="navigation">
-            <a class="brand" href="/">
-                <img src="/images/{{ site.inc.logo }}" alt="Home"> Home
-            </a>
-            {% if site.inc.resources_link %}<a href="{{ site.inc.resources_link }}">Resources</a>{% endif %}
-            {% if site.inc.about_link %}<a href="{{ site.inc.about_link }}">About</a>{% endif %}
-        </nav>
-        {% if site.inc.tagline or site.inc.product_url %}<nav class="tagline">
-            {% if site.inc.tagline %}<span>{{ site.inc.tagline }}</span>{% endif %}
-            {% if site.inc.tutorials_link %}<a href="{{ site.inc.tutorials_link }}" class="btn btn-outline">Tutorials</a>{% endif %}
-        </nav>{% endif %}
-    </header>
-</section>
 
-{{ content }}
+<div id='wrapper'>
+    <div id='main'>
+        <section class="site-nav">
+            <header>
+                <nav id="navigation">
+                    <a class="brand" href="/">
+                        <img src="/images/{{ site.inc.logo }}" alt="Home"> Home
+                    </a>
+                    {% if site.inc.resources_link %}<a href="{{ site.inc.resources_link }}">Resources</a>{% endif %}
+                    {% if site.inc.about_link %}<a href="{{ site.inc.about_link }}">About</a>{% endif %}
+                    {% if site.inc.search_link %}<a href="{{ site.inc.search_link }}" id='search-link'>Search this blog</a>{% endif %}
 
-<footer class="site-footer">
+                </nav>
+                {% if site.inc.tagline or site.inc.product_url %}<nav class="tagline">
+                    {% if site.inc.tagline %}<span>{{ site.inc.tagline }}</span>{% endif %}
+                    {% if site.inc.tutorials_link %}<a href="{{ site.inc.tutorials_link }}" class="btn btn-outline">Tutorials</a>{% endif %}
+                </nav>{% endif %}
+            </header>
+        </section>
+
+        {{ content }}
+    </div>
+</div>
+
+<footer class="site-footer" id="footer">
     <div class="container">
         &copy; {{ site.time | date: "%Y" }} 
         
