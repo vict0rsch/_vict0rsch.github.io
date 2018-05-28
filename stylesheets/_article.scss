@@ -90,11 +90,15 @@ article {
     
     ol, ul {
         font-weight: 600;
-        margin: 1.5em 0;
+        margin: 1em 0;
         padding: 0;
         list-style-position: outside;
         padding-left: 1.5em;
         font-size:inherit;
+
+        li ul {
+            margin: 0.5em 0;
+        }
 
         li {
             font-weight:400;
