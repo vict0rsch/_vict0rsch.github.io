@@ -2,7 +2,7 @@
 layout: post
 
 title: On recurrent nets and Data Dimensions
-subtitle: ""
+
 cover_image: blog-cover.jpg
 
 comments: true

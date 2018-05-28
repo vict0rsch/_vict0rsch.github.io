@@ -1,12 +1,12 @@
 ---
 layout: post
 
-draft: true
 title: La sécurité sur internet expliquée à ta grand mère
-subtitle: ""
+subtitle: Liste de choses à savoir pour être un minimum en sécurité sur internet
+
 cover_image: 
 comments: true
-excerpt: "Les grandes linges que peuvent comprendre les petits cousins et les vieux oncles pour faire un peu attention sur internet"
+excerpt: "Les grandes lignes que peuvent comprendre les petits cousins et les vieux oncles pour faire un peu attention sur internet. English version some day."
 
 author:
   name: Victor Schmidt
@@ -19,6 +19,8 @@ author:
 
 La base du comportement en ligne pour préserver sa sécurité. Ce n'est pas exhaustif, pas maximal, mais c'est mieux que rien.
 
+1. 
+{:toc}
 ____
 
 # 1 HTTPS
