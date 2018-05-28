@@ -1,5 +1,0 @@
-fnezog
-gergzegz
-gezgezgreg
-gzergrezgg
-grgezrgz
