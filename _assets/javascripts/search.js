@@ -1,3 +1,13 @@
+function matchAnd(string, queries) {
+    for (var i in queries) {
+        const quer = queries[i];
+        if (string.toLowerCase().indexOf(quer.toLowerCase()) === -1) {
+            return false;
+        }
+    }
+    return true;
+}
+
 function mySearch(_query) {
     var results = [];
     const query = _query.toLowerCase()
@@ -7,7 +17,7 @@ function mySearch(_query) {
         const element = window.store[idx];
 
         const title = element.title;
-        if (title && title.toLowerCase().indexOf(query) > -1) {
+        if (title && matchAnd(title, query.split(' '))) {
             results.push(
                 {
                     ref: idx,
@@ -19,7 +29,7 @@ function mySearch(_query) {
 
         const subtitle = element.subtitle;
 
-        if (subtitle && subtitle.toLowerCase().indexOf(query) > -1) {
+        if (subtitle && matchAnd(subtitle, query.split(' '))) {
             if (!pushed) {
                 results.push(
                     {
@@ -37,7 +47,7 @@ function mySearch(_query) {
         const tags = element.tags.split(', ');
         console.log(element, element.tags);
         for (var w in tags) {
-            if (tags[w].toLowerCase().indexOf(query) > -1) {
+            if (tags[w] && matchAnd(tags[w], query.split(' '))) {
                 if (!pushed) {
                     results.push(
                         {
@@ -53,7 +63,7 @@ function mySearch(_query) {
         }
 
         const excerpt = element.excerpt;
-        if (excerpt && excerpt.toLowerCase().indexOf(query) > -1) {
+        if (excerpt && matchAnd(excerpt, query.split(' '))) {
             if (!pushed) {
                 results.push(
                     {
