@@ -5,9 +5,8 @@ title: "Sampling a multilabel dataset"
 subtitle: "Implementing the Iterative Stratifier from Sechidis et al., 2011"
 cover_image: iterative.png
 comments: true
-draft: true
 
-excerpt: "Splitting a multi-label dataset into train and test sets is much more complicated than the single-label case. You can't simply split each class. You have to be more clever, and stratify - here's how."
+excerpt: "Splitting a multi-label dataset into train and test sets is more complicated than the single-label case. You can't simply split each class. You have to be more clever, and stratify - here's how."
 
 author:
   name: Victor Schmidt
@@ -219,3 +218,32 @@ def stratify(data, classes, ratios, one_hot=False):
     # And the stratified labels dataset
     return stratified_data_ids, stratified_data
 {% endhighlight %}
+
+## Experiment
+
+I created a synthetic dataset, with `100` classes drawn from an decreasing exponential distribution. Each example in the dataset, `100 000` in total, has up to `10` labels (at least one, and non-repeating), each one being drawn from the class distribution.
+
+The following figures show 
+
+* The target class distribution and their distribution in the synthetic dataset
+* The synthetic dataset class distribution and the 2 sampled datasets'
+
+{::nomarkdown}
+<div style="width:100%; text-align:center">
+<img src="/images/target-dist.png" alt="" style="max-width:300px; display:inline-block;"/>
+<img src="/images/train-test-dist.png" alt="" style="max-width:300px; display:inline-block;"/>
+<img src="/images/val-test-dist.png" alt="" style="max-width:300px; display:inline-block;"/>
+</div>
+{:/nomarkdown}
+
+Zooming in, you'd see no difference, lines overlap perfectly! Computed KL-divergences agree: `KL(original, train) = KL(original, test) = -0.0001`. Final repartition is `69912 | 14890 | 15198`, *i.e.* `train: 69.9% | val: 14.9% | test: 15.2%`.
+
+Experiments with different distributions, number of classes, number of labels and number of examples agree, this is not a best-case scenario.
+
+
+## More info
+
+* This implementation can handle string labels just as well
+* For some reason, sampling 3 datasets (train, val, test) works best by sequentially stratifying than specifying 3 ratios. Could be because of the low classes
+* I could not reproduce the paper's metrics on the dataset. I'm not far from them but I may have made a mistake in the metrics' code. I did raise the issue. But looking at the distribution, my implementation can't be so far off
+* I implemented the [Second Order Iterative Stratifier](https://arxiv.org/abs/1704.08756) by Szymański *et. al*, 2017 but I do not use it because its complexity is squared in the number of labels and it does not seem to result in much more than slightly lowering the variance of the algorithm. If you wanted to, it would be quite easy to code from the regular Iterative Stratifier above
