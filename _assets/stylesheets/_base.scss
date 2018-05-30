@@ -70,6 +70,7 @@ body {
     list-style: none;
     padding: 0;
     li{
+        margin-bottom: 1.5em;
         padding-left: 1.3em;
         &::before{
             content: "\f0fb"; /* FontAwesome Unicode */
@@ -102,6 +103,7 @@ body {
     width: 100%;
     text-align: center;
 }
+
 
 .is-visible {
     
@@ -461,4 +463,18 @@ details {
         }
     }
     
+}
+
+.post-tags{
+    display: inline-block;
+    color: #848484;
+}
+
+.home-tag{
+    font-size: 1rem;
+    margin: 0px 5px;
+    border-width: 1px;
+    &:hover{
+        border-width: 1px;
+    }
 }

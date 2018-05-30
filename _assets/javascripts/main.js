@@ -314,25 +314,4 @@ $(function () {
   })
   processToc();
 
-  if (window.location.href.endsWith("/search/")) {
-    SimpleJekyllSearch({
-      searchInput: document.getElementById('search-input'),
-      resultsContainer: document.getElementById('results-container'),
-      json: '/search.json',
-      searchResultTemplate: '<li><a href="{url}">{title}</a><span class="search-date">{date}</span><p><span><span class="search-subtitle">{subtitle}</span><br/></span><span class="search-excerpt">{excerpt}</span></p></li>'
-    })
-    
-  }
-  $('#search-input').keyup(function(){
-    console.log('changing');
-    setTimeout(function(){
-      $('.search-subtitle').each(function (index) {
-        if (!$(this).text().trim().length) {
-          $(this).parent().hide();
-          console.log('hiding');
-        }
-      })
-    }, 200)
-  })
-
 });/*final*/
