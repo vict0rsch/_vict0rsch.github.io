@@ -1,6 +1,6 @@
 inc:
   # Blog Information
-  title:        "Victor Schmidt - Vict0rsch"
+  title:        "Vict0rsch"
   subtitle:     "(Deep) Learning Enthusiast"
   cover_image:  blog-cover.jpg
   logo:         logo.png
@@ -65,8 +65,8 @@ highlighter: rouge
 relative_permalinks: false
 
 permalink:     pretty
-paginate_path: 'page:num'
-paginate: 10
+paginate_path: 'posts/:num'
+paginate: 4
 
 markdown:      kramdown
 markdown_ext:  kramdown, markdown,mkd,mkdn,md
