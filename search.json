@@ -2,6 +2,7 @@
 ---
 [
   {% for post in site.posts %}
+  {% unless post.draft %}
     {
       "title"    : {{ post.title | escape | json }},
       "url"      : "{{ site.url }}{{ post.url }}",
@@ -9,10 +10,13 @@
       "tags"     : {{ post.tags | join: ', ' | json }},
       "date"     : {{ post.date | date: "%Y-%m-%d" | json }},
       "subtitle" : {% if post.subtitle %}{{ post.subtitle | json }}{% else %}" "{% endif %},
-      "excerpt"  : {% if post.excerpt %}{{ post.excerpt | json }}{% else %}" "{% endif %}    
+      "excerpt"  : {% if post.excerpt %}{{ post.excerpt | json }}{% else %}" "{% endif %},
+      "type": "post"
     } ,
+  {% endunless %}
   {% endfor %}
   {% for post in site.pages %}
+  {% unless post.draft %}
     {
       "title"    : {{ post.title | escape | json }},
       "url"      : "{{ site.url }}{{ post.url }}",
@@ -20,7 +24,9 @@
       "tags"     : {{ post.tags | join: ', ' | json }},
       "date"     : {% if post.date %}{{ post.date | date: "%Y-%m-%d" | json }}{% else %}" "{% endif %},
       "subtitle" : {% if post.subtitle %}{{ post.subtitle | json }}{% else %}" "{% endif %},
-      "excerpt"  : {% if post.excerpt %}{{ post.excerpt | json }}{% else %}" "{% endif %}    
+      "excerpt"  : {% if post.excerpt %}{{ post.excerpt | json }}{% else %}" "{% endif %},
+      "type": "page"
     } {% unless forloop.last %},{% endunless %}
+  {% endunless %}
   {% endfor %}
 ]
