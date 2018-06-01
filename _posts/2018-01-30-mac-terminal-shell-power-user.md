@@ -81,7 +81,7 @@ You'll need to activate the compatible fonts so in the `iTerm` preferences go to
 Make ZSH suggest commands with [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions#zsh-autosuggestions)
 
 `git clone https://github.com/zsh-users/zsh-autosuggestions $ZSH_CUSTOM/plugins/zsh-autosuggestions` then we'll add it to the plugin list in the next section
-
+ 
 ## Configuration
 
 * `HYPHEN_INSENSITIVE="true"` to make `-` and `_` interchangeable for ZSH's completion
