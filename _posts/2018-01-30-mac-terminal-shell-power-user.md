@@ -52,6 +52,19 @@ Also, syntax highlighting!
 
 # Shell: ZSH
 
+The shell on your Mac is most probably an old `bash`. You got used to it. You don't even know how much struggle you could avoid by using an other shell and extensions!
+
+I recomment you switch to `zsh` in lieu of `bash` and use the `oh-my-zsh` extensions to get cool features as:
+
+* autocompletion on path `$ cd d` then hitting `tab` would let you choose between `Documents/` and `Downloads/`
+  * using only `tab` and `enter` you'll get around your computer much quicker!
+  * no case-sensitivity
+* `z` plugin -> `z` tracks all the locations you go to and ranks them (roughly) by frequency. So if you often go to `~/github/vict0rsch/vict0rsh.github.io/`, then from any location `$ z io` would get you there!
+* cool themes! you can colorize your shell to emphasize information, show the current status of a `git` repo (info like *there are files are to be added*, *modifications not committed* or *commits not pushed*)
+  * see which version of `python` and which virtual env is currently active etc.
+
+And even [more](https://www.slideshare.net/jaguardesignstudio/why-zsh-is-cooler-than-your-shell-16194692) cool stuff!
+
 
 ## Plugins: Oh-My-ZSH
 
