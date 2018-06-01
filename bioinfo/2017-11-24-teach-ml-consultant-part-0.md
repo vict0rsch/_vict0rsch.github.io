@@ -7,6 +7,8 @@ cover_image:
 comments: true
 excerpt: "First article on my series on Teaching Machine Learning to a Consultant. We'll start with the basics: the Command Line"
 
+draft: true
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch
