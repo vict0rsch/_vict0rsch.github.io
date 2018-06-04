@@ -86,7 +86,7 @@ The stratifying procedure says:
   
 ### Labels and Examples Distributions
 
-From the parper (lower is better):
+From the paper (lower is better):
 
 ![LD and ED from Sechidis et. al, 2011](/images/ld-ed.png)
 
