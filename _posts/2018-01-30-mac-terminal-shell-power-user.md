@@ -59,9 +59,9 @@ I recomment you switch to `zsh` in lieu of `bash` and use the `oh-my-zsh` extens
 
 And even [more](https://www.slideshare.net/jaguardesignstudio/why-zsh-is-cooler-than-your-shell-16194692) cool stuff! Here is a demo of what you could get in a few minutes:
 
-<script src="https://asciinema.org/a/pDDaKa6tG5RA5WqK2xI9CmAXZ.js" id="asciicast-pDDaKa6tG5RA5WqK2xI9CmAXZ" async data-theme='monokai' speed='4'></script>
+<script src="https://asciinema.org/a/1adA0L5DEqveE9hQeogNyV4Lg.js" id="asciicast-1adA0L5DEqveE9hQeogNyV4Lg" async data-theme='monokai' speed='4'></script>
 
-Notice how the command prompt changes, showing the git branch (`source`), the git status (files to commit and commits to push with `!` and `⇡`), the current python version and the time I spent in python! (`gst` stands for `git status` and `gp` for `git push`, these are part of the `git` plugin in `oh-my-zsh`).
+Notice how the command prompt changes, showing the git branch (`source`), the git status (files to track, changes to commit and commits to push with `?` `!` and `⇡`), the current python version and the time I spent in python! (`gst` stands for `git status` and `gp` for `git push`, these are part of the `git` plugin in `oh-my-zsh`).
 
 
 ## Plugins: Oh-My-ZSH
@@ -192,7 +192,7 @@ Tmux has sessions which have windows (a bit like the terminal's tabs) and window
 So `tmux new -s test` starts a session called `test` then `^f c` creates a new window in the session, `^f ,` renames the current window `shift + arrow` navigates through windows `^f :` opens tmux's console (`kill-session` could be useful for instance or `source ~/.tmux.conf`), `^f v` splits the current window vertically into panes and `^f arrow` navigates through the panes. If youy close the terminal and open a new one, `tmux a -t test` to grab it back.
 
 
-# Files
+# My conf files
 
 These files should lie in your `home` folder:
 
