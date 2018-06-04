@@ -76,7 +76,7 @@ The stratifying procedure says:
       * It now needs `0.2` labels `B`
     * The train set now needs more labels `B`: `0.8 > 0.2` so put sample `9: [A, B]` in the train set
       * It now needs `2.2` labels `A` and `-0.2` labels `B` but it does not matter, we are **done** with `B`
-* Label count in the dataset: `A: 5, B: 3, C: 6`
+* Label count in the dataset: `A: 5, B: 0, C: 6`
   * **Choose label `A`** (*surprise!* even though `C` was more rare in the original dataset, `B`'s repartition makes it so that we should focus on `A` more, now)
     * Do the same thing
 
