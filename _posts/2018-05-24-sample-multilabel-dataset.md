@@ -24,6 +24,18 @@ A *label* is the (discrete) information you which to infer from your dataset. Th
 
 The **multilabel** case is quite different from the number of values it can take. It means that each sample in your dataset can have *multiple* target values (each of these being of a different class, possibly with replacement).
 
+{% details Still not clear? Let's look at an example %}
+
+Say you want to predict pieces of information about a book :
+
+* Single Label, Binary Classification: is the book a good read, or not?
+* Single Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may only chose one answer
+* Multi Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may only chose several answers
+
+I'll let you think about the multi label, binary classification case.
+
+{% enddetails %}
+
 In most Machine Learning problems you need to split your data into *at least* two sets, ideally three. You *need* a test set to evaluate your model trained on the training set. And you *need* these two to have the **same label distributions**!
 
 ## Why not go the easy way?
