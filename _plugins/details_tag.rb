@@ -16,7 +16,7 @@ module Jekyll
           converter = site.getConverterImpl(::Jekyll::Converters::Markdown)
           caption = converter.convert(@caption).gsub(/<\/?p[^>]*>/, '').chomp
           body = converter.convert(super(context))
-          "<details><summary>#{caption} (click to expand)</summary>#{body}</details>"
+          "<details><summary>#{caption} (click to expand)</summary><div class='detailsContent'>#{body}</div></details>"
         end
   
       end
