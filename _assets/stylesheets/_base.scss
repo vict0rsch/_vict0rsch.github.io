@@ -419,6 +419,10 @@ details {
         color: #68838B;
         cursor: pointer;
         font-size: 1em;
+        margin-bottom: 0.8em;
+        display: flex;
+        height: 30px;
+        line-height: 24px;
 
         &::after{
             color: inherit;
@@ -430,21 +434,19 @@ details {
 
         &::before {
             position: relative;
-            /* top: 3pt; Uncomment this to lower the icons as requested in comments*/
             content: "";
             display: inline-block;
-            /* By using an em scale, the arrows will size with the font */
-            width: 0.8em;
-            height: 0.8em;
-            border-right: 0.2em solid #68838B;
-            border-top: 0.2em solid #68838B;
+            width: 1.3em;
+            height: 1.3em;
+            border-right: 0.3em solid #68838B;
+            border-top: 0.3em solid #68838B;
             transform: rotate(45deg);
-            margin-right: 0.5em;
+            margin-right: 0.6em;
         }
         &::-webkit-details-marker {
             display: none;
         }
-        margin-bottom: 0.8em;
+
     }
     &.open, &[open] {
         &:focus {
@@ -456,12 +458,12 @@ details {
             content: "";
             display: inline-block;
             /* By using an em scale, the arrows will size with the font */
-            width: 0.8em;
-            height: 0.8em;
-            border-right: 0.2em solid #68838B;
-            border-top: 0.2em solid #68838B;
+            width: 1.3em;
+            height: 1.3em;
+            border-right: 0.3em solid #68838B;
+            border-top: 0.3em solid #68838B;
             transform: rotate(135deg);
-            margin-right: 0.5em;
+            margin-right: 0.6em;
         }
     }
 
