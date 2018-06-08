@@ -29,8 +29,8 @@ The **multilabel** case is quite different from the number of values it can take
 Say you want to predict pieces of information about a book :
 
 * Single Label, Binary Classification: is the book a good read, or not?
-* Single Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may only chose one answer
-* Multi Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may only chose several answers
+* Single Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may only choose one answer
+* Multi Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may only choose several answers
 
 I'll let you think about the multi label, binary classification case.
 
@@ -40,7 +40,7 @@ In most Machine Learning problems you need to split your data into *at least* tw
 
 ## Why not go the easy way?
 
-In the *single-label* situation, the usual and easy way to keep the datasets' statistics equal is to sample independantly each class of the original dataset. It's a valid procedure in this case: if you want 70% of your data in the train set, you take 70% of samples with class *A*, 70% of samples with class *B* and so on.
+In the *single-label* situation, the usual and easy way to keep the datasets' statistics equal is to sample independently each class of the original dataset. It's a valid procedure in this case: if you want 70% of your data in the train set, you take 70% of samples with class *A*, 70% of samples with class *B* and so on.
 
 How would you do that if each sample can be of multiple classes simultaneously? The single-label procedure is only valid as long as you can sample **independantly** each class, which is no longer possible!
 
