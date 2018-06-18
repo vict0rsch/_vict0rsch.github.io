@@ -49,7 +49,7 @@ layout: base
                         {% if forloop.first == true %}
                             &mdash;
                         {% endif %}
-                        <button class="{{ tag }}-tag home-tag btn btn-outline"><a href="/search/?s={{ tag }}">{{ tag }}</a></button>
+                        <a class="{{ tag }}-tag home-tag btn btn-outline" href="/search/?s={{ tag }}">{{ tag }}</a>
                     {% endfor %}
                 </div>
             {% endif %}
