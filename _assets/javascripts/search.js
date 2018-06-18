@@ -139,6 +139,25 @@ function getTemplate(item) {
     if (sub || ex) {
         el = $(el).append(p)
     }
+    if (item.hasOwnProperty('tags')) {
+        var div = $('<div></div>');
+        var a_tag, button;
+        const tags = item.tags.split(', ');
+        if (tags.length > 0 && tags[0].length > 0) {
+            console.log(tags);
+            for (var index = 0; index < tags.length; index++) {
+                const tag = tags[index];
+                a_tag = $('<a></a>');
+                $(a_tag).attr('href', "/search/?s=" + tag);
+                $(a_tag).text(tag);
+                button = $('<button class="home-tag btn btn-outline"></button>');
+                button = $(button).append(a_tag);
+                div = $(div).append(button);
+            }
+            el = $(el).append(div);
+        }
+    }
+
     return el
 
 }
