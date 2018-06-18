@@ -7,6 +7,11 @@ comments: true
 
 excerpt: "This situation presents 2 challenges: computing an overall f1-score when you only have per-batch values, and doing so in a multilabel setting where micro, macro and weighted f1 scores are expected. What a journey!"
 
+tags:
+  - Tensorflow
+  - Metrics
+  - Multilabel
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch

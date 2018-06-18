@@ -7,6 +7,11 @@ cover_image:
 comments: true
 excerpt: "Here is my second AMI, ugraded from the previous one with a lot of what you need"
 
+tags:
+  - AWS
+  - GPU
+  - Hardware
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch

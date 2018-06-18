@@ -8,6 +8,10 @@ comments: true
 
 excerpt: "Splitting a multi-label dataset into train and test sets is more complicated than the single-label case. You can't simply split each class. You have to be more clever, and stratify - here's how."
 
+tags:
+  - General
+  - Miultilabel
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch

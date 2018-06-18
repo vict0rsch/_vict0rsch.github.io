@@ -7,6 +7,9 @@ cover_image: power_button.jpg
 comments: true
 excerpt: "That's my personal setup: links, descriptions and configuration. From ZSH to Pyenv through Spaceship and Tmux"
 
+tags:
+  - Other
+  - Software
 
 author:
   name: Victor Schmidt

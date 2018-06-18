@@ -8,6 +8,11 @@ cover_image:
 comments: true
 excerpt: "Les grandes lignes que peuvent comprendre les petits cousins et les vieux oncles pour faire un peu attention sur internet. English version some day."
 
+tags:
+  - Other
+  - Random
+
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch

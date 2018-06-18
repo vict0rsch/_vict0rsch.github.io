@@ -8,18 +8,29 @@ comments: true
 
 excerpt: "Multilabel classification requires some changes to the mainstream single-label case: here they are!"
 
+tags:
+  - Tensorflow
+  - Multilabel
+  - Data
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch
   github: vict0rsch
 ---
 
+Which loss should you use? How to use the `tf.data.Dataset` API with a train and a validation set? How to use streaming metrics? Here are my answers.
 
-Feel free to comment on what's written here: typos, suggestions, other changes I've missed or errors I've made! Also, some things may not be optimal, I'm open to improvements to my solutions! A lot of the content here comes from 
+This post is about the specifics of the multilabel setting, and a little about how to handle sequences of sequences. It is not about an NLP pipeline nor is it about the model you should use. The overall idea is aimed at using the `Dataset` API and about a few gotchas to pay attention to when handling multilabel data. Check out the table of contents for more details.
+
+A lot of the content here comes from 
 
 * [Stanford's CS 230](https://cs230-stanford.github.io/tensorflow-input-data.html)
 * [Sampling Multilabel Datasets](http://vict0rsch.github.io/2018/05/24/sample-multilabel-dataset/)
 * [Streaming f1-score in a multilabel setting](http://vict0rsch.github.io/2018/06/06/tensorflow-streaming-multilabel-f1/)
+
+Feel free to comment on what's written here: typos, suggestions, other changes I've missed or errors I've made! Also, some things may not be optimal, I'm open to improvements to my solutions! 
+
 
 <br>
 

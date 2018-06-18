@@ -130,7 +130,7 @@ function go_dark() {
   });
   /* var names and methods*/
   $(".n").each(function (index) {
-    $(this).css('color', 'rgb(250, 250, 250)');
+    $(this).css('color', 'rgb(236, 233, 220)');
     elements.push(this)
   });
   /* puncuation and operators */
@@ -143,16 +143,20 @@ function go_dark() {
     elements.push(this)
   });
   $(".nb").each(function (index) {
-    $(this).css('color', '#fd966f');
+    $(this).css('color', 'rgb(245, 185, 106)');
     elements.push(this)
   });
   $(".nn").each(function (index) {
     $(this).css('color', '#63e26a');
     elements.push(this)
   });
+  $(".o").each(function (index) {
+    $(this).css('color', '#ffffff');
+    elements.push(this)
+  });
   /* function name */
   $(".nf").each(function (index) {
-    $(this).css('color', '#fb8077');
+    $(this).css('color', 'rgb(119, 212, 251)');
     elements.push(this)
   });
   $(".se, .si").each(function (index) {

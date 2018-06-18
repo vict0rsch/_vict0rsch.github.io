@@ -8,6 +8,10 @@ comments: true
 
 excerpt: "The saved_model API allows for easy saving. Restoring the model and performing inference is a bit trickier when the input Tensors come from a tf.data.Dataset. We'll see here how this works."
 
+tags:
+  - Tensorflow
+  - Data
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch

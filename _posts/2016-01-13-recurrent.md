@@ -7,6 +7,11 @@ cover_image: blog-cover.jpg
 
 comments: true
 
+tags:
+  - General
+  - Keras
+  - Lasagne
+
 excerpt: "Focus on how to format your data, understand their dimensions and walk through Keras and Lasagne examples."
 
 author:

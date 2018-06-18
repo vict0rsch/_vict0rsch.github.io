@@ -7,6 +7,11 @@ cover_image:
 comments: true
 excerpt: "Use my vict0rsch-2.0 AMI on a p2.xlarge instance"
 
+tags:
+  - AWS
+  - GPU
+  - Hardware
+
 author:
   name: Victor Schmidt
   twitter: vict0rsch
