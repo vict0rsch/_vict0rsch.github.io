@@ -88,12 +88,15 @@ function doSearch(query) {
     console.log('doSearch: ', query);
     $('#results-container').html('');
     if ($.trim(query)) {
-        // const result = index.search('*' + query + '*');
         const result = mySearch(query);
         console.log(result);
         console.log('result', result);
         updateUrlParameter(query)
         showResults(result)
+        $('#results-container li a, #results-container li p span').wrapInTag({
+            tag: 'strong',
+            words: query.split(' ')
+        });
     } else {
         updateUrlParameter('')
     }
@@ -159,6 +162,19 @@ function getQuery() {
 
 
 $('document').ready(function () {
+
+    $.fn.wrapInTag = function (opts) {
+
+        var tag = opts.tag || 'strong'
+            , words = opts.words || []
+            , regex = RegExp(words.join('|'), 'gi') // case insensitive
+            , replacement = '<' + tag + '>$&</' + tag + '>';
+
+        return this.html(function () {
+            return $(this).text().replace(regex, replacement);
+        });
+    };
+
     $.getJSON("/search.json", function (data) {
 
         window.store = [];
