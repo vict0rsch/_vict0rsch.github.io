@@ -481,4 +481,7 @@ details {
     &:hover{
         border-width: 1px;
     }
+    @media screen and (max-width: 600px) {
+        margin-bottom: 5px;
+    }
 }
