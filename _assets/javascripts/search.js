@@ -12,6 +12,12 @@ function mySearch(_query) {
     var results = [];
     const query = _query.toLowerCase()
     var pushed;
+    const scores = {
+        tag: 4,
+        title: 3,
+        subtitle: 2,
+        excerpt: 1
+    }
     for (var idx in window.store) {
         pushed = false;
         const element = window.store[idx];
@@ -21,7 +27,7 @@ function mySearch(_query) {
             results.push(
                 {
                     ref: idx,
-                    score: 4
+                    score: scores.title
                 }
             )
             pushed = true;
@@ -34,7 +40,7 @@ function mySearch(_query) {
                 results.push(
                     {
                         ref: idx,
-                        score: 2
+                        score: scores.subtitle
                     }
                 )
                 pushed = true;
@@ -52,7 +58,7 @@ function mySearch(_query) {
                     results.push(
                         {
                             ref: idx,
-                            score: 3
+                            score: scores.tag
                         }
                     )
                     pushed = true;
@@ -68,7 +74,7 @@ function mySearch(_query) {
                 results.push(
                     {
                         ref: idx,
-                        score: 1
+                        score: scores.excerpt
                     }
                 )
             } else {
@@ -147,12 +153,10 @@ function getTemplate(item) {
             console.log(tags);
             for (var index = 0; index < tags.length; index++) {
                 const tag = tags[index];
-                a_tag = $('<a></a>');
+                a_tag = $('<a class="home-tag btn btn-outline"></a>');
                 $(a_tag).attr('href', "/search/?s=" + tag);
                 $(a_tag).text(tag);
-                button = $('<button class="home-tag btn btn-outline"></button>');
-                button = $(button).append(a_tag);
-                div = $(div).append(button);
+                div = $(div).append(a_tag);
             }
             el = $(el).append(div);
         }
