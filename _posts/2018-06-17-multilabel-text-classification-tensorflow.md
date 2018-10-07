@@ -200,9 +200,20 @@ labels_dataset = labels_dataset.map(one_hot_multi_label, num_threads)
 Now we need to zip the labels and texts datasets together so that we can shuffle them together, batch and prefetch them:
 
 {% highlight python %}
+batch_size = 32  # could be a placeholder
+
+padded_shapes = (
+    tf.TensorShape([None, None]),
+    tf.TensorShape([None]),
+) 
+
+padding_values = (np.int64(0), np.int32(0)) # 0 is the index of our <pad> token
+# for some reason running the same code on linux or macOS raises type erros. Adjust the type
+# of your 0 padding_values according to your platform
+
 dataset = tf.data.Dataset.zip((texts_dataset, labels_dataset))
 dataset = dataset.shuffle(10000, reshuffle_each_iteration=True)
-dataset = dataset.padded_batch(self.batch_size_ph, padded_shapes, self.padding_values)
+dataset = dataset.padded_batch(batch_size, padded_shapes, padding_values)
 dataset = dataset.prefetch(10)
 
 iterator = tf.data.Iterator.from_structure(
@@ -218,6 +229,18 @@ input_tensor, labels_tensor = iterator.get_next()
 {% endhighlight %}
 
 Repeating for several epochs will be done manually at run time for more flexibility.
+
+{% details Wondering about `padded_shapes`? %}
+
+`padded_shapes` is a tuple. The first `shape` will be used to pad the features (*i.e.* the 3D Tensor with the list of word indexes for each sentence in each document), and the second is for the labels. 
+
+The **labels** won't require padding as they are already a consistent 2D array in the text file which will be converted to a 2D Tensor. But Tensorflow does not know it won't need to pad the labels, so we still need to specify the `padded_shape` argument: if need be, the Dataset should pad each sample with a 1D Tensor (hence `tf.TensorShape([None])`). For instance if a label was `[0, 1, 0, 0, 1]` and the next one was `[0, 1]` then the padding would be `[0, 0, 0]` as we said that the `padding_value` should be `0`.
+
+The **features** on the other hand will need padding as within a batch (a list of documents, first dimension of the 3D batch Tensor), all documents won't have the same number of sentences (2nd dimension of the Tensor) and all sentences within the batch won't have the same number of words (last dimension). The Dataset may therefore need to patch 2 dimensions (sentences and words), hence `tf.TensorShape([None, None])`. And as we put the padding token first in the vocabulary, then its index is 0 and the `padding_value` is also 0.
+
+Lastly, we need the types of `padding_values` to be consistent with the types of the `features` and `labels` tensors produced by the `text_dataset` and the `labels_dataset`, which is why I used `np.int*`.
+
+{% enddetails %}
 
 ### Handling the validation data
 
@@ -324,12 +347,15 @@ Here is the skeletton for a training procedure.
 metrics = get_metrics(labels_tensor, one_hot_prediction, num_classes)
 
 opt_op = optimize(loss) # Create your own optimize() function with your preferred
-                        # optimizer, clipped gradiends and so on
+                        # optimizer, clipped gradients and so on
 
 train_fd = {is_training: True}
-val__fd = {is_training: False}
+val_fd = {is_training: False}
 
 with tf.Session() as sess:
+
+    tf.global_variables_initializer().run(session=sess)
+    tf.tables_initializer().run(session=sess)
 
     for epoch in range(nb_of_epochs):
 

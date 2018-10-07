@@ -34,7 +34,7 @@ Say you want to predict pieces of information about a book :
 
 * Single Label, Binary Classification: is the book a good read, or not?
 * Single Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may only choose one answer
-* Multi Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may only choose several answers
+* Multi Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may choose several answers
 
 I'll let you think about the multi label, binary classification case.
 
@@ -124,8 +124,8 @@ This implementation only relies on `numpy` and Python 3.
 def stratify(data, classes, ratios, one_hot=False):
     """Stratifying procedure.
 
-    data is a list of list: a list of labels, for each samples.
-    Each sample's labels should be ints, if they are one-hot encoded, use one_hot=True
+    data is a list of lists: a list of labels, for each sample.
+        Each sample's labels should be ints, if they are one-hot encoded, use one_hot=True
     
     classes is the list of classes each label can take
 
@@ -177,7 +177,7 @@ def stratify(data, classes, ratios, one_hot=False):
             # If the dictionary in `min` is empty we get a Value Error. 
             # This can happen if there are unlabeled samples.
             # In this case, `size` would be > 0 but only samples without label would remain.
-            # "No label" could be a class in itself, your choice when you feed `data` in the stratifier.
+            # "No label" could be a class in itself: it's up to you to format your data accordingly.
             break
         current_length = lengths[label]
 
@@ -237,7 +237,7 @@ def stratify(data, classes, ratios, one_hot=False):
 
 ## Experiment
 
-I created a synthetic dataset, with `100` classes drawn from an decreasing exponential distribution. Each example in the dataset, `100 000` in total, has up to `10` labels (at least one, and non-repeating), each one being drawn from the class distribution.
+I created a synthetic dataset, with `100` classes drawn from a decreasing exponential distribution. Each example in the dataset, `100 000` in total, has up to `10` labels (at least one, and non-repeating), each one being drawn from the class distribution.
 
 The following figures show 
 
