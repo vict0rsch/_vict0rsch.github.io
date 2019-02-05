@@ -10,7 +10,7 @@ excerpt: "Splitting a multi-label dataset into train and test sets is more compl
 
 tags:
   - General
-  - Miultilabel
+  - Multilabel
 
 author:
   name: Victor Schmidt
