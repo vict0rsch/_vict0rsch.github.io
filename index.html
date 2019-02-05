@@ -2,12 +2,12 @@
 layout: base
 ---
 <div class="blog-cover" style="background-image:url(/images/{{ site.inc.cover_image }});">
-    
+
     <section>
         <div class="container">
             <h1>{{ site.inc.title }}</h1>
             {% if site.inc.subtitle %}<h3>{{ site.inc.subtitle }}</h3>{% endif %}
-        
+
             {% if site.inc.twitter %}
             <a href="https://twitter.com/{{ site.inc.twitter }}" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter"></i></a>
             {% endif %}
@@ -32,8 +32,8 @@ layout: base
 
 
 <article class="container">
-{% for post in paginator.posts %}
-  {% unless post.draft %}
+    {% for post in paginator.posts %}
+    {% unless post.draft %}
     <section class="index">
         <!-- {% if post.author.image %}<img src="/images/{{ post.author.image }}" class="avatar">{% endif %}-->
         <div>
@@ -41,17 +41,18 @@ layout: base
             <p>{{ post.excerpt }}</p>
             <div class="meta" style="display:inline-block">
                 Written By <address>{{ post.author.name }}</address> &mdash;
-                <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%B %d, %Y" }}">{{ post.date | date: "%B %d, %Y" }}</time>
+                <time pubdate datetime="{{ post.date | date: "%Y-%d-%B" }}" title="{{ post.date | date: "%B %d, %Y" }}">{{
+                    post.date | date: "%B %d, %Y" }}</time>
             </div>
             {% if post.tags %}
-                <div class='post-tags'>
-                    {% for tag in post.tags %}
-                        {% if forloop.first == true %}
-                            &mdash;
-                        {% endif %}
-                        <a class="{{ tag }}-tag home-tag btn btn-outline" href="/search/?s={{ tag }}">{{ tag }}</a>
-                    {% endfor %}
-                </div>
+            <div class='post-tags'>
+                {% for tag in post.tags %}
+                {% if forloop.first == true %}
+                &mdash;
+                {% endif %}
+                <a class="{{ tag }}-tag home-tag btn btn-outline" href="/search/?s={{ tag }}">{{ tag }}</a>
+                {% endfor %}
+            </div>
             {% endif %}
         </div>
         <hr>
@@ -59,15 +60,15 @@ layout: base
     {% endunless %}
     {% endfor %}
     <section class="pagination" style="text-align:center">
-      {% if paginator.previous_page %}
+        {% if paginator.previous_page %}
         {% if paginator.previous_page == 1 %}
         <a href="/" class="btn btn-outline">‹ Newer</a>
         {% else %}
         <a href="/posts/{{ paginator.previous_page }}" class="btn btn-outline">‹ Newer</a>
         {% endif %}
-      {% endif %}
-      {% if paginator.next_page %}
+        {% endif %}
+        {% if paginator.next_page %}
         <a href="/posts/{{ paginator.next_page }}" class="btn btn-outline">Older ›</a>
-      {% endif %}
+        {% endif %}
     </section>
 </article>

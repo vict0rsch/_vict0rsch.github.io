@@ -58,7 +58,7 @@ timezone:    UTC+1
 plugins: [jekyll-paginate]
 
 # Show future posts
-future:      false
+future:      true
 show_drafts: nil
 limit_posts: 500
 highlighter: rouge
