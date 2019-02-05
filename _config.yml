@@ -3,7 +3,7 @@ inc:
   title:        "Vict0rsch"
   subtitle:     "(Deep) Learning Enthusiast"
   cover_image:  blog-cover.jpg
-  logo:         logo.png
+  logo:         light-bulb.svg
   description: "Vict0rsch's blog about tech and AI - PhD Student @MILA, Montréal, Québec"
   
   # Company information
