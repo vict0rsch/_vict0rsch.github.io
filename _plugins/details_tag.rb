@@ -13,7 +13,7 @@ module Jekyll
           site = context.registers[:site]
           # converter = site.find_converter_instance(::Jekyll::Converters::Markdown)
           # below Jekyll 3.x use this:
-          converter = site.getConverterImpl(::Jekyll::Converters::Markdown)
+          converter = site.find_converter_instance(::Jekyll::Converters::Markdown)
           caption = converter.convert(@caption).gsub(/<\/?p[^>]*>/, '').chomp
           body = converter.convert(super(context))
           "<details><summary>#{caption} (click to expand)</summary><div class='detailsContent'>#{body}</div></details>"

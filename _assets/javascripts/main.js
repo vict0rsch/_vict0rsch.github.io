@@ -43,11 +43,11 @@ function processToc() {
 }
 
 function splitToc() {
-  const els = $('#markdown-toc').children();
+  var els = $('#markdown-toc').children();
   console.log(els);
-  const firstCol = els.slice(0, Math.floor(els.length / 2));
-  const secondCol = els.slice(Math.floor(els.length / 2));
-  const toc = '<div class="tocRow" id="markdown-toc"><div class="tocColumn" id="firstTocColumn"></div><div class="tocColumn" id="secondTocColumn"></div></div>'
+  var firstCol = els.slice(0, Math.floor(els.length / 2));
+  var secondCol = els.slice(Math.floor(els.length / 2));
+  var toc = '<div class="tocRow" id="markdown-toc"><div class="tocColumn" id="firstTocColumn"></div><div class="tocColumn" id="secondTocColumn"></div></div>'
   $('#markdown-toc').replaceWith(toc);
   $('#firstTocColumn').append('<ol></ol>');
   $('#firstTocColumn').first().append(firstCol);
@@ -302,7 +302,7 @@ $(function () {
     $(this).on("mouseout", function () {
       $('#copyCode' + index).css('display', 'none');
     });
-    const el = this;
+    var el = this;
     $('#copyCode' + index).click(function (event) {
       event.preventDefault();
       $(el).find('code').each(function () {

@@ -50,11 +50,12 @@ inc:
 url:         http://vict0rsch.github.io
 source:      .
 destination: ./_site
-plugins:     ./_plugins
-layouts:     ./_layouts
+plugins_dir:     ./_plugins
+layouts_dir:     ./_layouts
 include:     ['.htaccess']
 exclude:     []
 timezone:    UTC+1
+plugins: [jekyll-paginate]
 
 # Show future posts
 future:      false
@@ -101,9 +102,10 @@ kramdown:
   entity_output: as_char
   toc_levels: 1..6
   smart_quotes: lsquo,rsquo,ldquo,rdquo
-  use_coderay: false
+  enable_coderay: false
   input: GFM
 
+syntax_highlighter_opts:
   coderay:
     coderay_wrap: div
     coderay_line_numbers: inline

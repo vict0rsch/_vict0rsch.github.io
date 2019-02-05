@@ -1,6 +1,6 @@
 function matchAnd(string, queries) {
     for (var i in queries) {
-        const quer = queries[i];
+        var quer = queries[i];
         if (string.toLowerCase().indexOf(quer.toLowerCase()) === -1) {
             return false;
         }
@@ -10,9 +10,9 @@ function matchAnd(string, queries) {
 
 function mySearch(_query) {
     var results = [];
-    const query = _query.toLowerCase()
+    var query = _query.toLowerCase()
     var pushed;
-    const scores = {
+    var scores = {
         tag: 4,
         title: 3,
         subtitle: 2,
@@ -20,9 +20,9 @@ function mySearch(_query) {
     }
     for (var idx in window.store) {
         pushed = false;
-        const element = window.store[idx];
+        var element = window.store[idx];
 
-        const title = element.title;
+        var title = element.title;
         if (title && matchAnd(title, query.split(' '))) {
             results.push(
                 {
@@ -33,7 +33,7 @@ function mySearch(_query) {
             pushed = true;
         }
 
-        const subtitle = element.subtitle;
+        var subtitle = element.subtitle;
 
         if (subtitle && matchAnd(subtitle, query.split(' '))) {
             if (!pushed) {
@@ -50,7 +50,7 @@ function mySearch(_query) {
 
         }
 
-        const tags = element.tags.split(', ');
+        var tags = element.tags.split(', ');
         console.log(element, element.tags);
         for (var w in tags) {
             if (tags[w] && matchAnd(tags[w], query.split(' '))) {
@@ -68,7 +68,7 @@ function mySearch(_query) {
             }
         }
 
-        const excerpt = element.excerpt;
+        var excerpt = element.excerpt;
         if (excerpt && matchAnd(excerpt, query.split(' '))) {
             if (!pushed) {
                 results.push(
@@ -94,7 +94,7 @@ function doSearch(query) {
     console.log('doSearch: ', query);
     $('#results-container').html('');
     if ($.trim(query)) {
-        const result = mySearch(query);
+        var result = mySearch(query);
         console.log(result);
         console.log('result', result);
         updateUrlParameter(query)
@@ -110,9 +110,9 @@ function doSearch(query) {
 
 function showResults(result) {
     for (var itemIx in result) {
-        const item = result[itemIx]
-        const ref = item.ref
-        const post = window.store[parseInt(ref, 10)];
+        var item = result[itemIx]
+        var ref = item.ref
+        var post = window.store[parseInt(ref, 10)];
         var searchitem = $('<div class="searchitem"></div>');
         searchitem = $(searchitem).add(getTemplate(post));
         searchitem.appendTo('#results-container');
@@ -130,8 +130,8 @@ function getTemplate(item) {
         el = $(el).append($("<span class='search-date'>" + item.date + "</span>"))
     }
     var p = $('<p></p>');
-    const sub = $.trim(item.subtitle);
-    const ex = $.trim(item.excerpt);
+    var sub = $.trim(item.subtitle);
+    var ex = $.trim(item.excerpt);
     if (sub) {
         p = $(p).append($("<span class='search-subtitle'>" + item.subtitle + "</span>"))
     }
@@ -148,11 +148,11 @@ function getTemplate(item) {
     if (item.hasOwnProperty('tags')) {
         var div = $('<div></div>');
         var a_tag, button;
-        const tags = item.tags.split(', ');
+        var tags = item.tags.split(', ');
         if (tags.length > 0 && tags[0].length > 0) {
             console.log(tags);
             for (var index = 0; index < tags.length; index++) {
-                const tag = tags[index];
+                var tag = tags[index];
                 a_tag = $('<a class="home-tag btn btn-outline"></a>');
                 $(a_tag).attr('href', "/search/?s=" + tag);
                 $(a_tag).text(tag);
@@ -170,11 +170,11 @@ function updateUrlParameter(value) {
 }
 
 function getQuery() {
-    const parser = document.createElement('a')
+    var parser = document.createElement('a')
     parser.href = window.location.href
     console.log('Initial query');
     if (parser.href.includes('=')) {
-        const searchquery = decodeURIComponent(parser.href.substring(parser.href.indexOf('=') + 1))
+        var searchquery = decodeURIComponent(parser.href.substring(parser.href.indexOf('=') + 1))
         console.log('searchquery', searchquery);
         $('#search-input').val(searchquery);
         doSearch(searchquery)
@@ -203,7 +203,7 @@ $('document').ready(function () {
         window.store = [];
         for (var key in data) {
             if (data.hasOwnProperty(key)) {
-                const element = data[key];
+                var element = data[key];
                 if (element.title) {
                     window.store.push(element)
                 }
@@ -236,7 +236,7 @@ $('document').ready(function () {
 
         $('#search-input').keyup(function (event) {
             event.preventDefault()
-            const query = $(this).val()
+            var query = $(this).val()
             console.log('Keyup: query', query);
             doSearch(query);
         })
