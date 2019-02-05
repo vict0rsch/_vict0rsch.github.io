@@ -4,6 +4,7 @@ inc:
   subtitle:     "(Deep) Learning Enthusiast"
   cover_image:  blog-cover.jpg
   logo:         logo.png
+  description: "Vict0rsch's blog about tech and AI - PhD Student @MILA, Montréal, Québec"
   
   # Company information
   company:      
@@ -14,13 +15,12 @@ inc:
   github:       https://github.com/vict0rsch/deep_learning
   linkedin:     https://fr.linkedin.com/in/victor-schmidt-30418083
   mail:         vsch@pm.me   
-  about_link:   
   
   # Product Information
   resources_link: /resources
   about_link: /about
   search_link: /search
-  tagline:      "Get started with Keras and Lasagne"
+  tagline:      "Get started with Keras and Lasagne (2015)"
   
   # Comments
   disqus:
@@ -47,7 +47,7 @@ inc:
   # Setup your fonts, colors etc at _assets/stylesheets/main.scss
   tutorials_link: /tutorials
 
-url:         http://vict0rsch.github.io
+url:         https://vict0rs.ch
 source:      .
 destination: ./_site
 plugins_dir:     ./_plugins
