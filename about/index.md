@@ -14,14 +14,19 @@ author:
 ---
 
 
-I'm Victor Schmidt. I come from Paris, France and started this blog in Dec 16. Why? Because I was fed up of only using Github's `readme.md` files to explain what I was doing.
+I'm Victor Schmidt. I come from Paris, France and started this blog in Dec 16. Why? Because I was fed up of only using Github's `readme.md` files to share what I was doing.
 
-To quickly sum up my learning track I went to a French Engineering school (**École polytechnique**) then took a gap year to work at [**Rythm**](https://rythm.co) and travelled from India to Japan for 6 months.
+To quickly sum up my learning track I went to a French Engineering school (**École polytechnique**) then took a gap year to work at [**Dreem**](https://dreem.com) and travelled from India to Japan for 6 months.
 I then pursued an MSc. in Machine Learning at **University College London** (UCL). 
 
-I **now** work as an NLP Data Scientist at the French Ministry for the Economy and Finance fighting financial fraud, as part of the [Public Interest Entrepreneurs program](https://entrepreneur-interet-general.etalab.gouv.fr/defi/2017/09/26/hopkins/).
+Consequently, I worked for a year as an **NLP Data Scientist** at the French Ministry for the Economy and Finance fighting financial fraud, as part of the [Public Interest Entrepreneurs program](https://entrepreneur-interet-general.etalab.gouv.fr/defi/2017/09/26/hopkins/).
+
+I'm now a PhD candidate at the Montréal Institute for Learning Algorithms (**MILA**) supervised by Pr. Yoshua Bengio. I work on [AI to fight Climate Change](/2019/02/04/mila/).
+
 <br>
-[My resume](ResumeVictorSchmidt.pdf), my [LinkedIn](https://fr.linkedin.com/in/victor-schmidt-30418083).
+
+[My resume](ResumeVictorSchmidt.pdf) (*needs update*), my [LinkedIn](https://fr.linkedin.com/in/victor-schmidt-30418083) (*up to date*).
+
 <br>
 
 #### This blog 
@@ -31,7 +36,7 @@ Here you'll find:
 * [**Resources**](http://vict0rsch.github.io/resources/) I find interesting (see top of the page) - (Needs an update, working on it)
 * [**Posts**](http://vict0rsch.github.io) to explain issues I ran into and solved, random thoughts or pieces of advice.
 
-Please use the **comments** but don't expect me to solve your problems : having a full-time job and many side projects (such as this blog or [Metada](https://metada.org)) I most probably won't have the time. If I do however, it will be with pleasure!
+Please use the **comments** but don't expect me to solve your problems : having a full-time PhD and many side projects (such as this blog or [Metada](https://metada.org)) I most probably won't have the time. If I do however, it will be with pleasure!
 
 Don't hesitate on leaving comments, topics you'd like me to go deeper into or new ones I should scratch.
 
@@ -49,4 +54,4 @@ And yes, I know Facebook and Twitter buttons aren't aligned. I can't have them d
 
 ##### Licences
 The code from the tutorials is [licensed under GNU](https://github.com/Vict0rSch/deep_learning/blob/master/License).
-<sub>Icons made by [Freepik](http://www.freepik.com) and [Gregor Cresnar](http://www.flaticon.com/authors/gregor-cresnar) from [Flaticon](http://www.flaticon.com) licensed by [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/) and [Favicon basic license](http://file000.flaticon.com/downloads/license/license.pdf)
+Icons made by [Freepik](http://www.freepik.com) and [Gregor Cresnar](http://www.flaticon.com/authors/gregor-cresnar) from [Flaticon](http://www.flaticon.com) licensed by [CC BY 3.0](http://creativecommons.org/licenses/by/3.0/) and [Favicon basic license](http://file000.flaticon.com/downloads/license/license.pdf).
