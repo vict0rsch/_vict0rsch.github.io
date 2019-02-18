@@ -1,15 +1,15 @@
-<script
-  src="https://code.jquery.com/jquery-2.2.4.min.js"
-  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-  crossorigin="anonymous"></script>
-  
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"
+  integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+
+
 <script src="//cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 {% javascript main %}
-{% javascript anchorify %}
 {% javascript jquery.details.min %}
-{% javascript simple-search %}
 
 {% if page.search %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.2.1/lunr.min.js"></script>
@@ -18,23 +18,23 @@
 
 
 {% if site.inc.sharing.twitter %}
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
 {% endif %}
 
 {% if site.inc.sharing.facebook %}
 <div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
 {% endif %}
 
 {% if site.inc.sharing.gplus %}
 <script type="text/javascript">
-  (function() {
+  (function () {
     var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
     po.src = 'https://apis.google.com/js/plusone.js';
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
@@ -44,12 +44,12 @@
 
 {% if site.inc.sharing.hn %}
 <script>
-    (function(d, t) {
-        var g = d.createElement(t),
-            s = d.getElementsByTagName(t)[0];
-        g.src = '//hnbutton.appspot.com/static/hn.min.js';
-        s.parentNode.insertBefore(g, s);
-    }(document, 'script'));
+  (function (d, t) {
+    var g = d.createElement(t),
+      s = d.getElementsByTagName(t)[0];
+    g.src = '//hnbutton.appspot.com/static/hn.min.js';
+    s.parentNode.insertBefore(g, s);
+  }(document, 'script'));
 </script>
 {% endif %}
 
@@ -65,7 +65,6 @@
     }
   });
 </script>
-<script type="text/javascript"
-    src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
 </script>
 {% endif %}

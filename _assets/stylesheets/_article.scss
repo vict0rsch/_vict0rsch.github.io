@@ -72,10 +72,9 @@ article {
                 color:$accent;
                 text-decoration:none;
                 transition:all 0.2s ease;
-                
                 &:hover {
-                    color:darken($accent, 50%);
-                    text-decoration:none;
+                    color: darken($accent, 50%);
+                    text-decoration: none;
                 }
             }
         }
@@ -159,8 +158,7 @@ article {
         margin: 3em 0;
     }
     .highlight {
-        color: #F44336;
-        // font-weight: bold;
+        color: #F44336; // font-weight: bold;
     }
     .meta {
         color: $textmuted;
@@ -228,17 +226,16 @@ article {
         }
         .copyCode {
             font-size: 0.6em;
-            background-color: rgb(248,248,248);
+            background-color: rgb(248, 248, 248);
             position: absolute;
-            top:10px;
+            top: 10px;
             right: 10px;
             display: none;
-          }
-          .copyCode:hover{
-              color: black;
-              background-color: rgb(248,248,248);
-          }
-
+        }
+        .copyCode:hover {
+            color: black;
+            background-color: rgb(248, 248, 248);
+        }
     }
     code {
         border-radius: 1px;
@@ -250,13 +247,23 @@ article {
     .border img {
         border: 1px solid #ddd;
     }
-    #search-input{
-        &:focus::-webkit-input-placeholder {opacity: 0.3;}
-        &:focus:-moz-placeholder {opacity: 0.3;} /* FF 4-18 */
-        &:focus::-moz-placeholder {opacity: 0.3;} /* FF 19+ */
-        &:focus:-ms-input-placeholder {opacity: 0.3;} /* IE 10+ */
-        outline: none; 
-
+    #search-input {
+        &:focus::-webkit-input-placeholder {
+            opacity: 0.3;
+        }
+        &:focus:-moz-placeholder {
+            opacity: 0.3;
+        }
+        /* FF 4-18 */
+        &:focus::-moz-placeholder {
+            opacity: 0.3;
+        }
+        /* FF 19+ */
+        &:focus:-ms-input-placeholder {
+            opacity: 0.3;
+        }
+        /* IE 10+ */
+        outline: none;
     }
     .full {
         margin: 1.5em -6em;
@@ -293,67 +300,60 @@ article {
             color: #87CEEB;
         }
     }
-
-    #copiedFeedback{
+    #copiedFeedback,
+    #copiedFeedback2,
+    #copiedFeedback3 {
+        padding: 2rem 3rem;
         display: none;
         position: fixed;
         bottom: 20px;
         right: 40px;
-        font-size: 0.8em;
-        border-color:rgba(107, 196, 107,0);
-        color:white;
+        font-size: 1.5rem;
+        border-color: rgba(107, 196, 107, 0);
+        color: white;
         background-color: rgb(107, 196, 107);
         cursor: default;
     }
-    .postDate{
-        color:grey
+    .postDate {
+        color: grey
     }
-    .followGithub{
+    .followGithub {
         margin-left: 5px;
-    }
-
-    // .tocColumn {
+    } // .tocColumn {
     //     float: left;
     //     width: 50%;
     //     padding: 10px;
     // }
-    
     // /* Clear floats after the columns */
     // .tocRow:after {
     //     content: "";
     //     display: table;
     //     clear: both;
     // }
-    
     // /* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
     // @media screen and (max-width: 600px) {
     //     .tocColumn {
     //         width: 100%;
     //     }
     // }
-
-    #toc-container{
+    #toc-container {
         height: auto;
-        
-        ul, ol{
+        ul,
+        ol {
             margin: 10px 0px;
-            
             -moz-column-gap: 20px;
             -webkit-column-gap: 20px;
             column-gap: 20px;
-
-            
-
         }
         li {
-            
             margin-left: 10px;
             a {
                 // Header 1
                 font-weight: bold;
                 font-size: 1.2em;
             }
-            ul, ol{
+            ul,
+            ol {
                 @media screen and (max-width: 1000px) {
                     @media screen and (max-width: 600px) {
                         -moz-column-count: 1;
@@ -368,7 +368,7 @@ article {
                 -webkit-column-count: 2;
                 column-count: 2;
                 li {
-                    a{
+                    a {
                         // Header 2
                         font-size: 1em;
                         font-weight: initial;
@@ -376,8 +376,8 @@ article {
                     -moz-column-count: 1;
                     -webkit-column-count: 1;
                     column-count: 1;
-                    ul, ol {
-
+                    ul,
+                    ol {
                         -moz-column-count: 1;
                         -webkit-column-count: 1;
                         column-count: 1;

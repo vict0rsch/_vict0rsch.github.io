@@ -5,17 +5,21 @@ layout: base
 
     <section>
         <div class="container">
-            <h1>{{ site.inc.title }}</h1>
-            {% if site.inc.subtitle %}<h3>{{ site.inc.subtitle }}</h3>{% endif %}
+            <h1>{{ site.inc.title }}'s blog. </h1>
+            {% if site.inc.subtitle %}<h2 style="color: white">{{ site.inc.subtitle }}</h2>{% endif %}
+            <h3 id="type-it-span"></h3>
 
             {% if site.inc.twitter %}
-            <a href="https://twitter.com/{{ site.inc.twitter }}" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter"></i></a>
+            <a href="https://twitter.com/{{ site.inc.twitter }}" title="Follow on Twitter" target="_blank"><i
+                    class="icon icon-twitter"></i></a>
             {% endif %}
             {% if site.inc.facebook %}
-            <a href="http://facebook.com/{{ site.inc.facebook }}" title="Like on Facebook" target="_blank"><i class="icon icon-facebook"></i></a>
+            <a href="http://facebook.com/{{ site.inc.facebook }}" title="Like on Facebook" target="_blank"><i
+                    class="icon icon-facebook"></i></a>
             {% endif %}
             {% if site.inc.mail %}
-            <a href="mailto:{{ site.inc.mail }}" title="Send me a mail!" target="_blank"><i class="icon icon-mail"></i></a>
+            <a href="mailto:{{ site.inc.mail }}" title="Send me a mail!" target="_blank"><i
+                    class="icon icon-mail"></i></a>
             {% endif %}
             {% if site.inc.linkedin %}
             <a href="{{ site.inc.linkedin }}" title="Linkedin" target="_blank"><i class="icon icon-linkedin"></i></a>

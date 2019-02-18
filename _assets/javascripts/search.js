@@ -51,7 +51,7 @@ function mySearch(_query) {
         }
 
         var tags = element.tags.split(', ');
-        console.log(element, element.tags);
+        // console.log(element, element.tags);
         for (var w in tags) {
             if (tags[w] && matchAnd(tags[w], query.split(' '))) {
                 if (!pushed) {
@@ -91,12 +91,12 @@ function mySearch(_query) {
 }
 
 function doSearch(query) {
-    console.log('doSearch: ', query);
+    // console.log('doSearch: ', query);
     $('#results-container').html('');
     if ($.trim(query)) {
         var result = mySearch(query);
-        console.log(result);
-        console.log('result', result);
+        // console.log(result);
+        // console.log('result', result);
         updateUrlParameter(query)
         showResults(result)
         $('#results-container li a, #results-container li p span').wrapInTag({
@@ -150,7 +150,7 @@ function getTemplate(item) {
         var a_tag, button;
         var tags = item.tags.split(', ');
         if (tags.length > 0 && tags[0].length > 0) {
-            console.log(tags);
+            // console.log(tags);
             for (var index = 0; index < tags.length; index++) {
                 var tag = tags[index];
                 a_tag = $('<a class="home-tag btn btn-outline"></a>');
@@ -172,10 +172,10 @@ function updateUrlParameter(value) {
 function getQuery() {
     var parser = document.createElement('a')
     parser.href = window.location.href
-    console.log('Initial query');
+    // console.log('Initial query');
     if (parser.href.includes('=')) {
         var searchquery = decodeURIComponent(parser.href.substring(parser.href.indexOf('=') + 1))
-        console.log('searchquery', searchquery);
+        // console.log('searchquery', searchquery);
         $('#search-input').val(searchquery);
         doSearch(searchquery)
     }
@@ -210,34 +210,34 @@ $('document').ready(function () {
             }
         }
 
-        console.log(data);
+        // console.log(data);
 
-        var index = lunr(function () {
-            this.ref('id');
-            this.field('title', { boost: 3 });
-            this.field('subtitle', { boost: 2 });
-            this.field('excerpt');
-            this.field('tags', { boost: 3 });
-            this.field('url');
-            for (var key in window.store) {
-                this.add({
-                    'id': key,
-                    'title': window.store[key].title,
-                    'subtitle': window.store[key].subtitle,
-                    'excerpt': window.store[key].excerpt,
-                    'date': window.store[key].date,
-                    'tags': window.store[key].tags,
-                    'url': window.store[key].url,
-                });
-            }
-        });
+        // var index = lunr(function () {
+        //     this.ref('id');
+        //     this.field('title', { boost: 3 });
+        //     this.field('subtitle', { boost: 2 });
+        //     this.field('excerpt');
+        //     this.field('tags', { boost: 3 });
+        //     this.field('url');
+        //     for (var key in window.store) {
+        //         this.add({
+        //             'id': key,
+        //             'title': window.store[key].title,
+        //             'subtitle': window.store[key].subtitle,
+        //             'excerpt': window.store[key].excerpt,
+        //             'date': window.store[key].date,
+        //             'tags': window.store[key].tags,
+        //             'url': window.store[key].url,
+        //         });
+        //     }
+        // });
 
         getQuery();
 
         $('#search-input').keyup(function (event) {
             event.preventDefault()
             var query = $(this).val()
-            console.log('Keyup: query', query);
+            // console.log('Keyup: query', query);
             doSearch(query);
         })
     });

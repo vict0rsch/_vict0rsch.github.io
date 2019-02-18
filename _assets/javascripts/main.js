@@ -1,3 +1,124 @@
+function copyToClipboard(text) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val(text).select();
+  document.execCommand("copy");
+  $temp.remove();
+}
+
+function anchorify() {
+  $('#post-content h1, #post-content h2, #post-content h3, #post-content h4, #post-content h5, #post-content h6').each(function (index) {
+    $(this).hover(function () {
+      $(this).addClass('header-link')
+    }, function () {
+      $(this).removeClass('header-link')
+    });
+    $(this).click(function (ev) {
+      var title = $(event.target).html();
+      title = title.toLowerCase().split(' ').join('-');
+      var location = window.location.href.split('#')[0] + '#' + title;
+      copyToClipboard(location);
+      $('#copiedFeedback2').show();
+      setTimeout(function () {
+        $('#copiedFeedback2').css('display', 'none');
+      }, 4000);
+    })
+  })
+
+  $('article .container header h1').each(function (index) {
+    $(this).hover(function () {
+      $(this).addClass('header-link')
+    }, function () {
+      $(this).removeClass('header-link')
+    });
+    $(this).click(function (ev) {
+      var title = $(event.target).html();
+      title = title.toLowerCase().split(' ').join('-');
+      var location = window.location.href.split('#')[0];
+      copyToClipboard(location);
+      $('#copiedFeedback3').show();
+      setTimeout(function () {
+        $('#copiedFeedback3').css('display', 'none');
+      }, 4000);
+    })
+  })
+}
+
+var langsObj = {
+  Afrikaans: "Goeie Dag",
+  Albanian: "Tungjatjeta",
+  Arabic: "Ahlan Bik",
+  Bengali: "Nomoskar",
+  Bosnian: "Selam",
+  Burmese: "Mingala ba",
+  Chinese: "Nín hao",
+  Croatian: "Zdravo",
+  Czech: "Nazdar",
+  Danish: "Hallo",
+  Dutch: "Hallo",
+  Filipino: "Helo",
+  Finnish: "Hei",
+  French: "Bonjour",
+  German: "Guten Tag",
+  Greek: "Geia",
+  Hebrew: "Shalóm",
+  Hindi: "Namasté",
+  Hungarian: "Szia",
+  Indonesian: "Hai",
+  Iñupiaq: "Kiana",
+  Irish: "Dia Is Muire Dhuit",
+  Italian: "Buongiorno",
+  Japanese: "Kónnichi Wa",
+  Korean: "Annyeonghaseyo",
+  Lao: "Sabai Dii",
+  Latin: "Ave",
+  Latvian: "Es Mīlu Tevi",
+  Malay: "Selamat Petang",
+  Mongolian: "Sain Baina Uu",
+  Nepali: "Namaste",
+  Norwegian: "Hallo",
+  Persian: "Salâm",
+  Polish: "Witajcie",
+  Portuguese: "Olá",
+  Romanian: "Salut",
+  Russian: "Privét",
+  Samoan: "Talofa",
+  Serbian: "Ćao",
+  Slovak: "Nazdar",
+  Slovene: "Zdravo",
+  Spanish: "Hola",
+  Swahili: "Jambo",
+  Swedish: "Hej",
+  Tagalog: "Halo",
+  Thai: "Sàwàtdee kráp",
+  Turkish: "Merhaba",
+  Ukrainian: "Pryvít",
+  Urdu: "Adaab Arz Hai",
+  Vietnamese: "Chào",
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
+var langs = shuffle(Object.keys(langsObj));
+
+
 if (!String.prototype.endsWith) {
   String.prototype.endsWith = function (searchString, position) {
     var subjectString = this.toString();
@@ -259,6 +380,27 @@ if (localStorage['remember_dark_choice'] == '1' && $(location).attr('href').leng
 }
 
 $(function () {
+
+  var i = 0;
+  var instance = new TypeIt('#type-it-span', {
+    speed: 100,
+    deleteSpeed: 80,
+    loop: true,
+    nextStringDelay: 5000,
+    startDelete: true,
+    breakLines: false,
+    strings: ["Welcome!"].concat(langs.map(function (v, k) {
+      return langsObj[v] + '!'
+    })),
+  }).type("Welcome!").options(
+    {
+
+    }).go();
+
+
+
+
+
   $('img').each(function (index) {
     if ($(this).attr('src') === '/images/ld-ed.png') {
       $(this).css('max-width', '550px');
@@ -292,6 +434,8 @@ $(function () {
 
   $('article').each(function (index) {
     $(this).append('<button class="btn btn-outline" id="copiedFeedback">code copied !</button>')
+    $(this).append('<button class="btn btn-outline" id="copiedFeedback2">Link to title copied !</button>')
+    $(this).append('<button class="btn btn-outline" id="copiedFeedback3">Link to blog post copied !</button>')
   })
 
   $('.highlight pre').each(function (index) {
@@ -316,6 +460,8 @@ $(function () {
       return false;
     })
   })
+
   processToc();
+  anchorify();
 
 });/*final*/
