@@ -49,7 +49,7 @@ So the array is initially empty
 |     3     |   3    | [1,2, 3, _] |   4   |       2 + 1       |         $c$          | (2c - 3) + c - 3 |
 |     4     |   4    |  [1,2,3,4]  |   4   |         1         |         $c$          | (3c - 6) + c - 1 |
 
-We always want to have credit left for later as we want to over-estimate (but not too much) the overall cost of the algorithm. In other words, we can set $c$ to 100 and we'll be sure to have a loooot of credits left. But we want the smalest $c$ such that we never go bankrupt, that is to say the tightest bound.
+We always want to have credit left for later as we want to over-estimate (but not too much) the overall cost of the algorithm. In other words, we can set $c$ to 100 and we'll be sure to have a loooot of credits left. But we want the smallest $c$ such that we never go bankrupt, that is to say the tightest bound.
 
 ## Application
 
@@ -93,7 +93,7 @@ This is why we need amortized analysis: the **sequence $insert(5),..,insert(8)$ 
 
 ## Amortized cost
 
-So what is the final amortizated complexity of **inserting** in a resizable array? It is $O(1)$ as the cost never grows: each credit is spent exacty (except for the first one as there is no resize, could be even tighter to assign it a special credit of 1).
+So what is the final amortizated complexity of **inserting** in a resizable array? It is $O(1)$ as the cost never grows: each credit is spent exactly (except for the first one as there is no resize, could be even tighter to assign it a special credit of 1).
 
 # Resources
 
