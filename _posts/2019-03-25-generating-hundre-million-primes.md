@@ -82,8 +82,8 @@ $ python generate_primes.py --n=1000000 --outf='./1e6_primes.txt'
 
 ## Optimizing
 
-I suggest you have a look at the PrimeSieve project -> https://primesieve.org/ they have a highly optimized C++ implementation and its associated Python bindings -> https://github.com/hickford/primesieve-python
+I suggest you have a look at the PrimeSieve project -> [primesieve.org](https://primesieve.org/) they have a highly optimized C++ implementation and its associated [Python bindings](https://github.com/hickford/primesieve-python).
 
 # I just want the file!
 
-[Here you go.](https://drive.google.com/file/d/1Cf4eqqwURkWwIBXF0e8T0qwzsCKkq0uo/view?usp=sharing)
+>> [**Here you go.**](https://drive.google.com/file/d/1Cf4eqqwURkWwIBXF0e8T0qwzsCKkq0uo/view?usp=sharing)
