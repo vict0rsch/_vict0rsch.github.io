@@ -21,7 +21,7 @@ I did not reinvent the wheel and simply used the code from [this StackOverflow a
 
 The script uses Python 3.6 but it can easily be adapted to older versions. Beware of the string formating and `itertools` mainly
 
-```python
+{% highlight python %}
 import argparse
 import time
 import itertools as it
@@ -72,7 +72,7 @@ if __name__ == "__main__":
             if i >= opt.n:
                 break
     print(f'{opt.n} prime numbers in {time.time() - s}s')
-```
+{% endhighlight %}
 
 To generate a million primes:
 
