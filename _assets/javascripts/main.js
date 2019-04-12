@@ -25,6 +25,8 @@ function anchorify() {
     })
   })
 
+
+
   $('article .container header h1').each(function (index) {
     $(this).hover(function () {
       $(this).addClass('header-link')
@@ -44,59 +46,6 @@ function anchorify() {
   })
 }
 
-var langsObj = {
-  Afrikaans: "Goeie Dag",
-  Albanian: "Tungjatjeta",
-  Arabic: "Ahlan Bik",
-  Bengali: "Nomoskar",
-  Bosnian: "Selam",
-  Burmese: "Mingala ba",
-  Chinese: "Nín hao",
-  Croatian: "Zdravo",
-  Czech: "Nazdar",
-  Danish: "Hallo",
-  Dutch: "Hallo",
-  Filipino: "Helo",
-  Finnish: "Hei",
-  French: "Bonjour",
-  German: "Guten Tag",
-  Greek: "Geia",
-  Hebrew: "Shalóm",
-  Hindi: "Namasté",
-  Hungarian: "Szia",
-  Indonesian: "Hai",
-  Iñupiaq: "Kiana",
-  Irish: "Dia Is Muire Dhuit",
-  Italian: "Buongiorno",
-  Japanese: "Kónnichi Wa",
-  Korean: "Annyeonghaseyo",
-  Lao: "Sabai Dii",
-  Latin: "Ave",
-  Latvian: "Es Mīlu Tevi",
-  Malay: "Selamat Petang",
-  Mongolian: "Sain Baina Uu",
-  Nepali: "Namaste",
-  Norwegian: "Hallo",
-  Persian: "Salâm",
-  Polish: "Witajcie",
-  Portuguese: "Olá",
-  Romanian: "Salut",
-  Russian: "Privét",
-  Samoan: "Talofa",
-  Serbian: "Ćao",
-  Slovak: "Nazdar",
-  Slovene: "Zdravo",
-  Spanish: "Hola",
-  Swahili: "Jambo",
-  Swedish: "Hej",
-  Tagalog: "Halo",
-  Thai: "Sàwàtdee kráp",
-  Turkish: "Merhaba",
-  Ukrainian: "Pryvít",
-  Urdu: "Adaab Arz Hai",
-  Vietnamese: "Chào",
-}
-
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 
@@ -114,21 +63,6 @@ function shuffle(array) {
   }
 
   return array;
-}
-
-var langs = shuffle(Object.keys(langsObj));
-
-
-if (!String.prototype.endsWith) {
-  String.prototype.endsWith = function (searchString, position) {
-    var subjectString = this.toString();
-    if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
-      position = subjectString.length;
-    }
-    position -= searchString.length;
-    var lastIndex = subjectString.lastIndexOf(searchString, position);
-    return lastIndex !== -1 && lastIndex === position;
-  };
 }
 
 function selectAndCopyText(containerid) {
@@ -371,6 +305,81 @@ function add_cancel_btn(elements) {
   });
 }
 
+NProgress.configure({
+  easing: 'ease', 
+  speed: 600,
+  showSpinner: false,
+});
+NProgress.start();
+
+
+if (!String.prototype.endsWith) {
+  String.prototype.endsWith = function (searchString, position) {
+    var subjectString = this.toString();
+    if (typeof position !== 'number' || !isFinite(position) || Math.floor(position) !== position || position > subjectString.length) {
+      position = subjectString.length;
+    }
+    position -= searchString.length;
+    var lastIndex = subjectString.lastIndexOf(searchString, position);
+    return lastIndex !== -1 && lastIndex === position;
+  };
+}
+
+
+var langsObj = {
+  Afrikaans: "Goeie Dag",
+  Albanian: "Tungjatjeta",
+  Arabic: "Ahlan Bik",
+  Bengali: "Nomoskar",
+  Bosnian: "Selam",
+  Burmese: "Mingala ba",
+  Chinese: "Nín hao",
+  Croatian: "Zdravo",
+  Czech: "Nazdar",
+  Danish: "Hallo",
+  Dutch: "Hallo",
+  Filipino: "Helo",
+  Finnish: "Hei",
+  French: "Bonjour",
+  German: "Guten Tag",
+  Greek: "Geia",
+  Hebrew: "Shalóm",
+  Hindi: "Namasté",
+  Hungarian: "Szia",
+  Indonesian: "Hai",
+  Iñupiaq: "Kiana",
+  Irish: "Dia Is Muire Dhuit",
+  Italian: "Buongiorno",
+  Japanese: "Kónnichi Wa",
+  Korean: "Annyeonghaseyo",
+  Lao: "Sabai Dii",
+  Latin: "Ave",
+  Latvian: "Es Mīlu Tevi",
+  Malay: "Selamat Petang",
+  Mongolian: "Sain Baina Uu",
+  Nepali: "Namaste",
+  Norwegian: "Hallo",
+  Persian: "Salâm",
+  Polish: "Witajcie",
+  Portuguese: "Olá",
+  Romanian: "Salut",
+  Russian: "Privét",
+  Samoan: "Talofa",
+  Serbian: "Ćao",
+  Slovak: "Nazdar",
+  Slovene: "Zdravo",
+  Spanish: "Hola",
+  Swahili: "Jambo",
+  Swedish: "Hej",
+  Tagalog: "Halo",
+  Thai: "Sàwàtdee kráp",
+  Turkish: "Merhaba",
+  Ukrainian: "Pryvít",
+  Urdu: "Adaab Arz Hai",
+  Vietnamese: "Chào",
+}
+
+var langs = shuffle(Object.keys(langsObj));
 
 if (localStorage['remember_dark_choice'] == '1' && $(location).attr('href').length > 27) {
   var elements = go_dark();
@@ -463,5 +472,5 @@ $(function () {
 
   processToc();
   anchorify();
-
+  NProgress.done();
 });/*final*/
