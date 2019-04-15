@@ -1,10 +1,10 @@
-const DEFAULT_STATE = {
+var DEFAULT_STATE = {
     index: -1,
     resultNb: 0
 }
 
 function resetState() {
-    window.__state = { ...DEFAULT_STATE }
+    window.__state = DEFAULT_STATE;
 }
 
 function deleteState() {
@@ -13,7 +13,7 @@ function deleteState() {
 
 function incrementIndex() {
     if (!window.__state) resetState();
-    const hitZero = getIndex() + 1 === getResultNb()
+    var hitZero = getIndex() + 1 === getResultNb()
     window.__state.index = hitZero ? -1 : (getIndex() + 1) % getResultNb();
     return hitZero
 }
@@ -36,14 +36,13 @@ function setResultNb(val) {
     window.__state.resultNb = val;
 }
 
-const SEARCH_BASE = `
-<div id="search-input-div">
-    <input type="search" id="search-input" placeholder="What are you looking for?" autofocus autocomplete="off">
-</div>
-<div id="search-container">
-    <ul id="results-container"></ul>
-</div>
-`
+var SEARCH_BASE = '\
+<div id="search-input-div">\
+    <input type="search" id="search-input" placeholder="What are you looking for?" autofocus autocomplete="off">\
+</div>\
+<div id="search-container">\
+    <ul id="results-container"></ul>\
+</div>'
 
 function moveSelected(event) {
     if (!getResultNb()) {
@@ -57,7 +56,7 @@ function moveSelected(event) {
             return
         }
     } else if (event.keyCode === 40) {
-        const hitZero = incrementIndex();
+        var hitZero = incrementIndex();
         if (hitZero) {
             $('#search-input').focus();
             $('.search-li').removeClass('search-active');
@@ -66,7 +65,7 @@ function moveSelected(event) {
     } else {
         return
     }
-    const $el = $('.search-li').eq(getIndex());
+    var $el = $('.search-li').eq(getIndex());
     $('.search-li').removeClass('search-active');
     $el.addClass('search-active');
     $el.find("a").focus();
@@ -77,15 +76,15 @@ function enableSearchUI() {
     $(".tingle-modal-box").off("keyup");
     $(".tingle-modal-box").keyup(moveSelected);
     $("#results-container li").click((e) => {
-        const $el = $(e.target);
+        var $el = $(e.target);
         if ($el.hasClass("search-tag")) {
-            const v = $el.text();
+            var v = $el.text();
             window.history.replaceState({}, document.title, window.location.href.split("?")[0] + "?search=" + v)
             doSearch(v);
             $("#search-input").val(v);
             $("#search-input").focus();
         } else {
-            const newLoc = $el.closest("li").find(">:first-child").find(">:first-child").attr("href");
+            var newLoc = $el.closest("li").find(">:first-child").find(">:first-child").attr("href");
             if (newLoc) window.location.href = newLoc;
         }
     })
@@ -215,30 +214,33 @@ function showResults(result) {
 }
 
 function getTemplate(item) {
-    const sub = $.trim(item.subtitle);
-    const ex = $.trim(item.excerpt);
-    const tit = $.trim(item.title);
+    var sub = $.trim(item.subtitle);
+    var ex = $.trim(item.excerpt);
+    var tit = $.trim(item.title);
     let tags = " "
+    var date = item.date || "";
+    var br = sub && ex ? "<br/>" : ""
+    var p = sub || ex ? "<p>" : ""
+    var _p = sub || ex ? "</p>" : ""
+
     if (item.hasOwnProperty('tags') && $.trim(item.tags)) {
-        tags = `<div>${item.tags.split(', ').map(
-            (v, k) => `<span class="home-tag search-tag btn btn-outline" href="#">${v}</span>`
-        ).reduce((a, b) => a + b)}</div>`
-    }
+        tags = "<div>" + item.tags.split(', ').map(
+            (v, k) => '<span class="home-tag search-tag btn btn-outline" href="#">' + v + '</span>'
+        ).reduce((a, b) => a + b)
+    } + "</div>"
 
-    return `<li class="search-li">
-        <div class="search-item-header">
-            <a class="search-result-item-link" href="${item.url}"> ${tit} </a>
-            <span class="search-date"> ${item.date || ""} </span>
-        </div>
-        ${sub || ex ? "<p>" : ""}
-        <span class="search-subtitle">${sub}</span>
-        ${sub && ex ? "<br/>" : ""}
-        <span class="search-excerpt">${ex}</span>
-        ${sub || ex ? "</p>" : ""}
-        ${tags}
-    </li>`
 
+    return '<li class="search-li">\
+        <div class="search-item-header">\
+            <a class="search-result-item-link" href="' + item.url + '"> ' + tit + '</a>\
+            <span class="search-date"> ' + date + '</span>\
+        </div>\
+         ' + p + '       <span class="search-subtitle">' + sub + '</span>\
+        ' + br + '\
+        <span class="search-excerpt"> ' + ex + '</span>\
+        ' + _p + tags + '</li>'
 }
+
 function updateUrlParameter(value) {
     window.history.pushState('', '', '?search=' + encodeURIComponent(value));
 }
@@ -293,7 +295,7 @@ $('document').ready(function () {
 
     $.fn.wrapInTag = function (opts) {
 
-        const tag = opts.tag || 'strong'
+        var tag = opts.tag || 'strong'
             , words = opts.words || []
             , regex = RegExp(words.join('|'), 'gi') // case insensitive
             , replacement = '<' + tag + '>$&</' + tag + '>';
@@ -304,7 +306,7 @@ $('document').ready(function () {
     };
 
     $('.home-tag').click((event) => {
-        const tag = $(event.target).html();
+        var tag = $(event.target).html();
         updateUrlParameter(tag);
         modal.open();
         doSearch(tag);
@@ -318,9 +320,9 @@ $('document').ready(function () {
         success: function (data) {
 
             window.store = [];
-            for (const key in data) {
+            for (var key in data) {
                 if (data.hasOwnProperty(key)) {
-                    const element = data[key];
+                    var element = data[key];
                     if (element.title) {
                         window.store.push(element)
                     }
@@ -332,7 +334,7 @@ $('document').ready(function () {
             $('#search-input').keyup(function (event) {
                 if (event.keyCode !== 38 && event.keyCode !== 40) {
                     resetState()
-                    const query = $('#search-input').val()
+                    var query = $('#search-input').val()
                     doSearch(query);
                 }
             })
