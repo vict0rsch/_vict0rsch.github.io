@@ -7,7 +7,7 @@ function resetState() {
     window.__state = DEFAULT_STATE;
 }
 
-function deleteState() {
+function devareState() {
     window.__state = undefined;
 }
 
@@ -38,7 +38,7 @@ function setResultNb(val) {
 
 var SEARCH_BASE = '\
 <div id="search-input-div">\
-    <input type="search" id="search-input" placeholder="What are you looking for?" autofocus autocomplete="off">\
+    <input type="search" id="search-input" placeholder="What are you looking for?" autofocus autocompvare="off">\
 </div>\
 <div id="search-container">\
     <ul id="results-container"></ul>\
@@ -75,7 +75,7 @@ function moveSelected(event) {
 function enableSearchUI() {
     $(".tingle-modal-box").off("keyup");
     $(".tingle-modal-box").keyup(moveSelected);
-    $("#results-container li").click((e) => {
+    $("#results-container li").click(function (e) {
         var $el = $(e.target);
         if ($el.hasClass("search-tag")) {
             var v = $el.text();
@@ -217,7 +217,7 @@ function getTemplate(item) {
     var sub = $.trim(item.subtitle);
     var ex = $.trim(item.excerpt);
     var tit = $.trim(item.title);
-    let tags = " "
+    var tags = " "
     var date = item.date || "";
     var br = sub && ex ? "<br/>" : ""
     var p = sub || ex ? "<p>" : ""
@@ -225,8 +225,8 @@ function getTemplate(item) {
 
     if (item.hasOwnProperty('tags') && $.trim(item.tags)) {
         tags = "<div>" + item.tags.split(', ').map(
-            (v, k) => '<span class="home-tag search-tag btn btn-outline" href="#">' + v + '</span>'
-        ).reduce((a, b) => a + b)
+            function (v, k) { return '<span class="home-tag search-tag btn btn-outline" href="#">' + v + '</span>' }
+        ).reduce(function (a, b) { return a + b })
     } + "</div>"
 
 
@@ -287,7 +287,7 @@ $('document').ready(function () {
     // set content
     modal.setContent(SEARCH_BASE);
 
-    $(".search-link").click((e) => {
+    $(".search-link").click(function (e) {
         e.preventDefault()
         modal.open();
         return false
@@ -305,7 +305,7 @@ $('document').ready(function () {
         });
     };
 
-    $('.home-tag').click((event) => {
+    $('.home-tag').click(function (event) {
         var tag = $(event.target).html();
         updateUrlParameter(tag);
         modal.open();
