@@ -305,14 +305,6 @@ function add_cancel_btn(elements) {
   });
 }
 
-NProgress.configure({
-  easing: 'ease', 
-  speed: 600,
-  showSpinner: false,
-});
-NProgress.start();
-
-
 
 if (!String.prototype.endsWith) {
   String.prototype.endsWith = function (searchString, position) {
@@ -391,7 +383,6 @@ if (localStorage['remember_dark_choice'] == '1' && $(location).attr('href').leng
 
 $(function () {
 
-
   window.onscroll = function() {scrollFunction()};
 
   function scrollFunction() {
@@ -413,11 +404,6 @@ $(function () {
       // document.getElementById("logo").style.fontSize = "35px";
     }
   }
-
-
-
-
-
 
 
   var i = 0;
@@ -502,5 +488,4 @@ $(function () {
 
   processToc();
   anchorify();
-  NProgress.done();
 });/*final*/

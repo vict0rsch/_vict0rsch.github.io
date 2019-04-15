@@ -2,6 +2,7 @@ article {
     background: #fff;
     padding: 60px 0;
     font-size: 1em;
+
     .container>header,
     .container>section,
     .container>footer {
@@ -9,14 +10,17 @@ article {
         text-align: justify;
         text-justify: inter-word;
     }
+
     .social {
         height: 40px;
         padding: 10px 0;
+
         >div {
             display: inline-block;
             min-width: 120px;
         }
     }
+
     .container>footer {
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
@@ -25,9 +29,11 @@ article {
         margin-top: 1.5em;
         margin-bottom: 1.5em;
     }
+
     header {
         margin-top: 2em;
         margin-bottom: 2em;
+
         &::after {
             content: " ";
             display: block;
@@ -37,14 +43,17 @@ article {
             margin: 1em 0;
         }
     }
+
     address {
         margin: 0;
         font-size: 0.9em;
         max-height: 48px;
+
         p {
             margin: 0;
             display: inline-block;
         }
+
         img {
             border-radius: 54px;
             width: 64px;
@@ -53,39 +62,48 @@ article {
             display: inline-block;
             margin-top: -28px;
         }
+
         .follow {
             margin: 1em 0 0;
         }
     }
+
     p {
         font-size: 1em;
         line-height: 1.5;
         color: $text;
         font-weight: 400;
         margin: 0 0 0.5em;
+
         a {
             code {
                 font-size: 0.7em;
+
                 .highlight {
                     color: #F44336;
                 }
+
                 color:$accent;
                 text-decoration:none;
                 transition:all 0.2s ease;
+
                 &:hover {
                     color: darken($accent, 50%);
                     text-decoration: none;
                 }
             }
         }
+
         code {
             font-size: 0.7em;
             color: #21272d;
+
             .highlight {
                 color: #F44336;
             }
         }
     }
+
     ol,
     ul {
         font-weight: 600;
@@ -94,26 +112,32 @@ article {
         list-style-position: outside;
         padding-left: 1.5em;
         font-size: inherit;
+
         li {
             ul {
                 margin: 0.3em 0;
             }
+
             font-weight: 400;
             margin-bottom: 0.5em;
+
             code {
                 color: #21272d;
+
                 .highlight {
                     color: #F44336;
                 }
             }
         }
     }
+
     blockquote {
         border: 0;
         font-size: 0.8em;
         margin: 1.2em -4em 1.2em 0;
         padding: 0;
         font-style: italic;
+
         p {
             font-size: 1em;
             line-height: 1.8;
@@ -126,6 +150,7 @@ article {
             border-left: 2px solid #e6e6e6;
             width: 90%;
         }
+
         ul {
             font-size: 1em;
             line-height: 1.8;
@@ -135,31 +160,38 @@ article {
             padding: 0 15% 0 4em;
         }
     }
+
     h1 {
         font-weight: 500;
         font-size: 3.1em;
         margin: 1em 0em 0.7em 0em;
     }
+
     h2 {
         font-size: 2em;
         margin: 1.2em 0em 0.5em 0em;
         font-weight: 500;
     }
+
     h3 {
         font-size: 1.6em;
         font-weight: 400;
         margin: 0.9em 0em 0.5em 0em;
     }
+
     h4 {
         font-size: 1.2em;
         font-weight: 400;
     }
+
     hr {
         margin: 3em 0;
     }
+
     .highlight {
         color: #F44336; // font-weight: bold;
     }
+
     .meta {
         color: $textmuted;
         font-size: 13px;
@@ -167,46 +199,56 @@ article {
         margin-bottom: 0.3em;
         font-weight: 400;
         letter-spacing: 1px;
+
         time,
         address {
             display: inline;
             font-size: 13px;
         }
+
         a {
             border: 0;
             color: $textmuted;
         }
     }
+
     img {
         max-width: 100%;
         margin-left: auto;
         margin-right: auto;
         display: inherit;
     }
+
     .title {
         margin: 0.2em 0;
         font-weight: bold;
+
         a {
             border: 0;
         }
     }
+
     .subtitle {
         font-size: 1.4em;
         margin: 0.5em 0;
         color: $textmuted;
         font-weight: 300;
     }
+
     .highlight {
         border: 0;
+
         .lineno {
             color: $textmuted;
         }
+
         pre {
             min-height: 42px;
             padding-top: 11px;
             padding-bottom: 14px;
         }
     }
+
     pre {
         border: 1px solid lightgray;
         border-radius: 5px;
@@ -218,12 +260,14 @@ article {
         overflow-x: auto;
         display: block;
         position: relative;
+
         code {
             font-size: 0.8em;
             border: 0;
             color: #607d8b;
             white-space: pre;
         }
+
         .copyCode {
             font-size: 0.6em;
             background-color: rgb(248, 248, 248);
@@ -232,74 +276,93 @@ article {
             right: 10px;
             display: none;
         }
+
         .copyCode:hover {
             color: black;
             background-color: rgb(248, 248, 248);
         }
     }
+
     code {
         border-radius: 1px;
         color: #5f687b;
     }
+
     .rounded img {
         border-radius: 6px;
     }
+
     .border img {
         border: 1px solid #ddd;
     }
+
     #search-input {
+
         &:focus::-webkit-input-placeholder {
             opacity: 0.3;
         }
+
         &:focus:-moz-placeholder {
             opacity: 0.3;
         }
+
         /* FF 4-18 */
         &:focus::-moz-placeholder {
             opacity: 0.3;
         }
+
         /* FF 19+ */
         &:focus:-ms-input-placeholder {
             opacity: 0.3;
         }
+
         /* IE 10+ */
         outline: none;
     }
+
     .full {
         margin: 1.5em -6em;
         padding: 0;
         text-align: center;
+
         iframe {
             max-width: 100% !important;
         }
+
         img {
             max-width: 100%;
             margin: 0;
             transition: 0.5s all ease;
         }
+
         &.zoomable {
             img {
                 cursor: -webkit-zoom-in;
             }
         }
+
         &.zoomable img.zoom {
             cursor: -webkit-zoom-out;
         }
+
         &.zoomable img.zoom {
             -webkit-transform: scale(1.2);
             transition: 0.4s all ease;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
         }
     }
+
     /* custom */
     .dark {
         font-size: 0.6em;
         margin: 15px 0px 10px;
+
         &:hover {
             background-color: rgb(100, 100, 100);
             color: #87CEEB;
         }
     }
+
     #copiedFeedback,
     #copiedFeedback2,
     #copiedFeedback3 {
@@ -314,12 +377,16 @@ article {
         background-color: rgb(107, 196, 107);
         cursor: default;
     }
+
     .postDate {
         color: grey
     }
+
     .followGithub {
         margin-left: 5px;
-    } // .tocColumn {
+    }
+
+    // .tocColumn {
     //     float: left;
     //     width: 50%;
     //     padding: 10px;
@@ -338,6 +405,7 @@ article {
     // }
     #toc-container {
         height: auto;
+
         ul,
         ol {
             margin: 10px 0px;
@@ -345,13 +413,16 @@ article {
             -webkit-column-gap: 20px;
             column-gap: 20px;
         }
+
         li {
             margin-left: 10px;
+
             a {
                 // Header 1
                 font-weight: bold;
                 font-size: 1.2em;
             }
+
             ul,
             ol {
                 @media screen and (max-width: 1000px) {
@@ -360,31 +431,38 @@ article {
                         -webkit-column-count: 1;
                         column-count: 1;
                     }
+
                     -moz-column-count: 2;
                     -webkit-column-count: 2;
                     column-count: 2;
                 }
+
                 -moz-column-count: 2;
                 -webkit-column-count: 2;
                 column-count: 2;
+
                 li {
                     a {
                         // Header 2
                         font-size: 1em;
                         font-weight: initial;
                     }
+
                     -moz-column-count: 1;
                     -webkit-column-count: 1;
                     column-count: 1;
+
                     ul,
                     ol {
                         -moz-column-count: 1;
                         -webkit-column-count: 1;
                         column-count: 1;
+
                         li {
                             -moz-column-count: 1;
                             -webkit-column-count: 1;
                             column-count: 1;
+
                             a {
                                 // Header 3
                                 font-size: 0.8em;

@@ -60,7 +60,9 @@ body {
 .search-date {
     font-size: 0.7em;
     padding-left: 20px;
+    min-width: 90px;
 }
+
 
 .search-subtitle {
     font-size: 0.85em;
@@ -93,22 +95,41 @@ body {
     border-bottom: 1px solid #0078b7 !important;
 }
 
+.search-active {
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    cursor: pointer;
+
+    a {
+        outline: 0;
+    }
+}
+
 #results-container {
     list-style: none;
     padding: 0;
+    margin-top: 3em;
+
     li {
-        margin-bottom: 1.5em;
-        padding-left: 1.3em;
-        &::before {
-            content: "\f0fb";
-            /* FontAwesome Unicode */
-            font-family: FontAwesome;
-            display: inline-block;
-            margin-left: -1.3em;
-            /* same as padding-left set on li */
-            width: 1.3em;
-            /* same as padding-left set on li */
+        margin: 0;
+        padding: 20px 20px 10px 20px;
+
+        &:hover {
+            box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
         }
+
+        // &::before {
+        //     content: "\f0fb";
+        //     /* FontAwesome Unicode */
+        //     font-family: FontAwesome;
+        //     display: inline-block;
+        //     margin-left: -1.3em;
+        //     /* same as padding-left set on li */
+        //     width: 1.3em;
+        //     /* same as padding-left set on li */
+        // }
         strong {
             filter: brightness(90%);
         }
@@ -132,17 +153,44 @@ body {
     border-right: 0px;
     border-bottom: 1px solid lightgrey;
     margin: auto;
+
+    &:focus {
+        outline: none;
+    }
+}
+
+.tingle-modal-box {
+    transition: all 0.35s ease;
+    max-height: 75%;
+    overflow: auto;
 }
 
 #search-input-div {
     width: 100%;
     text-align: center;
+    position: fixed;
+    top: 25px;
+    left: 0;
+}
+
+#search-container {
+    transition: all 0.35s ease;
+
+    #results-container {
+        transition: all 0.35s ease;
+    }
+}
+
+.search-item-header {
+    display: flex;
+    justify-content: space-between;
 }
 
 .is-visible {
     .site-nav {
         top: 100px;
     }
+
     .top-nav {
         opacity: 1;
         -webkit-transform: translate3d(0px, 0px, 0px);
@@ -152,6 +200,7 @@ body {
 }
 
 #post-content {
+
     h1,
     h2,
     h3,
@@ -198,6 +247,7 @@ a {
     color: $accent;
     text-decoration: none;
     transition: all 0.2s ease;
+
     &:hover {
         color: darken($accent, 50%);
         text-decoration: none;
@@ -216,10 +266,12 @@ a {
     max-height: 280px;
     overflow: hidden;
     background: #eee;
+
     >div {
         max-height: 480px;
         line-height: 0;
     }
+
     .image {
         width: 100%;
         top: 0;
@@ -229,12 +281,15 @@ a {
 
 .index {
     margin: 0 5em;
+
     >div {
         display: table-cell;
     }
+
     .title {
         margin: 0em 0 0.6em;
     }
+
     .avatar {
         float: left;
         border-radius: 62px;
@@ -252,6 +307,7 @@ a {
     background-size: cover;
     background-position: center center;
     z-index: 1;
+
     section {
         text-align: center;
         position: absolute;
@@ -265,9 +321,10 @@ a {
         background-image: -moz-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
         background-image: -webkit-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
         background-image: -ms-linear-gradient(bottom, rgba(0, 0, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
-        background-image: -webkit-gradient( linear, left bottom, left top, color-stop(0, rgba(0, 0, 0, 0.15)), color-stop(1, rgba(0, 0, 0, 0)));
+        background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0, rgba(0, 0, 0, 0.15)), color-stop(1, rgba(0, 0, 0, 0)));
         padding: 30px 0;
         z-index: 10;
+
         /* a:last-child {
             margin:1.5em 0 0 0;
         } */
@@ -282,6 +339,7 @@ a {
             transition: 0.3s all ease;
             line-height: 0;
             text-align: center;
+
             &:hover {
                 margin: 2em 1.5em 0 1.5em;
                 /* 
@@ -301,18 +359,22 @@ a {
                  } */
             }
         }
+
         i:hover {
             transition: 0.2s all ease;
             border-bottom: 2px solid white;
         }
     }
+
     h1 {
         font-size: 2.7em;
         line-height: 1.4em;
     }
+
     h3 {
         font-size: 1.3em;
     }
+
     h1,
     h3 {
         color: #fff;
@@ -332,26 +394,33 @@ a {
     ;
     color: #aaa;
     font-size: 0.8em;
+
     a {
         color: #777;
         border: 0;
         margin: 0 0.5em;
+
         &:hover {
             color: #222;
         }
     }
+
     p {
         color: #999;
+
         a {
             margin: 0;
             color: #999;
         }
     }
+
     nav {
         display: inline-block;
     }
+
     .social {
         float: right;
+
         a {
             color: #000;
             border: 0;
@@ -366,6 +435,7 @@ a {
             line-height: 0;
             text-align: center;
             opacity: 0.3;
+
             &:hover {
                 opacity: 0.9;
             }
@@ -402,11 +472,13 @@ a {
     border: 2px solid #4dab7d;
     text-transform: uppercase;
     white-space: nowrap;
+
     &:hover {
         background: darken(#4dab7d, 10%);
         border-color: darken(#4dab7d, 10%);
         color: #fff;
     }
+
     &:active {
         box-shadow: none;
     }
@@ -420,6 +492,7 @@ a {
     border-radius: 3px;
     color: darken($accent, 5%);
     transition: none;
+
     &:hover {
         border: 2px solid darken($accent, 5%);
         color: darken($accent, 20%);
@@ -430,20 +503,25 @@ a {
 details {
     margin-top: 15px;
     margin-left: 45px;
+
     &:focus {
         outline: none;
     }
+
     summary {
         color: #68838B;
         cursor: pointer;
         font-size: 1em;
         margin-bottom: 0.8em;
+
         &::after {
             color: inherit;
         }
+
         &:focus {
             outline: none;
         }
+
         &::before {
             content: "\f152";
             /* FontAwesome Unicode */
@@ -454,15 +532,18 @@ details {
             width: 1.3em;
             /* same as padding-left set on li */
         }
+
         &::-webkit-details-marker {
             display: none;
         }
     }
+
     &.open,
     &[open] {
         &:focus {
             outline: none;
         }
+
         summary::before {
             content: "\f150";
             /* FontAwesome Unicode */
@@ -474,6 +555,7 @@ details {
             /* same as padding-left set on li */
         }
     }
+
     .detailsContent {
         font-size: 0.85em;
         padding: 15px;
@@ -493,9 +575,15 @@ details {
     font-size: 1rem;
     margin: 0px 5px;
     border-width: 1px;
+
     &:hover {
         border-width: 1px;
     }
+
+    .search-tag {
+        font-size: 0.7rem;
+    }
+
     @media screen and (max-width: 600px) {
         margin-bottom: 5px;
     }
