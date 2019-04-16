@@ -50,7 +50,6 @@ var SEARCH_BASE = '\
 <div id="search-loading" style="display:none">Loading blog data ... :)</div>'
 
 function moveSelected(event, forceIndex) {
-    console.log('moving ' + event.target.id + ' ' + forceIndex);
     if (!getResultNb()) {
         return
     }
@@ -192,7 +191,6 @@ function mySearch(_query) {
         }
 
         var tags = element.tags.split(', ');
-        // console.log(element, element.tags);
         for (var w in tags) {
             if (tags[w] && matchAnd(tags[w], query.split(' '))) {
                 if (!pushed) {
@@ -296,13 +294,11 @@ function updateUrlParameter(value) {
     window.history.pushState('', '', '?search=' + encodeURIComponent(value));
 }
 
-function getQuery(modal) {
+function getCurrentURLQuery(modal) {
     var parser = document.createElement('a')
     parser.href = window.location.href
-    // console.log('Initial query');
-    if (parser.href.includes('=')) {
+    if (parser.href.includes('?search=')) {
         var searchquery = decodeURIComponent(parser.href.substring(parser.href.indexOf('=') + 1))
-        // console.log('searchquery', searchquery);
         $('#search-input').val(searchquery);
         resetState();
         doSearch(searchquery)
@@ -371,8 +367,7 @@ $('document').ready(function () {
     } else {
         try {
             data = JSON.parse(sessionStorage.getItem('search'));
-            // if (new Date() - new Date(data.date) > 1000 * 3600 * 7) {
-            if (new Date() - new Date(data.date) > 1000 * 15) {
+            if (new Date() - new Date(data.date) > 1000 * 3600 * 7) {
                 fetch = true;
             }
         } catch (error) {
@@ -382,7 +377,7 @@ $('document').ready(function () {
     if (!fetch) {
         try {
             window.store = data.store;
-            getQuery(modal);
+            getCurrentURLQuery(modal);
             enableInput();
             console.log("using local data");
         } catch (error) {
@@ -416,7 +411,7 @@ $('document').ready(function () {
                 if ($('#search-input').val()) {
                     $('#search-input').trigger("keyup");
                 }
-                getQuery(modal);
+                getCurrentURLQuery(modal);
                 enableInput();
             }
         });
