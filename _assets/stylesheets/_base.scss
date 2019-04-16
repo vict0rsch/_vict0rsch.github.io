@@ -98,10 +98,13 @@ body {
 .search-active {
     box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    cursor: pointer;
+}
 
-    a {
-        outline: 0;
+.search-active-hover {
+    &:hover {
+        box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        cursor: pointer;
     }
 }
 
@@ -114,10 +117,8 @@ body {
         margin: 0;
         padding: 20px 20px 10px 20px;
 
-        &:hover {
-            box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-            cursor: pointer;
+        a {
+            outline: 0;
         }
 
         // &::before {

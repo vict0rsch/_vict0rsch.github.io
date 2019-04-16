@@ -32,44 +32,80 @@ function getResultNb() {
     return parseInt(window.__state.resultNb, 10);
 }
 
+function setIndex(index) {
+    window.__state.index = index;
+}
+
 function setResultNb(val) {
     window.__state.resultNb = val;
 }
 
 var SEARCH_BASE = '\
 <div id="search-input-div">\
-    <input type="search" id="search-input" placeholder="What are you looking for?" autofocus autocompvare="off">\
+<input type="search" id="search-input" placeholder="What are you looking for?" autofocus autocomplete="off">\
 </div>\
 <div id="search-container">\
-    <ul id="results-container"></ul>\
-</div>'
+<ul id="results-container"></ul>\
+</div>\
+<div id="search-loading" style="display:none">Loading blog data ... :)</div>'
 
-function moveSelected(event) {
+function moveSelected(event, forceIndex) {
+    console.log('moving ' + event.target.id + ' ' + forceIndex);
     if (!getResultNb()) {
         return
     }
-    if (event.keyCode === 38) {
-        decrementIndex()
-        if (getIndex() === -1) {
-            $('#search-input').focus();
-            $('.search-li').removeClass('search-active');
+    var noCursor = false;
+    if (typeof forceIndex === 'undefined') {
+        noCursor = true;
+        if (event.keyCode === 38) {
+            decrementIndex()
+            $('.search-li').removeClass('search-active-hover');
+            if (getIndex() === -1) {
+                $('#search-input').focus();
+                $('.search-li').removeClass('search-active');
+                return
+            }
+        } else if (event.keyCode === 40) {
+            var hitZero = incrementIndex();
+            $('.search-li').removeClass('search-active-hover');
+            if (hitZero) {
+                $('#search-input').focus();
+                $('.search-li').removeClass('search-active');
+                return;
+            }
+        } else {
             return
         }
-    } else if (event.keyCode === 40) {
-        var hitZero = incrementIndex();
-        if (hitZero) {
-            $('#search-input').focus();
-            $('.search-li').removeClass('search-active');
-            return;
-        }
     } else {
-        return
+        setIndex(forceIndex);
     }
-    var $el = $('.search-li').eq(getIndex());
+    var $el = $('#search-li-' + getIndex());
     $('.search-li').removeClass('search-active');
+    $('.search-li').off('keydown')
     $el.addClass('search-active');
-    $el.find("a").focus();
+    $el.find('a').focus();
+    if (noCursor) {
+        // does not work
+        $("document").css("cursor", "none");
+    }
+}
 
+function enableInput() {
+    $('#search-input').keyup(function (event) {
+
+        if (sessionStorage.getItem('loading-data')) {
+            $("#search-loading").show();
+            return
+        } else if ($("#search-loading").is(":visible")) {
+            $("#search-loading").hide();
+        }
+
+        if (event.keyCode !== 38 && event.keyCode !== 40) {
+            resetState()
+            var query = $('#search-input').val()
+            doSearch(query);
+        }
+    })
 }
 
 function enableSearchUI() {
@@ -88,6 +124,19 @@ function enableSearchUI() {
             if (newLoc) window.location.href = newLoc;
         }
     })
+    $('.search-li').on("mouseenter", function (e) {
+        var id = parseInt(e.target.id.split('-')[2]);
+        if (!isNaN(id)) moveSelected(e, id);
+    });
+    $('.search-li').on("mouseleave", function (e) {
+        $(this).removeClass("search-active");
+    });
+    document.onmousemove = function () {
+        if ($("document").css("cursor") === "none") {
+            $("document").css("cursor", "default");
+            $('.search-li').addClass('search-active-hover');
+        }
+    }
 }
 
 function matchAnd(string, queries) {
@@ -202,25 +251,27 @@ function doSearch(query) {
 
 function showResults(result) {
     setResultNb(result.length);
+    var i = 0;
     for (var itemIx in result) {
         var item = result[itemIx]
         var ref = item.ref
         var post = window.store[parseInt(ref, 10)];
         var searchitem = $('');
-        searchitem = $(getTemplate(post));
+        searchitem = $(getTemplate(post, i));
         searchitem.appendTo('#results-container');
+        i++;
     }
     enableSearchUI()
 }
 
-function getTemplate(item) {
+function getTemplate(item, index) {
     var sub = $.trim(item.subtitle);
     var ex = $.trim(item.excerpt);
     var tit = $.trim(item.title);
     var tags = " "
     var date = item.date || "";
     var br = sub && ex ? "<br/>" : ""
-    var p = sub || ex ? "<p>" : ""
+    var p = sub || ex ? '<p id="search-p-' + index + '">' : ''
     var _p = sub || ex ? "</p>" : ""
 
     if (item.hasOwnProperty('tags') && $.trim(item.tags)) {
@@ -230,14 +281,14 @@ function getTemplate(item) {
     } + "</div>"
 
 
-    return '<li class="search-li">\
-        <div class="search-item-header">\
-            <a class="search-result-item-link" href="' + item.url + '"> ' + tit + '</a>\
-            <span class="search-date"> ' + date + '</span>\
+    return '<li class="search-li" id="search-li-' + index + '">\
+        <div class="search-item-header" id="search-div-' + index + '">\
+            <a class="search-result-item-link" href="' + item.url + '" id="search-a-' + index + '"> ' + tit + '</a>\
+            <span class="search-date"  id="search-date-' + index + '"> ' + date + '</span>\
         </div>\
-         ' + p + '       <span class="search-subtitle">' + sub + '</span>\
+         ' + p + '       <span class="search-subtitle"  id="search-subtitle-' + index + '">' + sub + '</span>\
         ' + br + '\
-        <span class="search-excerpt"> ' + ex + '</span>\
+        <span class="search-excerpt" id="search-excerpt-' + index + '"> ' + ex + '</span>\
         ' + _p + tags + '</li>'
 }
 
@@ -313,32 +364,61 @@ $('document').ready(function () {
         $('#search-input').val(tag);
     })
 
-    $.ajax({
-        dataType: "json",
-        url: "/search.json",
-        context: document.body,
-        success: function (data) {
+    var fetch = false;
+    var data;
+    if (!sessionStorage.getItem('search')) {
+        fetch = true;
+    } else {
+        try {
+            data = JSON.parse(sessionStorage.getItem('search'));
+            // if (new Date() - new Date(data.date) > 1000 * 3600 * 7) {
+            if (new Date() - new Date(data.date) > 1000 * 15) {
+                fetch = true;
+            }
+        } catch (error) {
+            fetch = true;
+        }
+    }
+    if (!fetch) {
+        try {
+            window.store = data.store;
+            getQuery(modal);
+            enableInput();
+            console.log("using local data");
+        } catch (error) {
+            fetch = true;
+        }
+    }
+    if (fetch) {
+        sessionStorage.setItem("loading-data", "true");
+        console.log("fetching data");
+        $.ajax({
+            dataType: "json",
+            url: "/search.json",
+            context: document.body,
+            success: function (data) {
 
-            window.store = [];
-            for (var key in data) {
-                if (data.hasOwnProperty(key)) {
-                    var element = data[key];
-                    if (element.title) {
-                        window.store.push(element)
+                window.store = [];
+                for (var key in data) {
+                    if (data.hasOwnProperty(key)) {
+                        var element = data[key];
+                        if (element.title) {
+                            window.store.push(element)
+                        }
                     }
                 }
-            }
-
-            getQuery(modal);
-
-            $('#search-input').keyup(function (event) {
-                if (event.keyCode !== 38 && event.keyCode !== 40) {
-                    resetState()
-                    var query = $('#search-input').val()
-                    doSearch(query);
+                data = JSON.stringify({
+                    store: window.store,
+                    date: new Date()
+                })
+                sessionStorage.setItem("search", data);
+                sessionStorage.removeItem("loading-data");
+                if ($('#search-input').val()) {
+                    $('#search-input').trigger("keyup");
                 }
-            })
-        }
-    });
-
+                getQuery(modal);
+                enableInput();
+            }
+        });
+    }
 });
