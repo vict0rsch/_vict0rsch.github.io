@@ -1,8 +1,8 @@
 ---
 layout: post
 
-title: "Sampling a multilabel dataset"
-subtitle: "Implementing the Iterative Stratifier from Sechidis et al., 2011"
+title: "Splitting a multilabel dataset with Python"
+subtitle: "Implementing the Iterative Stratifier from Sechidis et al., 2011 to sample from a multilabel dataset"
 cover_image: iterative.png
 comments: true
 

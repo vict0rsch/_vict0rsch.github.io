@@ -102,16 +102,20 @@
         }
     }
 
-    .site-nav .tagline span {
-        display: none;
-    }
-
     .tingle-modal-box {
         max-height: 100%;
         transition: all 0.35s ease;
     }
 
     .site-nav {
+        .tagline {
+            padding: 0px 10px;
+
+            span {
+                display: none;
+            }
+        }
+
         #navigation {
             padding: 0px 0px;
 

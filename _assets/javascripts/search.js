@@ -254,9 +254,17 @@ function showResults(result) {
         var item = result[itemIx]
         var ref = item.ref
         var post = window.store[parseInt(ref, 10)];
-        var searchitem = $('');
-        searchitem = $(getTemplate(post, i));
-        searchitem.appendTo('#results-container');
+        var $searchitem = $(getTemplate(post, i));
+        $searchitem.attr("visibility", 'hidden')
+        $('body').append($searchitem);
+        var height = $searchitem.height();
+        $searchitem.remove();
+        $("#results-container").animate({
+            height: "+=" + height
+        }, 100, function () {
+            $searchitem.appendTo('#results-container');
+        });
+
         i++;
     }
     enableSearchUI()

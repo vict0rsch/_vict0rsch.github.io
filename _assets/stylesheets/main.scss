@@ -1,10 +1,84 @@
 /* CONFIGURATION */
 
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-ExtraLight.ttf")) format("truetype");
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-ExtraLight.woff")) format("woff");
+    font-weight: 200;
+}
+
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-ExtraLightItalic.ttf")) format("truetype");
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-ExtraLightItalic.woff")) format("woff");
+    font-weight: 200;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-Regular.ttf")) format("truetype");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-Regular.woff")) format("woff");
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-SemiBold.ttf")) format("truetype");
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-SemiBold.woff")) format("woff");
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-SemiBoldItalic.ttf")) format("truetype");
+    font-weight: 600;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: "Public Sans";
+    src: url(font_path("Public-Sans/PublicSans-SemiBoldItalic.woff")) format("woff");
+    font-weight: 600;
+    font-style: italic;
+}
+
 /* Bodytext font */
-$font: "Nunito", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font: "Public Sans",
+"Nunito",
+"Helvetica Neue",
+Helvetica,
+Arial,
+sans-serif;
 
 /* Font for headings */
-$fontheadings: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$fontheadings: "Public Sans",
+"Montserrat",
+"Helvetica Neue",
+Helvetica,
+Arial,
+sans-serif;
 
 /* Text colors */
 $text: #21272d;
