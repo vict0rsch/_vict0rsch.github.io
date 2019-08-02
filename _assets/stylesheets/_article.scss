@@ -250,7 +250,7 @@ article {
     }
 
     pre {
-        border: 1px solid lightgray;
+        border: 1px solid #ebebeb;
         border-radius: 5px;
         padding: 20px 20px; // padding: 1.5em 3em;
         margin: 0 0em 0.7em 0em;
@@ -260,6 +260,7 @@ article {
         overflow-x: auto;
         display: block;
         position: relative;
+        box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.1);
 
         code {
             font-size: 0.8em;
