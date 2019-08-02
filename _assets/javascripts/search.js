@@ -55,6 +55,7 @@ function moveSelected(event, forceIndex) {
     }
     var noCursor = false;
     if (typeof forceIndex === 'undefined') {
+        return
         noCursor = true;
         if (event.keyCode === 38) {
             decrementIndex()
@@ -230,12 +231,12 @@ function mySearch(_query) {
 }
 
 function doSearch(query) {
-    // console.log('doSearch: ', query);
+    console.log('doSearch: ', query);
     $('#results-container').html('');
     if ($.trim(query)) {
         var result = mySearch(query);
         // console.log(result);
-        // console.log('result', result);
+        console.log('result', result);
         updateUrlParameter(query)
         showResults(result)
         $('#results-container li a, #results-container li p span').wrapInTag({
@@ -250,22 +251,17 @@ function doSearch(query) {
 function showResults(result) {
     setResultNb(result.length);
     var i = 0;
+    var items = [];
     for (var itemIx in result) {
         var item = result[itemIx]
         var ref = item.ref
         var post = window.store[parseInt(ref, 10)];
         var $searchitem = $(getTemplate(post, i));
-        $searchitem.attr("visibility", 'hidden')
-        $('body').append($searchitem);
-        var height = $searchitem.height();
-        $searchitem.remove();
-        $("#results-container").animate({
-            height: "+=" + height
-        }, 100, function () {
-            $searchitem.appendTo('#results-container');
-        });
-
+        items.push($searchitem)
         i++;
+    }
+    for (const item of items) {
+        item.appendTo('#results-container');
     }
     enableSearchUI()
 }
@@ -326,7 +322,7 @@ $('document').ready(function () {
         stickyFooter: false,
         closeMethods: ['overlay', 'button', 'escape'],
         closeLabel: "Close",
-        cssClass: ['custom-class-1', 'custom-class-2'],
+        cssClass: ['searchModal', 'custom-class-2'],
         closeLabel: "Close search",
         onClose: function () {
             window.history.replaceState({}, document.title, window.location.href.split("?")[0]);
