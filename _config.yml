@@ -136,3 +136,8 @@ assets:
   cache: false
   gzip: [ text/css, application/javascript ]
   debug: false
+  compressors:
+    uglifier:
+      harmony: true
+      compress:
+        unused: false

@@ -13,6 +13,7 @@ author:
 
 ---
 
+## About
 
 I'm Victor Schmidt. I come from Paris, France and started this blog in Dec 16. Why? Because I was fed up of only using Github's `readme.md` files to share what I was doing.
 
@@ -29,7 +30,25 @@ I'm now a PhD candidate at the Montréal Institute for Learning Algorithms (**MI
 
 <br>
 
-#### This blog 
+## Research
+
+I focus on applications of AI to mitigate Climate Change. In this context I mainly work on creating visualizations of climate change-related extreme events' consequences, such as what happens to your house after a flood. You can have a look at our [temporary website](https://mila.quebec/en/ai-society/visualizing-climate-change/). Also, we **collect images of such disaster on our [ClimatePix website](https://climatepix.mila.quebec/)**.
+
+* ICLR 2019's Ai for Social Good workshop
+  * Visualizing the Consequences of Climate Change
+  * paper \| talk slides \| video \| poster
+* ITU's AI For Good Global Summit 2019 invited talk
+  * slides on the project \| slides on the community
+* Deep Learning and Reinforcement Learning Summer School 2019 
+  * Visualizing the Consequences of Climate Change
+  * poster
+* Montréal AI Symposium
+  * A Hybrid Generative Model Approach to Visualize Climate Change
+  * poster
+* Reviewer for NeurIPS 2019's WiML workshop
+* Reviewer for NeurIPS 2019's AI for Social Good workshop
+
+## This blog 
 Here you'll find:
 
 * [**Tutorials**](http://vict0rsch.github.io/tutorials/) about how to implement Neural Nets with Keras and Lasagne. 

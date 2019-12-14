@@ -15,7 +15,7 @@ GEM
     colorator (1.1.0)
     commonmarker (0.17.13)
       ruby-enum (~> 0.5)
-    concurrent-ruby (1.1.4)
+    concurrent-ruby (1.1.5)
     dnsruby (1.61.2)
       addressable (~> 2.5)
     em-websocket (0.5.1)
@@ -225,7 +225,7 @@ GEM
       forwardable-extended (~> 2.6)
     public_suffix (2.0.5)
     rack (1.6.11)
-    rake (12.3.2)
+    rake (12.3.3)
     rb-fsevent (0.10.3)
     rb-inotify (0.10.0)
       ffi (~> 1.0)
@@ -271,4 +271,4 @@ DEPENDENCIES
   uglifier (~> 3.2)
 
 BUNDLED WITH
-   1.16.6
+   2.0.2
