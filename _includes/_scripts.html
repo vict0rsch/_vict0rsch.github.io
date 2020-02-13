@@ -1,7 +1,5 @@
-<script
-  src="https://code.jquery.com/jquery-3.4.0.min.js"
-  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg="
-  crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
 
@@ -10,11 +8,15 @@
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-{% javascript jquery.details.min %}
-{% javascript main %}
 
-{% javascript tingle %}
-{% javascript search %}
+<script type="text/javascript" src="{{ '/assets/jquery.details.min.js' | relative_url }}">
+</script>
+<script type="text/javascript" src="{{ '/assets/main.js' | relative_url }}">
+</script>
+<script type="text/javascript" src="{{ '/assets/tingle.js' | relative_url }}">
+</script>
+<script type="text/javascript" src="{{ '/assets/search.js' | relative_url }}">
+</script>
 
 
 

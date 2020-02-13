@@ -12,8 +12,9 @@
     {% if site.inc.google_font_body %}
     <link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font_body }}" rel="stylesheet" type="text/css">{%
     endif %}
-    {% stylesheet main %}
-    {% stylesheet tingle %}
+    <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/tingle.css' | relative_url }}">
+
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/images/{{ site.inc.logo }}" />
     <!--rss-feed <link href="{{ site_url }}/feed.xml" rel="alternate" type="application/rss+xml" title="{{ site.inc.title }}" /> -->
@@ -57,12 +58,12 @@
 <body>
     <script>
         NProgress.configure({
-            easing: 'ease', 
+            easing: 'ease',
             speed: 600,
             showSpinner: false,
         });
         NProgress.start();
-        const int = setInterval(()=> {
+        var int = setInterval(()=> {
             NProgress.inc()
         }, 500)
         window.onload = function(){
@@ -138,7 +139,7 @@
                         class="icon icon-facebook black"></i></a>
                 {% endif %}
                 <!--<a href="/feed.xml" title="RSS Feed">
-                <i class="icon icon-rss 
+                <i class="icon icon-rss
                 black"></i>
             </a> -->
             </nav>

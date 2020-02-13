@@ -8,3 +8,4 @@ gem 'sass'
 gem 'uglifier', '~> 3.2'
 gem 'github-pages'
 gem 'rouge'
+gem "sprockets", "~> 3.7"
