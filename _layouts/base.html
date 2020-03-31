@@ -12,8 +12,11 @@
     {% if site.inc.google_font_body %}
     <link href="https://fonts.googleapis.com/css?family={{ site.inc.google_font_body }}" rel="stylesheet" type="text/css">{%
     endif %}
-    <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}">
-    <link rel="stylesheet" href="{{ '/assets/tingle.css' | relative_url }}">
+    <!-- <link rel="stylesheet" href="{{ '/assets/main.css' | relative_url }}"> -->
+
+    {% asset main.css  %}
+    {% asset tingle.css  %}
+    <!-- <link rel="stylesheet" href="{{ '/assets/tingle.css' | relative_url }}"> -->
 
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
     <link rel="apple-touch-icon" href="/images/{{ site.inc.logo }}" />

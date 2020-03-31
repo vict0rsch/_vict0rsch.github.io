@@ -1,12 +1,12 @@
 article {
     background: #fff;
     padding: 60px 0;
-    font-size: 1em;
+    font-size: 1rem;
 
     .container>header,
     .container>section,
     .container>footer {
-        margin: 0 2em;
+        margin: 0 2rem;
         text-align: justify;
         text-justify: inter-word;
     }
@@ -24,29 +24,29 @@ article {
     .container>footer {
         border-top: 1px solid #ddd;
         border-bottom: 1px solid #ddd;
-        padding-top: 1.5em;
-        padding-bottom: 1.5em;
-        margin-top: 1.5em;
-        margin-bottom: 1.5em;
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        margin-top: 1.5rem;
+        margin-bottom: 1.5rem;
     }
 
     header {
-        margin-top: 2em;
-        margin-bottom: 2em;
+        margin-top: 2rem;
+        margin-bottom: 2rem;
 
         &::after {
             content: " ";
             display: block;
-            width: 1.5em;
-            height: 0.2em;
+            width: 1.5rem;
+            height: 0.2rem;
             background: #ddd;
-            margin: 1em 0;
+            margin: 1rem 0;
         }
     }
 
     address {
         margin: 0;
-        font-size: 0.9em;
+        font-size: 0.9rem;
         max-height: 48px;
 
         p {
@@ -64,20 +64,20 @@ article {
         }
 
         .follow {
-            margin: 1em 0 0;
+            margin: 1rem 0 0;
         }
     }
 
     p {
-        font-size: 1em;
+        font-size: 1rem;
         line-height: 1.5;
         color: $text;
         font-weight: 200;
-        margin: 0 0 0.5em;
+        margin: 0 0 0.5rem;
 
         a {
             code {
-                font-size: 0.7em;
+                font-size: 0.7rem;
 
                 .highlight {
                     color: #F44336;
@@ -95,7 +95,7 @@ article {
         }
 
         code {
-            font-size: 0.7em;
+            font-size: 0.7rem;
             color: #21272d;
 
             .highlight {
@@ -107,19 +107,19 @@ article {
     ol,
     ul {
         font-weight: 400;
-        margin: 1em 0;
+        margin: 1rem 0;
         padding: 0;
         list-style-position: outside;
-        padding-left: 1.5em;
+        padding-left: 1.5rem;
         font-size: inherit;
 
         li {
             ul {
-                margin: 0.3em 0;
+                margin: 0.3rem 0;
             }
 
             font-weight: 200;
-            margin-bottom: 0.5em;
+            margin-bottom: 0.5rem;
 
             code {
                 color: #21272d;
@@ -133,18 +133,18 @@ article {
 
     blockquote {
         border: 0;
-        font-size: 0.8em;
-        margin: 1.2em -4em 1.2em 0;
+        font-size: 0.8rem;
+        margin: 1.2rem -4rem 1.2rem 0;
         padding: 0;
         font-style: italic;
 
         p {
-            font-size: 1em;
+            font-size: 1rem;
             line-height: 1.8;
             color: #68838B;
             font-weight: 500;
             font-style: italic;
-            padding: 0 2% 0 1em;
+            padding: 0 2% 0 1rem;
             background-color: #fafafa;
             background-clip: border-box;
             border-left: 2px solid #e6e6e6;
@@ -152,40 +152,40 @@ article {
         }
 
         ul {
-            font-size: 1em;
+            font-size: 1rem;
             line-height: 1.8;
             color: #68838B;
             font-weight: 500;
             font-style: italic;
-            padding: 0 15% 0 4em;
+            padding: 0 15% 0 4rem;
         }
     }
 
     h1 {
         font-weight: 500;
-        font-size: 3.1em;
-        margin: 1em 0em 0.7em 0em;
+        font-size: 3.1rem;
+        margin: 1rem 0rem 0.7rem 0rem;
     }
 
     h2 {
-        font-size: 2em;
-        margin: 1.2em 0em 0.5em 0em;
+        font-size: 2rem;
+        margin: 1.2rem 0rem 0.5rem 0rem;
         font-weight: 500;
     }
 
     h3 {
-        font-size: 1.6em;
+        font-size: 1.6rem;
         font-weight: 200;
-        margin: 0.9em 0em 0.5em 0em;
+        margin: 0.9rem 0rem 0.5rem 0rem;
     }
 
     h4 {
-        font-size: 1.2em;
+        font-size: 1.2rem;
         font-weight: 200;
     }
 
     hr {
-        margin: 3em 0;
+        margin: 3rem 0;
     }
 
     .highlight {
@@ -196,7 +196,7 @@ article {
         color: $textmuted;
         font-size: 13px;
         text-transform: uppercase;
-        margin-bottom: 0.3em;
+        margin-bottom: 0.3rem;
         font-weight: 200;
         letter-spacing: 1px;
 
@@ -220,7 +220,7 @@ article {
     }
 
     .title {
-        margin: 0.2em 0;
+        margin: 0.2rem 0;
         // font-weight: bold;
 
         a {
@@ -229,8 +229,8 @@ article {
     }
 
     .subtitle {
-        font-size: 1.4em;
-        margin: 0.5em 0;
+        font-size: 1.4rem;
+        margin: 0.5rem 0;
         color: $textmuted;
         font-weight: 300;
     }
@@ -252,25 +252,25 @@ article {
     pre {
         border: 1px solid #ebebeb;
         border-radius: 5px;
-        padding: 20px 20px; // padding: 1.5em 3em;
-        margin: 0 0em 0.7em 0em;
+        padding: 20px 20px; // padding: 1.5rem 3rem;
+        margin: 0 0rem 0.7rem 0rem;
         background: #fdf6e4;
         width: 100%;
-        font-size: 1em;
+        font-size: 1rem;
         overflow-x: auto;
         display: block;
         position: relative;
         box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0.2), 0 1px 10px 0 rgba(0, 0, 0, 0.1);
 
         code {
-            font-size: 0.8em;
+            font-size: 0.8rem;
             border: 0;
             color: #607d8b;
             white-space: pre;
         }
 
         .copyCode {
-            font-size: 0.6em;
+            font-size: 0.6rem;
             background-color: rgb(248, 248, 248);
             position: absolute;
             top: 10px;
@@ -322,7 +322,7 @@ article {
     }
 
     .full {
-        margin: 1.5em -6em;
+        margin: 1.5rem -6rem;
         padding: 0;
         text-align: center;
 
@@ -355,7 +355,7 @@ article {
 
     /* custom */
     .dark {
-        font-size: 0.6em;
+        font-size: 0.6rem;
         margin: 15px 0px 10px;
 
         &:hover {
@@ -367,16 +367,16 @@ article {
     #copiedFeedback,
     #copiedFeedback2,
     #copiedFeedback3 {
-        padding: 2rem 3rem;
-        display: none;
+        padding: 1rem 2rem;
         position: fixed;
         bottom: 20px;
-        right: 40px;
-        font-size: 1.5rem;
+        right: -500px;
+        font-size: 1rem;
         border-color: rgba(107, 196, 107, 0);
         color: white;
         background-color: rgb(107, 196, 107);
         cursor: default;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
     }
 
     .postDate {
@@ -421,7 +421,7 @@ article {
             a {
                 // Header 1
                 font-weight: bold;
-                font-size: 1.2em;
+                font-size: 1.2rem;
             }
 
             ul,
@@ -445,7 +445,7 @@ article {
                 li {
                     a {
                         // Header 2
-                        font-size: 1em;
+                        font-size: 1rem;
                         font-weight: initial;
                     }
 
@@ -466,7 +466,7 @@ article {
 
                             a {
                                 // Header 3
-                                font-size: 0.8em;
+                                font-size: 0.8rem;
                             }
                         }
                     }

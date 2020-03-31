@@ -5,41 +5,41 @@ inc:
   cover_image:  blog-cover.jpg
   logo:         light-bulb.svg
   description: "Vict0rsch's blog about tech and AI - PhD Student @MILA, Montréal, Québec"
-  
+
   # Company information
-  company:      
-  url:          
-  facebook:     
+  company:
+  url:
+  facebook:
   twitter:      vict0rsch
   gplus:
   github:       https://github.com/vict0rsch/deep_learning
   linkedin:     https://fr.linkedin.com/in/victor-schmidt-30418083
-  mail:         vsch@pm.me   
-  
+  mail:         vsch@pm.me
+
   # Product Information
   resources_link: /resources
   about_link: /about
   search_link: /search
   tagline:      "Learn Keras and Lasagne (2015)"
-  
+
   # Comments
   disqus:
     # Eg. "exampleblog" Set to false to disable comments
     shortname:  http-vict0rsch-github-io
-  
+
   # Sharing settings
   sharing:
     twitter:    true
     facebook:   true
     gplus:      false
     hn:         false
-    
-  
- # Analytics     
+
+
+ # Analytics
   analytics:
     google: UA-88678459-1 # Add tracking code in _includes/_google-analytics.html
-      
-      
+
+
   # Google Fonts
   # eg. 'Droid+Sans:400,700|Droid+Serif:400,700'
   google_font_headers: 'Montserrat:400,700'
@@ -80,7 +80,7 @@ excerpt_separator: "<!-- more -->"
 safe:        false
 host:        0.0.0.0
 port:        4000
-baseurl:     /
+# baseurl:     /
 lsi:         false
 
 # maruku:
@@ -133,9 +133,9 @@ assets:
   js_compressor: uglifier
   css_compressor: sass
   cachebust: none
-  cache: false
+  cache: true
   gzip: [ text/css, application/javascript ]
-  debug: false
+  debug: true
   compressors:
     uglifier:
       harmony: true

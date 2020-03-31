@@ -7,11 +7,11 @@
     .container>section,
     .container>footer {
         padding: 0;
-        margin: 1.5em 10%;
+        margin: 1.5rem 10%;
     }
 
     .container>section {
-        padding-bottom: 1.5em;
+        padding-bottom: 1.5rem;
     }
 }
 
@@ -27,47 +27,47 @@
         .container>section,
         .container>footer {
             padding: 0;
-            margin: 1.5em 10%;
+            margin: 1.5rem 10%;
         }
 
         .container>footer {
-            padding: 2em 0;
+            padding: 2rem 0;
         }
 
         .full,
         pre {
-            margin: 1em 0;
+            margin: 1rem 0;
         }
 
         pre {
-            padding: 1em;
+            padding: 1rem;
         }
 
         blockquote {
-            margin: 1em 0;
+            margin: 1rem 0;
 
             p {
-                font-size: 0.9em;
+                font-size: 0.9rem;
             }
         }
 
         h1 {
-            font-size: 1.8em;
+            font-size: 1.8rem;
         }
 
         h2 {
-            font-size: 1.4em;
+            font-size: 1.4rem;
         }
 
         p {
-            font-size: 0.9em;
+            font-size: 0.9rem;
         }
 
         ul {
-            font-size: 0.9em;
+            font-size: 0.9rem;
 
             li ul {
-                font-size: 1em;
+                font-size: 1rem;
             }
         }
     }
@@ -85,20 +85,20 @@
             text-align: center;
 
             a {
-                margin: 0.5em;
+                margin: 0.5rem;
             }
         }
 
         h1 {
-            font-size: 1.5em;
+            font-size: 1.5rem;
         }
 
         h2 {
-            font-size: 1em;
+            font-size: 1rem;
         }
 
         h3 {
-            font-size: 1em;
+            font-size: 1rem;
         }
     }
 
@@ -137,13 +137,13 @@
 
     .site-footer {
         margin-top: 0;
-        padding: 2em 10%;
+        padding: 2rem 10%;
         text-align: center;
 
         nav {
             display: block;
             float: none !important;
-            padding: 1em;
+            padding: 1rem;
         }
 
         #logo-footer {

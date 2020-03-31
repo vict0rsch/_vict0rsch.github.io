@@ -6,6 +6,8 @@
 html,
 body {
     height: 100%;
+    font-size: 17px;
+    // border: 10px solid red !important;
 }
 
 #wrapper {
@@ -46,7 +48,6 @@ body {
     color: $text;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizelegibility;
-    font-size: 17px;
 }
 
 .MathJax {
@@ -170,14 +171,14 @@ a {
 }
 
 .index {
-    margin: 0 5em;
+    margin: 0 5rem;
 
     >div {
         display: table-cell;
     }
 
     .title {
-        margin: 0em 0 0.6em;
+        margin: 0rem 0 0.6rem;
     }
 
     .avatar {
@@ -216,7 +217,7 @@ a {
         z-index: 10;
 
         /* a:last-child {
-            margin:1.5em 0 0 0;
+            margin:1.5rem 0 0 0;
         } */
         a {
             color: #fff;
@@ -224,26 +225,26 @@ a {
             width: 36px;
             height: 36px;
             display: inline-block;
-            margin: 2em 0 0 0;
+            margin: 2rem 0 0 0;
             border-radius: 42px;
             transition: 0.3s all ease;
             line-height: 0;
             text-align: center;
 
             &:hover {
-                margin: 2em 1.5em 0 1.5em;
-                /* 
+                margin: 2rem 1.5rem 0 1.5rem;
+                /*
                 transition:0.2s all ease;
                 background:#fff;
-                
+
                 .icon-rss {
                     background-position:1px -11px;
                 }
-                
+
                 .icon-twitter {
                     background-position:0px -15px;
                 }
-                
+
                 .icon-facebook {
                      background-position:0px -14px;
                  } */
@@ -257,12 +258,12 @@ a {
     }
 
     h1 {
-        font-size: 2.7em;
-        line-height: 1.4em;
+        font-size: 2.7rem;
+        line-height: 1.4rem;
     }
 
     h3 {
-        font-size: 1.3em;
+        font-size: 1.3rem;
     }
 
     h1,
@@ -278,17 +279,17 @@ a {
 }
 
 .site-footer {
-    padding: 5em 0;
-    margin: 4em 0 0 0;
+    padding: 5rem 0;
+    margin: 4rem 0 0 0;
     background: whitesmoke;
     ;
     color: #aaa;
-    font-size: 0.8em;
+    font-size: 0.8rem;
 
     a {
         color: #777;
         border: 0;
-        margin: 0 0.5em;
+        margin: 0 0.5rem;
 
         &:hover {
             color: #222;
@@ -320,7 +321,7 @@ a {
             display: inline-block;
             padding: 10px 0;
             border-radius: 42px;
-            margin: 0 1em 0em 0;
+            margin: 0 1rem 0rem 0;
             transition: 0.2s all ease;
             line-height: 0;
             text-align: center;
@@ -338,29 +339,26 @@ a {
 }
 
 .btn {
-    color: #fff;
-    font-weight: bold;
     background-color: #54b89d;
-    font-size: 1em;
-    padding: 0.6em 1.2em;
-    display: inline-block;
-    position: relative;
+    background: #4dab7d;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 2px;
+    border-radius: 2px;
     border: 0;
+    border: 2px solid #4dab7d;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1rem;
+    font-style: normal;
+    padding: 0.6rem 1.2rem;
+    position: relative;
     text-align: center;
     text-decoration: none;
-    font-style: normal;
-    font-weight: 400;
-    cursor: pointer;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    vertical-align: bottom;
     text-rendering: optimizeLegibility;
-    border-radius: 2px;
-    vertical-align: middle;
-    font-family: "proxima-nova", "Helvetica Neue", Helvetica, Arial, sans-serif;
-    border-radius: 2px;
-    background: #4dab7d;
-    border: 2px solid #4dab7d;
     text-transform: uppercase;
+    vertical-align: bottom;
+    vertical-align: middle;
     white-space: nowrap;
 
     &:hover {
@@ -377,7 +375,7 @@ a {
 .btn-outline {
     background: none;
     border-radius: 4px;
-    font-size: 0.8em;
+    font-size: 0.8rem;
     border: 2px solid $accent;
     border-radius: 3px;
     color: darken($accent, 5%);
@@ -401,8 +399,8 @@ details {
     summary {
         color: #68838B;
         cursor: pointer;
-        font-size: 1em;
-        margin-bottom: 0.8em;
+        font-size: 1rem;
+        margin-bottom: 0.8rem;
 
         &::after {
             color: inherit;
@@ -417,9 +415,9 @@ details {
             /* FontAwesome Unicode */
             font-family: FontAwesome;
             display: inline-block;
-            margin-left: -1.3em;
+            margin-left: -1.3rem;
             /* same as padding-left set on li */
-            width: 1.3em;
+            width: 1.3rem;
             /* same as padding-left set on li */
         }
 
@@ -439,15 +437,15 @@ details {
             /* FontAwesome Unicode */
             font-family: FontAwesome;
             display: inline-block;
-            margin-left: -1.3em;
+            margin-left: -1.3rem;
             /* same as padding-left set on li */
-            width: 1.3em;
+            width: 1.3rem;
             /* same as padding-left set on li */
         }
     }
 
     .detailsContent {
-        font-size: 0.85em;
+        font-size: 0.85rem;
         padding: 15px;
         margin: 10px;
         border: 1px #cccccc solid;

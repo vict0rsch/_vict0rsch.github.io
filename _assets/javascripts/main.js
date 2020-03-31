@@ -18,10 +18,10 @@ function anchorify() {
       title = title.toLowerCase().split(' ').join('-');
       var location = window.location.href.split('#')[0] + '#' + title;
       copyToClipboard(location);
-      $('#copiedFeedback2').show();
+      $('#copiedFeedback2').animate({right: 40});
       setTimeout(function () {
-        $('#copiedFeedback2').css('display', 'none');
-      }, 4000);
+        $('#copiedFeedback2').animate({right: -500});
+      }, 2000);
     })
   })
 
@@ -38,10 +38,10 @@ function anchorify() {
       title = title.toLowerCase().split(' ').join('-');
       var location = window.location.href.split('#')[0];
       copyToClipboard(location);
-      $('#copiedFeedback3').show();
+      $('#copiedFeedback3').animate({right: 40});
       setTimeout(function () {
-        $('#copiedFeedback3').css('display', 'none');
-      }, 4000);
+        $('#copiedFeedback3').animate({right: -500});
+      }, 2000);
     })
   })
 }
@@ -282,7 +282,7 @@ function add_cancel_btn(elements) {
     $('.anchorjs-link').css('font-variant-caps', 'normal')
     $('.anchorjs-link').css('font-weight', 'normal')
     $('.anchorjs-link').css('line-height', '1')
-    $('.anchorjs-link').css('padding-left', '0.375em')
+    $('.anchorjs-link').css('padding-left', '0.375rem')
     $("article a, .dark, #toggleTocButton, .copyCode").hover(
       function () {
         $(this).css('color', '#173858');
@@ -389,17 +389,17 @@ $(function () {
     if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
       document.getElementById("navbar").style.padding = "10px 10px";
       // document.getElementById("navbar").style.height = "80px";
-      $("#navbar a").css("font-size", "0.85em")
-      $("#navbar .tagline span").css("font-size", "0.85em")
-      $("#navbar .tagline a").css("font-size", "0.7em")
+      $("#navbar a").css("font-size", "0.85rem")
+      $("#navbar .tagline span").css("font-size", "0.85rem")
+      $("#navbar .tagline a").css("font-size", "0.7rem")
       $(".brand img").css("height", "32px")
       // document.getElementById("logo").style.fontSize = "25px";
     } else {
       document.getElementById("navbar").style.padding = "20px 10px";
       // document.getElementById("navbar").style.height = "105px";
-      $("#navbar a").css("font-size", "1em")
-      $("#navbar .tagline span").css("font-size", "1em")
-      $("#navbar .tagline a").css("font-size", "0.8em")
+      $("#navbar a").css("font-size", "1rem")
+      $("#navbar .tagline span").css("font-size", "1rem")
+      $("#navbar .tagline a").css("font-size", "0.8rem")
       $(".brand img").css("height", "40px")
       // document.getElementById("logo").style.fontSize = "35px";
     }
@@ -477,10 +477,10 @@ $(function () {
       $(el).find('code').each(function () {
         $(this).attr('id', 'codeToCopy' + index);
         selectAndCopyText('codeToCopy' + index);
-        $('#copiedFeedback').show()
+        $('#copiedFeedback').animate({right: 40});
         setTimeout(function () {
-          $('#copiedFeedback').css('display', 'none');
-        }, 3000);
+          $('#copiedFeedback').animate({right: -500});
+        }, 2000);
       });
       return false;
     })
