@@ -20,6 +20,13 @@
         display: none !important
     }
 
+    #resources-cards {
+        .card {
+            max-width: calc(100% - 2rem) !important;
+            min-width: calc(100% - 2rem) !important;
+        }
+    }
+
     article {
         padding-top: 30px;
 

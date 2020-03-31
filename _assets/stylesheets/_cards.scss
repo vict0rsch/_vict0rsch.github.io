@@ -1,0 +1,122 @@
+#resources-cards {
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: -1rem;
+    flex-wrap: wrap;
+
+    .card {
+        border-radius: 4px;
+        border: 1px solid lightblue;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        max-width: 28%;
+        min-height: 200px;
+        min-width: 28%;
+        padding: 16px;
+        position: relative;
+        transition: all 0.2s ease-in-out;
+        padding-bottom: 68px;
+        margin: 1rem;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+
+        .card-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .author,
+        .year {
+            font-size: 0.9rem;
+            font-style: italic;
+        }
+
+        .url {
+            margin-bottom: 8px;
+        }
+
+        .tag {
+            padding: 4px 6px;
+            color: white;
+            border-radius: 4px;
+            cursor: pointer;
+            border: 2px solid rgba(0, 0, 0, 0);
+        }
+
+        .tag-Easy {
+            background-color: #a6a6a6;
+        }
+
+        .tag-Intermediate {
+            background-color: rgb(105, 105, 105);
+        }
+
+        .tag-Advanced {
+            background-color: rgb(63, 63, 63);
+        }
+
+        .tag-ML {
+            background-color: rgba(104, 174, 123, 1);
+        }
+
+        .tag-DL {
+            background-color: rgb(181, 192, 24);
+        }
+
+        .tag-Blog {
+            background-color: rgba(104, 174, 170, 1);
+        }
+
+        .tag-Paper {
+            background-color: rgb(185, 77, 50);
+        }
+
+        .tag-Review {
+            background-color: rgb(53, 102, 124);
+        }
+        .tag-Book {
+            background-color: rgb(92, 53, 124);
+        }
+        .tag-Vis {
+            background-color: rgb(158, 143, 56);
+        }
+        .tag-GAN {
+            background-color: rgb(185, 136, 136);
+        }
+    }
+
+    .card-tags {
+        position: absolute;
+        bottom: 16px;
+        display: flex;
+        flex-wrap: wrap;
+        > span:nth-child(n+2){
+            margin-left: 8px;
+        }
+        max-width: 200px;
+    }
+
+    .tag-is-active {
+        font-weight: bolder;
+        border: 2px solid rgb(0, 153, 255) !important;
+    }
+
+    .tag-difficulty{
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        font-size: 0.8rem;
+        font-weight: bold;
+        border-radius: 0px 0px 2px 0px !important;
+    }
+
+    .card-inactive {
+        transform: scale(0.9);
+        background-color: grey;
+    }
+
+
+}
