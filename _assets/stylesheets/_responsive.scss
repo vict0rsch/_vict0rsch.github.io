@@ -15,6 +15,17 @@
     }
 }
 
+@media (max-width: 900px) {
+
+    #resources-cards {
+        .card {
+            max-width: calc(50% - 2rem) !important;
+            min-width: calc(50% - 2rem) !important;
+        }
+    }
+
+}
+
 @media (max-width: 720px) {
     #ccai-iframe {
         display: none !important

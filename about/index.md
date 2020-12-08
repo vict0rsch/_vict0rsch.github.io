@@ -17,12 +17,12 @@ author:
 
 I'm Victor Schmidt. I come from Paris, France and started this blog in Dec 16. Why? Because I was fed up of only using Github's `readme.md` files to share what I was doing.
 
-To quickly sum up my learning track I went to a French Engineering school (**École polytechnique**) then took a gap year to work at [**Dreem**](https://dreem.com) and travelled from India to Japan for 6 months.
-I then pursued an MSc. in Machine Learning at **University College London** (UCL). 
+To quickly sum up my learning track I went to a French Engineering school (**Ecole polytechnique**) then took a gap year to work at [**Dreem**](https://dreem.com) and travelled from India to Japan for 6 months.
+I then pursued an MSc. in Machine Learning at **University College London** (UCL).
 
 Consequently, I worked for a year as an **NLP Data Scientist** at the French Ministry for the Economy and Finance fighting financial fraud, as part of the [Public Interest Entrepreneurs program](https://entrepreneur-interet-general.etalab.gouv.fr/defi/2017/09/26/hopkins/).
 
-I'm now a PhD candidate at the Montréal Institute for Learning Algorithms (**MILA**) supervised by Pr. Yoshua Bengio. I work on [AI to fight Climate Change](/2019/02/04/mila/).
+I'm now a PhD candidate at **Mila, Universite de Montreal** supervised by Pr. Yoshua Bengio. I work on [AI to fight Climate Change](/2019/02/04/mila/).
 
 <br>
 
@@ -33,13 +33,13 @@ I'm now a PhD candidate at the Montréal Institute for Learning Algorithms (**MI
 ## Research
 
 I focus on applications of AI to mitigate Climate Change. In this context I mainly work on creating visualizations of climate change-related extreme events' consequences, such as what happens to your house after a flood. You can have a look at our [temporary website](https://mila.quebec/en/ai-society/visualizing-climate-change/). Also, we **collect images of such disaster on our [ClimatePix website](https://climatepix.mila.quebec/)**.
-
+<!--
 * ICLR 2019's Ai for Social Good workshop
   * Visualizing the Consequences of Climate Change
   * paper \| talk slides \| video \| poster
 * ITU's AI For Good Global Summit 2019 invited talk
   * slides on the project \| slides on the community
-* Deep Learning and Reinforcement Learning Summer School 2019 
+* Deep Learning and Reinforcement Learning Summer School 2019
   * Visualizing the Consequences of Climate Change
   * poster
 * Montréal AI Symposium
@@ -47,11 +47,13 @@ I focus on applications of AI to mitigate Climate Change. In this context I main
   * poster
 * Reviewer for NeurIPS 2019's WiML workshop
 * Reviewer for NeurIPS 2019's AI for Social Good workshop
+* Reviewer for ICLR 2020's Climate Change AI workshop
+* Reviewer for NeurIPS 2020's Climate Change AI workshop -->
 
-## This blog 
+## This blog
 Here you'll find:
 
-* [**Tutorials**](http://vict0rsch.github.io/tutorials/) about how to implement Neural Nets with Keras and Lasagne. 
+* [**Tutorials**](http://vict0rsch.github.io/tutorials/) about how to implement Neural Nets with Keras and Lasagne.
 * [**Resources**](http://vict0rsch.github.io/resources/) I find interesting (see top of the page) - (Needs an update, working on it)
 * [**Posts**](http://vict0rsch.github.io) to explain issues I ran into and solved, random thoughts or pieces of advice.
 

@@ -389,17 +389,17 @@ $(function () {
     if (document.body.scrollTop > 80 || document.documentElement.scrollTop > 80) {
       document.getElementById("navbar").style.padding = "10px 10px";
       // document.getElementById("navbar").style.height = "80px";
-      $("#navbar a").css("font-size", "0.85rem")
-      $("#navbar .tagline span").css("font-size", "0.85rem")
-      $("#navbar .tagline a").css("font-size", "0.7rem")
+      $("#navbar a").css("font-size", "1rem")
+      $("#navbar .tagline span").css("font-size", "1rem")
+      $("#navbar .tagline a").css("font-size", "0.9rem")
       $(".brand img").css("height", "32px")
       // document.getElementById("logo").style.fontSize = "25px";
     } else {
       document.getElementById("navbar").style.padding = "20px 10px";
       // document.getElementById("navbar").style.height = "105px";
-      $("#navbar a").css("font-size", "1rem")
-      $("#navbar .tagline span").css("font-size", "1rem")
-      $("#navbar .tagline a").css("font-size", "0.8rem")
+      $("#navbar a").css("font-size", "1.2rem")
+      $("#navbar .tagline span").css("font-size", "1.2rem")
+      $("#navbar .tagline a").css("font-size", "1rem")
       $(".brand img").css("height", "40px")
       // document.getElementById("logo").style.fontSize = "35px";
     }

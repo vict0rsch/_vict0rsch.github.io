@@ -55,7 +55,7 @@ We always want to have credit left for later as we want to over-estimate (but no
 
 **So how do we chose $c$?**
 * One could see that if **$c=3$** then we're good in the column *Credit Left* (iteration 2 would fail with $c=2$).
-* Another way to put it is to realize that each element will be paid for **in two occasions**: 
+* Another way to put it is to realize that each element will be paid for **in two occasions**:
   * once it is added to the array
   * once when it is copied into a new, larger array
     * if $c=2$, the first time the table expands, all good, the item pays $2$ for both its insertion and copy. But what about the next copy?
@@ -82,7 +82,7 @@ So here what it'd look like:
 
 Leyt's look at iteration 9:
 * it has a cost of 9: copying the 8 previous elements, and adding 9 in the new, expanded array
-* Items $5..8$ have assign one of their 3 credits to 
+* Items $5..8$ have assign one of their 3 credits to
   * their copy at next expansion
   * their insertion
   * **and saved for the copy of elements $1..4$ at next expansion**

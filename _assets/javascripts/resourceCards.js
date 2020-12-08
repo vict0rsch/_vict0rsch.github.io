@@ -16,7 +16,7 @@ var data = [
         year: 2015,
         url: "http://neuralnetworksanddeeplearning.com/",
         cleanUrl: "neuralnetworksanddeeplearning.com",
-        tags: ["DL", "Blog", "Book"],
+        tags: ["Blog", "Book"],
         comment: "",
         difficulty: 0
     },
@@ -31,13 +31,13 @@ var data = [
         difficulty: 1
     },
     {
-        title: "Deep Learning review",
+        title: "Deep Learning",
         author: "Y. LeCun, Y. Bengio and G. Hinton",
         year: 2015,
         url: "http://www.nature.com/articles/nature14539.epdf?referrer_access_token=K4awZz78b5Yn2_AoPV_4Y9RgN0jAjWel9jnR3ZoTv0PU8PImtLRceRBJ32CtadUBVOwHuxbf2QgphMCsA6eTOw64kccq9ihWSKdxZpGPn2fn3B_8bxaYh0svGFqgRLgaiyW6CBFAb3Fpm6GbL8a_TtQQDWKuhD1XKh_wxLReRpGbR_NdccoaiKP5xvzbV-x7b_7Y64ZSpqG6kmfwS6Q1rw%3D%3D&tracking_referrer=www.nature.com",
         cleanUrl: "nature.com/articles/nature14539.epdf",
         comment: "",
-        tags: ["DL", "Paper", "Review"],
+        tags: ["Paper", "Review"],
         difficulty: 0
     },
     {
@@ -47,7 +47,17 @@ var data = [
         url: "http://www.deeplearningbook.org/",
         cleanUrl: "deeplearningbook.org",
         comment: "",
-        tags: ["DL", "Book"],
+        tags: ["Book"],
+        difficulty: 1
+    },
+    {
+        title: "Convex Optimization ",
+        author: "Stephen Boyd and Lieven Vandenberghe",
+        year: 2009,
+        url: "https://web.stanford.edu/~boyd/cvxbook/bv_cvxbook.pdf",
+        cleanUrl: "stanford.edu/~boyd",
+        comment: "",
+        tags: ["Book"],
         difficulty: 1
     },
     {
@@ -57,8 +67,8 @@ var data = [
         url: "http://karpathy.github.io/2015/05/21/rnn-effectiveness/",
         cleanUrl: "karpathy.github.io",
         comment: "",
-        tags: ["DL", "Blog"],
-        difficulty: 1
+        tags: ["Blog"],
+        difficulty: 0
     },
     {
         title: "GAN Lab: Play with Generative Adversarial Networks (GANs) in your browser!",
@@ -67,10 +77,45 @@ var data = [
         url: "https://poloclub.github.io/ganlab/",
         cleanUrl: "poloclub.github.io/ganlab",
         comment: "",
-        tags: ["DL", "Vis", "GAN"],
+        tags: ["Vis", "GAN"],
+        difficulty: 1
+    },
+    {
+        title: "Tensorflow Playground: Tinker With a Neural Network Right Here in Your Browser.",
+        author: "",
+        year: "",
+        url: "https://playground.tensorflow.org/",
+        cleanUrl: "playground.tensorflow.org",
+        comment: "",
+        tags: ["Vis"],
+        difficulty: 0
+    },
+    {
+        title: "Unpaired Image-to-Image Translation using Cycle-Consistent Adversarial Networks",
+        author: "Jun-Yan Zhu, Taesung Park, Phillip Isola and Alexei A. Efros",
+        year: 2017,
+        url: "https://junyanz.github.io/CycleGAN/",
+        cleanUrl: "junyanz.github.io/CycleGAN/",
+        comment: "",
+        tags: ["Paper", "GAN", "Code"],
+        difficulty: 1
+    },
+    {
+        title: "Importance Weighted and Adversarial Autoencoders",
+        author: "Ian Kinsella",
+        year: 2017,
+        url: "https://casmls.github.io/general/2017/04/24/iwae-aae.html",
+        cleanUrl: "casmls.github.io",
+        comment: "",
+        tags: ["Blog", "VAE"],
         difficulty: 1
     },
 ];
+
+// const _data = [...data, ...data, ...data, ...data];
+// const __data = [..._data, ..._data, ..._data, ..._data];
+// const ___data = [...__data, ...__data, ...__data, ...__data];
+// data = ___data;
 
 const titles = {
     "DL": "Deep Learning",
@@ -86,7 +131,6 @@ const urlLimit = window.innerWidth < 400 ? 25 : window.innerWidth < 720 ? 40 : w
 const getActive = () => {
     let tags = new Set();
     $('.tag-is-active').each((k, v) => {
-        console.log(k, v)
         const tag = $(v).attr("class").split(/\s+/).filter(c => c.indexOf("-") > -1 && c !== "tag-is-active")[0];
         tags.add(tag.split("-").slice(-1)[0]);
     })
@@ -113,7 +157,7 @@ const updateState = () => {
 }
 
 const card = d => `
-    <div class="card ${d.tags.map((v, k) => "card-tag-" + v).join(" ")}">
+    <div class="card ${d.tags.map((v, k) => "card-tag-" + v).join(" ")} card-tag-${difficulty[d.difficulty]}">
         <div class="card-header">
         </div>
         <div class="card-body">
@@ -134,20 +178,23 @@ const card = d => `
     `;
 
 
+const addCards = dataArray => {
+    $("#resources-cards").html("")
+    for (const d of dataArray) {
+        $("#resources-cards").append(card(d))
+    }
+    $(".tag").click((e) => {
+        const tag = $(e.target).attr("class").split(/\s+/).filter(c => c.indexOf("-") > -1)[0];
+        $("." + tag).toggleClass("tag-is-active");
+        updateState();
+    })
+}
+
+
 $(function () {
     if ($("#resources-cards").length) {
 
-        console.log("Resources Cards")
-
-        for (const d of data) {
-            $("#resources-cards").append(card(d))
-        }
-
-        $(".tag").click((e) => {
-            const tag = $(e.target).attr("class").split(/\s+/).filter(c => c.indexOf("-") > -1)[0];
-            $("." + tag).toggleClass("tag-is-active");
-            updateState();
-        })
+        addCards(data)
 
         $("#tag-filter-btn").click(() => {
             const union = $("#tag-filter-btn").text() === "OR";
@@ -159,9 +206,37 @@ $(function () {
             updateState();
         })
 
+        var sortYearIdx = 0;
+        $("#sort-year").click(() => {
+            let sorted = [...data];
+            sorted.sort((a, b) => {
+                if (!a.year) return 100;
+                if (!b.year) return -100;
+                if (a.year === b.year) return 0;
+                return sortYearIdx % 2 === 0 ? a.year - b.year : b.year - a.year;
+            });
+            sortYearIdx += 1;
+            addCards(sorted);
+        })
+
+        var sortDiffIdx = 0;
+        $("#sort-difficulty").click(() => {
+            let sorted = [...data];
+            sorted.sort((a, b) => {
+                if (!a.difficulty) return 100;
+                if (!b.difficulty) return -100;
+                if (a.difficulty === b.difficulty) return 0;
+                return sortDiffIdx % 2 === 0 ? a.difficulty - b.difficulty : b.difficulty - a.difficulty;
+            });
+            sortDiffIdx += 1;
+            addCards(sorted);
+        })
+
         $("#tag-clear-btn").click(() => {
-            $(".tag").removeClass("tag-is-active");
-            updateState();
+            addCards(data);
+            sortDiffIdx = 0;
+            sortYearIdx = 0;
+            $("#tag-filter-btn").text("OR")
         })
 
     }
