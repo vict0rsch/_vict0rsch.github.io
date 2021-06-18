@@ -3,7 +3,7 @@ layout: post
 title: "A Calculator to quantify AI's carbon emissions"
 comments: true
 cover_image:
-excerpt: "With a team of fellow researchers, I'v developped an online calculator allowing you to compute your GPU's CO2 emissions"
+excerpt: "With a team of fellow researchers, I developped an online calculator allowing you to compute your GPU's CO2 emissions"
 tags:
   - General
   - Climate Change
