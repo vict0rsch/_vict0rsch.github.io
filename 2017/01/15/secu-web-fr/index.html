@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La sécurité sur internet expliquée à ta grand mère &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="La sécurité sur internet expliquée à ta grand mère ">
+    <link rel="canonical" href="https://vict0rs.ch/2017/01/15/secu-web-fr/">
+    
+    
+    <meta property="og:title" content="La sécurité sur internet expliquée à ta grand mère " />
+    <meta property="og:url" content="https://vict0rs.ch/2017/01/15/secu-web-fr/" />
+    
+    
+    <meta property="og:description" content="Les grandes lignes que peuvent comprendre les petits cousins et les vieux oncles pour faire un peu attention sur internet. English version some day." />
+    <meta name="description" content="Les grandes lignes que peuvent comprendre les petits cousins et les vieux oncles pour faire un peu attention sur internet. English version some day." />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<article>
+    <div class="container">
+        <header>
+            
+            <div class="meta">
+                <span class='meta_text'>By</span> <address><a rel="author" href="" title="Victor Schmidt"
+                        target="_blank">Victor Schmidt</a></address> <span class='meta_text'>&mdash;
+                    <time pubdate datetime="2017-15-January" title="January 15, 2017">January 15, 2017</time></span>
+            </div>
+            
+            <h1 class="title">La sécurité sur internet expliquée à ta grand mère</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            <h2 class="subtitle">Liste de choses à savoir pour être un minimum en sécurité sur internet</h2>
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <h1 id="récap-sécu">Récap sécu</h1>
+
+<p>La base du comportement en ligne pour préserver sa sécurité. Ce n’est pas exhaustif, pas maximal, mais c’est mieux que rien.</p>
+
+<ol id="markdown-toc">
+  <li><a href="#récap-sécu" id="markdown-toc-récap-sécu">Récap sécu</a></li>
+  <li><a href="#1-https" id="markdown-toc-1-https">1 HTTPS</a></li>
+  <li><a href="#2-adresse" id="markdown-toc-2-adresse">2 ADRESSE</a></li>
+  <li><a href="#3-liens-cachés" id="markdown-toc-3-liens-cachés">3 LIENS CACHÉS</a></li>
+  <li><a href="#4-liens-raccourcis" id="markdown-toc-4-liens-raccourcis">4 LIENS RACCOURCIS</a></li>
+  <li><a href="#5-contenu-sensible-par-mail" id="markdown-toc-5-contenu-sensible-par-mail">5 CONTENU SENSIBLE PAR MAIL</a></li>
+  <li><a href="#6-pièces-jointes" id="markdown-toc-6-pièces-jointes">6 PIÈCES JOINTES</a></li>
+  <li><a href="#7-comment-choisir-un-mot-de-passe" id="markdown-toc-7-comment-choisir-un-mot-de-passe">7 COMMENT CHOISIR UN MOT DE PASSE</a></li>
+  <li><a href="#why" id="markdown-toc-why">WHY?</a></li>
+  <li><a href="#bref" id="markdown-toc-bref">BREF</a></li>
+</ol>
+<hr />
+
+<h1 id="1-https">1 HTTPS</h1>
+
+<p>quand vous allez sur un site et qu’on vous demande d’entrer des informations sensibles (mots de passe, carte bleue même email ou autre) il faut toujouuurs vérifier qu’au début de l’adresse web du site il y a <strong>httpS</strong> et pas juste http. Ça veut dire que la communication entre votre ordinateur/téléphone et les serveurs du site est cryptée et que personne ne peut intercepter les infos. Les navigateurs affichent un petit cadenas <strong>FERMÉ</strong> dans la barre d’adresse quand c’est bon. Si y’a https mais que c’est barré en rouge ça veut dire c’est chaud : on ne peut pas être sûr que c’est bien le site en question qui va recevoir les infos.</p>
+
+<h1 id="2-adresse">2 ADRESSE</h1>
+
+<p>Ça a l’air con comme ça mais faut toujours vérifier qu’<strong>on est bien sur le site qu’on croit</strong>. Genre <a href="https://appple.com">https://appple.com</a> ou <a href="facebookk.com">facebookk.com</a> ou <a href="le-monde.com">le-monde.com</a> ça marche pas et faut absolument pas faire confiance.</p>
+
+<p>Ou même <a href="http://storeireq485.itunesoffer59.co.uk/app/secure/index.php?em=jeanne@mail.fr">http://storeireq485.itunesoffer59.co.uk/app/secure/index.php?em=jeanne@mail.fr</a> : y’a marqué store, itunes, secure et tout mais c’est tout pourri et c’est même pas en https. Dans ce cas qui est un peu compliqué il faut regarder ce qu’on appelle le <strong>nom de domaine</strong>. C’est ce qu’il y a avant .fr .co .com .co.uk .net etc. donc ici itunesoffer59 : c’est clairement pas un site de confiance pour réinitialiser ses identifiants Apple.</p>
+
+<p>A fortiori sur les sites des <strong>banques</strong> pour les paiements en ligne.</p>
+
+<h1 id="3-liens-cachés">3 LIENS CACHÉS</h1>
+
+<p>Souvent dans les mails les liens sont cachés derrière un texte. <a href="http://attention-je-vais-te-niquer.com">Comme ça</a>. Simplement en <strong>laissant la souris dessus</strong> on voit la vraie adresse vers laquelle on va aller. Avec vos gros doigts sur un téléphone on reste appuyé dessus, on copie l’adresse/url du lien, et on le colle dans une note.</p>
+
+<p>Même si ça dit “ To cancel your purchase within 14 days of receiving this invoice, go to <a href="http://bit.ly/2ekUdVU">Cancel and Manage Subscription</a>.  “</p>
+
+<p>Si un <strong>téléchargement</strong> commence on se dépêche de l’annuler. S’il a eu le temps de finir pas de panique il suffit la plupart du temps de surtout pas ouvrir le fichier, le supprimer, vider la corbeille. En cas de doute on fait tourner un antivirus.</p>
+
+<h1 id="4-liens-raccourcis">4 LIENS RACCOURCIS</h1>
+
+<p>Dans les mails normaux que vous recevez <strong>les liens ne devraient PAS être raccourcis</strong>. Qu’ils soient cachés ou non. Un lien raccourcis ressemble à ça : <a href="http://bit.ly/2fSznOW">http://bit.ly/2fSznOW</a> ou à <a href="http://bit.ly/2fCWERn">ça</a>. Ne <strong>PAS</strong> cliquer en général sur ces liens mais plutot demander à un site internet de les checker pour vous c’est à dire de dé-raccourcir le lien. Cliquer sur le premier lien de cette section pour voir ce genre de sites.</p>
+
+<h1 id="5-contenu-sensible-par-mail">5 CONTENU SENSIBLE PAR MAIL</h1>
+
+<p>Personne, jamais, dans aucune circonstance, entreprise état ONG ou autre, ne vous demandera des infos sensibles par mail. Donc ne jamais répondre. Même si c’est un billing Apple de 100000€ qui a besoin de votre mot de passe pour être annulé parce qu’ils ont détecté une fraude potentielle. Ou impots.gouv.fr qui vous demande votre numéro fiscal pour vérifier un remboursement de trop-perçu. Bref on moufte pas, <strong>aucune info par mail</strong>.</p>
+
+<h1 id="6-pièces-jointes">6 PIÈCES JOINTES</h1>
+
+<p>Évidemment au moindre doute on télécharge surtout pas une pièce jointe. La plupart des boites mails proposent un preview du contenu. Si le preview ne montre rien ou est illisible par la boite mail c’est pas bon signe.</p>
+
+<h1 id="7-comment-choisir-un-mot-de-passe">7 COMMENT CHOISIR UN MOT DE PASSE</h1>
+
+<p>Dans <strong>l’idéal</strong>, un mot de passe ressemble à ça BxQ3&gt;CfK;D4!Gw9Z5+%. Et y’en a un différent par site oueb. Mais on sait que vous allez pas le faire. Donc du coup à défaut de faire un mot de passe impossible par site, et quitte à n’en avoir qu’un, il faut en faire un bien sécurisé et faire gaffe à ce qu’il ne se perde pas. Une méthode pas optimale mais pas mal :</p>
+
+<ul>
+  <li>vous choisissez deux ou trois mots en français (ou autre langue mais <strong>pas en anglais</strong>)</li>
+  <li>vous leur mettez des majuscules au début</li>
+  <li>vous les collez, vous les séparez par un symbole genre ! ou : ou &gt;</li>
+  <li>et puis vous finissez par 3 ou 4 chiffres.</li>
+</ul>
+
+<p>Si vous arrivez à une longueur au moins 12 c’est gagné. Par exemple Bien!Jamais:2703. Évidemment on évite les mots qui marchent aussi en anglais genre Cool ou Anus.
+Vérifiez <a href="http://www.passwordmeter.com/">là</a> que vous avez un bon mot de passe (mais de manière générale ne faites pas confiance à ce genre de site!!).</p>
+
+<p>Ça en gros c’est le minimum syndical en ligne pour pas se faire défoncer son mot de passe en 3 secondes. Idéalement on fait même un peu mieux que le process précédents : on inverse des lettres dans les mots, on choisit des mots de différentes langues, on invente à proprement parler des mots, on met des chiffres au milieu, on alterne majuscules minuscules etc. etc.</p>
+
+<p>Et dans l’idéal on a plusieurs mots de passe différents. Pour les plus aventureux voir <a href="https://www.dashlane.com/">Dashlane</a> ou <a href="https://1password.com/">1Password</a> qui sont des “password managers”.</p>
+
+<h1 id="why">WHY?</h1>
+
+<p>C’est vraiment hyper important de se protéger un minimum en ligne. Avec un compte Apple, Facebook, Gmail ou Amazon on peut faire beauuuucop de bétises. Demandez autour de vous à ceux à qui c’est arrivé : c’est très chiant de devoir changer d’adresse mail alors que tout le monde croit que tu utilises encore l’ancienne. Ça peut être compliqué de supprimer un compte (faut prouver qu’on est soi) et c’est hyper relou de changer son adresse mail de tous les sites sur lesquels on est inscrit. Pourquoi on ferait ça? Parce que la personne mal intentionnée peut demander à ces sites de réinitialiser votre mot de passe, et ces sites enverront les infos pour changer le mot de passe à … l’adresse qu’on vous a volée.</p>
+
+<p>C’est pas très dur non plus, à partir d’une adresse mail, de <strong>voler une identité</strong> : en cherchant dans les archives on peut trouver votre adresse, le nom de membres de votre famille, votre date de naissance, vos autres adresses mail, votre métier, vos amis proches, vos vacances, peut-être même une photocopie de carte d’identité scannée y’a longtemps ou un passeport envoyé par mail un jour pour un visa, etc. bref faut pas négliger la puissance de vos archives mail. Surtout vous les pros!</p>
+
+<h1 id="bref">BREF</h1>
+
+<p>Donc les mails on fait attention aux liens quand on a un doute, on télécharge surtout pas les pièces jointes. En ligne on vérifie le https et l’adresse. On choisit un mot de passe solide. Au moins si vous avez vraiment la flemme de changer de mot de passe rajoutez 4 chiffres à la fin : les deux choses les plus importantes sont la longueur et le mix chiffres-lettres (sauf password000000, ça ça compte pas ; ni fucktrump911)</p>
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="La sécurité sur internet expliquée à ta grand mère" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

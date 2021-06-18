@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keras Recurrent Tutorial &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="Keras Recurrent Tutorial ">
+    <link rel="canonical" href="https://vict0rs.ch/tutorials/keras/recurrent/">
+    
+    
+    <meta property="og:title" content="Keras Recurrent Tutorial " />
+    <meta property="og:url" content="https://vict0rs.ch/tutorials/keras/recurrent/" />
+    
+    
+    <meta property="og:description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    <meta name="description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<article>
+    <div class="container">
+        <header>
+            
+            <h1 class="title">Keras Recurrent Tutorial</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            <h2 class="subtitle">Code walk-through - Jan. 2016</h2>
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <h1 id="disclaimer">Disclaimer</h1>
+
+<h2 id="i-have-stopped-using-keras-a-few-months-ago-ive-switched-to-tensorflow-and-will-have-a-dedicated-section-on-this-blog-soon-so-i-may-not-be-able-to-help-you-with-the-latest-changes-in-keras-the-spirit-is-still-here-and-im-sure-this-can-still-be-a-source-of-inspiration-ill-do-my-best-to-help-you-if-possible-though">I have stopped using Keras a few months ago. I’ve switched to Tensorflow (and will have a dedicated section on this blog soon) so I may not be able to help you with the latest changes in Keras. The spirit is still here and I’m sure this can still be a source of inspiration. I’ll do my best to help you if possible though!</h2>
+
+<p>This section will walk you through the code of <a href="#recurrent_keras_power.py"><code class="language-plaintext highlighter-rouge">recurrent_keras_power.py</code></a> which I suggest you have open while reading.</p>
+
+<p>This tutorial is mostly homemade, however inspired from Daniel Hnyk’s <a href="http://danielhnyk.cz/predicting-sequences-vectors-keras-using-rnn-lstm/">blog post</a></p>
+
+<p>The dataset we’ll be using can be downloaded <a href="https://archive.ics.uci.edu/ml/datasets/Individual+household+electric+power+consumption#">there</a> : it is a 20 Mo zip file containing a text file.</p>
+
+<p>The <strong>task</strong> here will be to be able to predict values for a timeseries : the history of 2 million minutes of a household’s power consumption. We are going to use a multi-layered LSTM recurrent neural network to predict the last value of a sequence of values. Put another way, given 49 timesteps of consumption, what will be the 50th value?</p>
+
+<h1 id="recurrent-keras-power">Recurrent Keras power</h1>
+
+<h1 id="general-organization">General organization</h1>
+
+<p>We start with importing everything we’ll need (no shit…). Then we define functions to load the data, compile the model, train it and plot the results.</p>
+
+<p>The overall philosophy is modularity. We use default parameters in the <code class="language-plaintext highlighter-rouge">run_network</code> function so that you can feed it with already loaded data (and not re-load it each time you train a network) or a pre-trained network <code class="language-plaintext highlighter-rouge">model</code> to enable warm restarts.</p>
+
+<h2 id="imports">Imports</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">csv</span>
+<span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+<span class="kn">from</span> <span class="nn">keras.layers.core</span> <span class="kn">import</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Activation</span><span class="p">,</span> <span class="n">Dropout</span>
+<span class="kn">from</span> <span class="nn">keras.layers.recurrent</span> <span class="kn">import</span> <span class="n">LSTM</span>
+<span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">1234</span><span class="p">)</span></code></pre></figure>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">matplotlib</code>, <code class="language-plaintext highlighter-rouge">numpy</code>, <code class="language-plaintext highlighter-rouge">time</code> are pretty straight forward.</li>
+  <li><code class="language-plaintext highlighter-rouge">csv</code> is a module that will be used to load the data from the <code class="language-plaintext highlighter-rouge">txt</code> file.</li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">models</code> is the core of Keras’s neural networks implementation. It is the object that represents the network : it will have layers, activations and so on. It is the object that will be ‘trained’ and ‘tested’. <code class="language-plaintext highlighter-rouge">Sequetial</code> means we will use a ‘layered’ model, not a graphical one.</p>
+  </li>
+  <li><code class="language-plaintext highlighter-rouge">Dense, Activation, Dropout</code> core layers are used to build the network : feedforward standard layers and Activation and Dropout modules to parametrize the layers.</li>
+  <li><code class="language-plaintext highlighter-rouge">LSTM</code> is a reccurent layer. LSTM cells are quite complex and should be carefully studied (see in <a href="../useful_resources.md">resources</a>: Chris Olah’s <a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a> and N. De Freitas’s <a href="(https://www.youtube.com/watch?v=56TYLaQN4N8&amp;index=1&amp;list=PL0NrLl_3fZQ0E5mJJisEP6ZQvHVHZd5b_)">video</a>), however see <a href="http://keras.io/layers/recurrent/#lstm">here</a> the default parameters.</li>
+</ul>
+
+<p>Last thing is that for reproductibility, a seed is used in numpy’s random.</p>
+
+<h2 id="loading-the-data">Loading the data</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">data_power_consumption</span><span class="p">(</span><span class="n">path_to_dataset</span><span class="o">=</span><span class="s">'household_power_consumption.txt'</span><span class="p">,</span> <span class="n">sequence_length</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">ratio</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+
+    <span class="n">max_values</span> <span class="o">=</span> <span class="n">ratio</span> <span class="o">*</span> <span class="mi">2049280</span>
+    
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path_to_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">csv</span><span class="p">.</span><span class="n">reader</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s">";"</span><span class="p">)</span>
+        <span class="n">power</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">nb_of_values</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">data</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">power</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">line</span><span class="p">[</span><span class="mi">2</span><span class="p">]))</span>
+                <span class="n">nb_of_values</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">except</span> <span class="nb">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="c1"># 2049280.0 is the total number of valid values, i.e. ratio = 1.0
+</span>            <span class="k">if</span> <span class="n">nb_of_values</span> <span class="o">/</span> <span class="mf">2049280.0</span> <span class="o">&gt;=</span> <span class="n">ratio</span><span class="p">:</span>
+                <span class="k">break</span></code></pre></figure>
+
+<p>The initial file contains lots of different pieces of data. We will here focus on a single value : a house’s <code class="language-plaintext highlighter-rouge">Global_active_power </code> history, minute by minute for almost 4 years. This means roughly 2 million points. Some values are missing, this is why we <code class="language-plaintext highlighter-rouge">try</code> to load the values as floats into the list and if the value is not a number ( missing values are marked with a <code class="language-plaintext highlighter-rouge">?</code>) we simply ignore them.</p>
+
+<p>Also if we do not want to load the entire dataset, there is a condition to stop loading the data when a certain ratio is reached.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">power</span><span class="p">)</span> <span class="o">-</span> <span class="n">sequence_length</span><span class="p">):</span>
+        <span class="n">result</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">power</span><span class="p">[</span><span class="n">index</span><span class="p">:</span> <span class="n">index</span> <span class="o">+</span> <span class="n">sequence_length</span><span class="p">])</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>  <span class="c1"># shape (2049230, 50)</span></code></pre></figure>
+
+<p>Once all the datapoints are loaded as one large timeseries, we have to <strong>split</strong> it into examples. Again, one example is made of a sequence of 50 values. Using the first 49, we are going to try and predict the 50th. Moreover, we’ll do this for every minute given the 49 previous ones so we use a sliding buffer of size 50.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">result_mean</span> <span class="o">=</span> <span class="n">result</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="n">result</span> <span class="o">-=</span> <span class="n">result_mean</span>
+    <span class="k">print</span> <span class="s">"Shift : "</span><span class="p">,</span> <span class="n">result_mean</span>
+    <span class="k">print</span> <span class="s">"Data  : "</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">shape</span></code></pre></figure>
+
+<p>Neural networks usually learn way better when data is pre-processed (cf Y. Lecun’s 1995 <a href="http://yann.lecun.com/exdb/publis/pdf/lecun-98b.pdf">paper</a>, section 4.3). However regarding time-series we do not want the network to learn on data too far from the real world. So here we’ll keep it simple and simply center the data to have a <code class="language-plaintext highlighter-rouge">0</code> mean.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">row</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="mf">0.9</span> <span class="o">*</span> <span class="n">result</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">train</span> <span class="o">=</span> <span class="n">result</span><span class="p">[:</span><span class="n">row</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+    <span class="n">X_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">y_train</span> <span class="o">=</span> <span class="n">train</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">row</span><span class="p">:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">y_test</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="n">row</span><span class="p">:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]</span></code></pre></figure>
+
+<p>Now that the examples are formatted, we need to split them into train and test, input and target. 
+Here we select 10% of the data as test and 90% to train. We also select the last value of each example to be the target, the rest being the sequence of inputs.</p>
+
+<p>We shuffle the training examples so that we train in no particular order and the distribution is uniform (for the batch calculation of the loss) but not the test set so that we can visualize our predictions with real signals.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">X_train</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="p">(</span><span class="n">X_train</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_train</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="p">(</span><span class="n">X_test</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">X_test</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
+    
+    <span class="k">return</span> <span class="p">[</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">]</span></code></pre></figure>
+
+<p>Last thing regards input formats. Read through the <a href="../recurrent.md">recurrent</a> post to get more familiar with data dimensions. So we reshape the inputs to have dimensions (<code class="language-plaintext highlighter-rouge">#examples</code>, <code class="language-plaintext highlighter-rouge">#values in sequences</code>, <code class="language-plaintext highlighter-rouge">dim. of each value</code>). Here each value is 1-dimensional, they are only one measure (of power consumption at time t). However if we were to predict speed vectors they could be 3 dimensional for instance.</p>
+
+<p>In fine, we return <code class="language-plaintext highlighter-rouge">X_train, y_train, X_test, y_test</code> in a list (to be able to feed it as one only object to our <code class="language-plaintext highlighter-rouge">run</code> function)</p>
+
+<h2 id="building-the-model">Building the model</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">build_model</span><span class="p">():</span>
+
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+    <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span></code></pre></figure>
+
+<p>So here we are going to build our <code class="language-plaintext highlighter-rouge">Sequential</code> model. This means we’re going to stack layers in this object.</p>
+
+<p>Also, <code class="language-plaintext highlighter-rouge">layers</code> is the list containing the sizes of each layer. We are therefore going to have a network with 1-dimensional input, two hidden layers of sizes 50 and 100 and eventually a 1-dimensional output layer.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span>
+            <span class="n">input_dim</span><span class="o">=</span><span class="n">layers</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+            <span class="n">output_dim</span><span class="o">=</span><span class="n">layers</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+            <span class="n">return_sequences</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span>
+    <span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span></code></pre></figure>
+
+<p>After the model is initialized, we create a first layer, in this case an LSTM layer. Here we use the default parameters so it behaves as a standard recurrent layer. Since our input is of 1 dimension, we declare that it should expect an <code class="language-plaintext highlighter-rouge">input_dim</code> of <code class="language-plaintext highlighter-rouge">1</code>. Then we say we want <code class="language-plaintext highlighter-rouge">layers[1]</code>  units in this layer. We also add 20% <code class="language-plaintext highlighter-rouge">Dropout</code> in this layer.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span>
+            <span class="n">layers</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span>
+            <span class="n">return_sequences</span><span class="o">=</span><span class="bp">False</span><span class="p">))</span>
+    <span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dropout</span><span class="p">(</span><span class="mf">0.2</span><span class="p">))</span></code></pre></figure>
+
+<p>Second layer is even simpler to create, we just say how many units we want (<code class="language-plaintext highlighter-rouge">layers[2]</code>) and Keras takes care of the rest.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span>
+            <span class="n">output_dim</span><span class="o">=</span><span class="n">layers</span><span class="p">[</span><span class="mi">3</span><span class="p">]))</span>
+    <span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Activation</span><span class="p">(</span><span class="s">"linear"</span><span class="p">))</span></code></pre></figure>
+
+<p>The last layer we use is a Dense layer ( = feedforward). Since we are doing a regression, its activation is linear.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="n">start</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">model</span><span class="p">.</span><span class="nb">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s">"mse"</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s">"rmsprop"</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">"Compilation Time : "</span><span class="p">,</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start</span>
+    <span class="k">return</span> <span class="n">model</span></code></pre></figure>
+
+<p>Lastly, we compile the model using a Mean Square Error (again, it’s standard for regression) and the <code class="language-plaintext highlighter-rouge">RMSprop</code> optimizer. See the <a href="feedforward_keras_mnist_tutorial.md#creating-the-model">mnist example</a> to learn more on <code class="language-plaintext highlighter-rouge">rmsprop</code>.</p>
+
+<h2 id="return_sequence">Return_Sequence</h2>
+<p>For now we have not looked into the <code class="language-plaintext highlighter-rouge">return_sequence=</code> parameter of the LSTM layers. Just like in the <a href="../recurrent.md">recurrent</a> post on dimensions, we’ll use Andrej Karpathy’s chart to understand what is hapenning. See the post for more details on how to read it.</p>
+
+<p><img src="http://karpathy.github.io/assets/rnn/diags.jpeg" alt="Karpathy's RNNs illustration" /></p>
+
+<p>The difference between <code class="language-plaintext highlighter-rouge">return_sequence=True</code> and <code class="language-plaintext highlighter-rouge">return_sequence=False</code> is that in the first case the network behaves as in the 5th illustration (second <em>many to many</em>) and in the latter it behaves as the 3rd, <em>many to one</em>.</p>
+
+<p>In our case, the first LSTM layer returns sequences because we want it to transfer its information both to the next layer (upwards in the chart) and to itself for the next timestep (arrow to the right).</p>
+
+<p>However for the second one, we just expect its last sequence prediction to be compared to the target. This means for inputs 0 to <code class="language-plaintext highlighter-rouge">sequence_length - 2</code> the prediction is only passed to the layer itself for the next timestep and not as an input to the next ( = output) layer. However the <code class="language-plaintext highlighter-rouge">sequence_length - 1</code>th input is passed forward to the Dense layer for the loss computation against the target.</p>
+
+<h3 id="more-details">More details?</h3>
+
+<p>If you’re still not clear with what happens, let’s set <code class="language-plaintext highlighter-rouge">sequence_length</code> to <code class="language-plaintext highlighter-rouge">3</code>. In this case the aim would be to predict the 4th value and compute the loss against the real 4th value, the target.</p>
+
+<ol>
+  <li>
+    <p>The first example value is fed to the network from the input</p>
+
+    <p>a. The first hidden layer’s activation is computed and passed both to the second hidden layer and to itself</p>
+
+    <p>b. The second hidden layer takes as input the first hidden layer’s activation, computes its own activation and passes it only to itself</p>
+  </li>
+  <li>
+    <p>The second example of the same sequence is fed from the input</p>
+
+    <p>a. The first hidden layer takes as input both this value and its own previous prediction from the first timestep. The computed activation is fed again both to the second layer and to the first hidden layer itself</p>
+
+    <p>b. The second layer behaves likewise: it takes its previous prediction and the first hidden layer’s output as inputs and outputs an activation. This activation, once again, is fed to the second hidden layer for the next timestep</p>
+  </li>
+  <li>
+    <p>The last value of the sequence is input into the network</p>
+
+    <p>a. The first hidden layer behaves as before (2.a)</p>
+
+    <p>b. The second layer also behaves as before (2.b) except that this time, its activation is also passed to the last, <code class="language-plaintext highlighter-rouge">Dense</code> layer.</p>
+
+    <p>c. The <code class="language-plaintext highlighter-rouge">Dense</code> layer computes its activation from the second hidden layer’s activation. This activation is the prediction our network does for the 4th timestep.</p>
+  </li>
+</ol>
+
+<p><strong>To conclude</strong>, the fact that <code class="language-plaintext highlighter-rouge">return_sequence=True</code> for the first layer means that its output is always fed to the second layer. As a whole regarding time, all its activations can be seen as the sequence of prediction this first layer has made from the input sequence.<br />
+On the other hand, <code class="language-plaintext highlighter-rouge">return_sequence=False</code> for the second layer because its output is only fed to the next layer at the end of the sequence. As a whole regarding time, it does not output a prediction for the sequence but one only prediction-vector (of size <code class="language-plaintext highlighter-rouge">layer[2]</code>) for the whole input sequence. The linear  <code class="language-plaintext highlighter-rouge">Dense</code> layer is used to aggregate all the information from this prediction-vector into one single value, the predicted 4th timestep of the sequence.</p>
+
+<h3 id="to-go-further">To go further</h3>
+
+<p>Had we stacked three recurrent hidden layers, we’d have set <code class="language-plaintext highlighter-rouge">return_sequence=True</code> to the second hidden layer and <code class="language-plaintext highlighter-rouge">return_sequence=False</code> to the last. In other words, <code class="language-plaintext highlighter-rouge">return_sequence=False</code> is used as an interface from recurrent to feedforward layers (dense or convolutionnal).</p>
+
+<p>Also, if the output had a dimension <code class="language-plaintext highlighter-rouge">&gt; 1</code>, we’d only change the size of the <code class="language-plaintext highlighter-rouge">Dense</code> layer.</p>
+
+<h2 id="running-the-network">Running the network</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">run_network</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">epochs</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">ratio</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">path_to_dataset</span> <span class="o">=</span> <span class="s">'household_power_consumption.txt'</span>
+    
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">'Loading data... '</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">data_power_consumption</span><span class="p">(</span>
+                <span class="n">path_to_dataset</span><span class="p">,</span> <span class="n">sequence_length</span><span class="p">,</span> <span class="n">ratio</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">data</span>
+    
+    <span class="k">print</span> <span class="s">'</span><span class="se">\n</span><span class="s">Data Loaded. Compiling...</span><span class="se">\n</span><span class="s">'</span>
+    
+    <span class="k">if</span> <span class="n">model</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="n">build_model</span><span class="p">()</span></code></pre></figure>
+
+<p>Just like before, to be as modular as possible we start with checking whether or not <code class="language-plaintext highlighter-rouge">data</code> and <code class="language-plaintext highlighter-rouge">model</code> values were provided. If not we load the data and build the model. Set <code class="language-plaintext highlighter-rouge">ratio</code> to the proportion of the entire dataset you want to load (of course <code class="language-plaintext highlighter-rouge">ratio &lt;= 1</code> … if not <code class="language-plaintext highlighter-rouge">data_power_consumption</code> will behave as if <code class="language-plaintext highlighter-rouge">ratio = 1</code>)</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="k">try</span><span class="p">:</span>
+        <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span>
+            <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+            <span class="n">batch_size</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">nb_epoch</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> <span class="n">validation_split</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
+        <span class="n">predicted</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+        <span class="n">predicted</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">predicted</span><span class="p">,</span> <span class="p">(</span><span class="n">predicted</span><span class="p">.</span><span class="n">size</span><span class="p">,))</span>
+    <span class="k">except</span> <span class="nb">KeyboardInterrupt</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">'Training duration (s) : '</span><span class="p">,</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">global_start_time</span>
+        <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="mi">0</span></code></pre></figure>
+
+<p>Again, we put the training into a try/except statement so that we can interrupt the training without losing everythin to a <code class="language-plaintext highlighter-rouge">KeyboardInterrupt</code>.</p>
+
+<p>To train the model, we call the <code class="language-plaintext highlighter-rouge">model</code>’s <code class="language-plaintext highlighter-rouge">fit</code> method. Nothing new here. Pretty straight forward.</p>
+
+<p>Let’s focus a bit on <code class="language-plaintext highlighter-rouge">predicted</code>.</p>
+
+<ul>
+  <li>
+    <p>by construction <code class="language-plaintext highlighter-rouge">X_test</code> is an array with 49 columns (timesteps). The list <code class="language-plaintext highlighter-rouge">[ X_test[i][0] ]</code> is the entire signal (minus the last 49 values) from which it was built since we’ve used a 1-timestep sliding buffer.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">X_test[0]</code> is the first sequence, that is to say the first 49 values of the original signal.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">predict(X_test[0])</code> is therefore the prediction for the 50th value and its associated target is <code class="language-plaintext highlighter-rouge">y_test[0]</code>. Moreover, by construction, <code class="language-plaintext highlighter-rouge">y_test[0] = X_test[1][48] = X_test[2][47] = ...</code></p>
+  </li>
+  <li>
+    <p>then <code class="language-plaintext highlighter-rouge">predict(X_test[1])</code> is the prediction of the 51th value, associated with <code class="language-plaintext highlighter-rouge">y_test[1]</code> as a target.</p>
+  </li>
+  <li>
+    <p>therefore <code class="language-plaintext highlighter-rouge">predict(X_test)</code> is the predicted signal, one step ahead, and <code class="language-plaintext highlighter-rouge">y_test</code> is its target.</p>
+  </li>
+  <li>
+    <p><code class="language-plaintext highlighter-rouge">predict(X_test)</code> is a list of lists (in fact a 2-dimensional numpy array) with one value, therefore we reshape it so that it simply is a list of values (1-dimensional numpy array).</p>
+  </li>
+</ul>
+
+<p>In case of keyboard interruption, we return the <code class="language-plaintext highlighter-rouge">model</code>, <code class="language-plaintext highlighter-rouge">y_test</code> and <code class="language-plaintext highlighter-rouge">X_test</code>. The latter is returned so that you can run <code class="language-plaintext highlighter-rouge">predict</code> on the early-returned <code class="language-plaintext highlighter-rouge">model</code> if you like.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python">    <span class="k">try</span><span class="p">:</span>
+        <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">y_test</span><span class="p">[:</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">predicted</span><span class="p">[:</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+        <span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+    <span class="k">except</span> <span class="nb">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">print</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s">'Training duration (s) : '</span><span class="p">,</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">global_start_time</span>
+    <span class="k">return</span> <span class="n">model</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="n">predicted</span></code></pre></figure>
+
+<p>Lastly we plot the result of the prediction for the first 100 timesteps and return <code class="language-plaintext highlighter-rouge">model</code>, <code class="language-plaintext highlighter-rouge">y_test</code> and the <code class="language-plaintext highlighter-rouge">predicted</code> values.</p>
+
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Keras Recurrent Tutorial" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+                <div class='postDate'>Jan. 2016</div>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

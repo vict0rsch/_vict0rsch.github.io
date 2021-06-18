@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyTorch Dataloader for HDF5 data &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="PyTorch Dataloader for HDF5 data ">
+    <link rel="canonical" href="https://vict0rs.ch/2021/06/15/pytorch-h5/">
+    
+    
+    <meta property="og:title" content="PyTorch Dataloader for HDF5 data " />
+    <meta property="og:url" content="https://vict0rs.ch/2021/06/15/pytorch-h5/" />
+    
+    
+    <meta property="og:description" content="Just a useful snippet" />
+    <meta name="description" content="Just a useful snippet" />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<article>
+    <div class="container">
+        <header>
+            
+            <div class="meta">
+                <span class='meta_text'>By</span> <address><a rel="author" href="" title="Victor Schmidt"
+                        target="_blank">Victor Schmidt</a></address> <span class='meta_text'>&mdash;
+                    <time pubdate datetime="2021-15-June" title="June 15, 2021">June 15, 2021</time></span>
+            </div>
+            
+            <h1 class="title">PyTorch Dataloader for HDF5 data</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <h2 id="context">Context</h2>
+
+<p>I’m a newbie with HDF5, less so with PyTorch yet I found it hard to find guidelines regarding good practices to load data from HDF5 data.</p>
+
+<p>So here’s my take on the issue, inspired by <a href="https://github.com/tristandeleu/pytorch-meta/blob/master/torchmeta/datasets/omniglot.py#L149-L166"><code class="language-plaintext highlighter-rouge">torchmeta</code></a></p>
+
+<h2 id="first-attempt---typeerror-h5py-objects-cannot-be-pickled">First Attempt - TypeError: h5py objects cannot be pickled</h2>
+
+<p>Here’s <em>my</em> usecase: I have <code class="language-plaintext highlighter-rouge">.h5</code> files containing samples as <code class="language-plaintext highlighter-rouge">datasets</code> (no groups/subgroups but that wouldn’t be so different I expect).</p>
+
+<p>Initially I thought “well, let’s just open the files and dynamically load the datasets”. So I wrote something like:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">H5Dataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h5_path</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">h5_file</span> <span class="o">=</span> <span class="n">h5py</span><span class="p">.</span><span class="n">File</span><span class="p">(</span><span class="n">h5_path</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">h5_file</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">h5_file</span><span class="p">[</span><span class="sa">f</span><span class="s">"trajectory_</span><span class="si">{</span><span class="n">index</span><span class="si">}</span><span class="s">"</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">dataset</span><span class="p">[:])</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="p">.</span><span class="n">attrs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s">"data"</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span>
+            <span class="s">"labels"</span><span class="p">:</span> <span class="n">labels</span>
+        <span class="p">}</span>
+
+<span class="p">...</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">H5Dataset</span><span class="p">(</span><span class="s">"/some/path.h5"</span><span class="p">),</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">loader</span><span class="p">))</span></code></pre></figure>
+
+<p>And then…</p>
+
+<blockquote>
+  <p>TypeError: h5py objects cannot be pickled</p>
+</blockquote>
+
+<p>So that’s bad news. The issue is when using <code class="language-plaintext highlighter-rouge">num_workers &gt; 0</code> the <code class="language-plaintext highlighter-rouge">Dataset</code>s are created and then passed to the <code class="language-plaintext highlighter-rouge">DataLoader</code>’s worker processes, which requires any data sent to be pickleable… unlike <code class="language-plaintext highlighter-rouge">h5py.File</code> objects.</p>
+
+<h2 id="solution">Solution</h2>
+
+<p>One could want to shift file opening to <code class="language-plaintext highlighter-rouge">__getitem__</code> but this means that you will need to open and read the file once <em>for every sample along the training procedure</em>, which could create overhead and filesystem pressure.</p>
+
+<p>The solution is to <em>lazy-load</em> the files: load them the first time they are needed and store them after the first call:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">Dataset</span>
+<span class="kn">import</span> <span class="nn">h5py</span>
+
+
+<span class="k">class</span> <span class="nc">H5Dataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h5_paths</span><span class="p">,</span> <span class="n">limit</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">limit</span> <span class="o">=</span> <span class="n">limit</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">h5_paths</span> <span class="o">=</span> <span class="n">h5_paths</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">_archives</span> <span class="o">=</span> <span class="p">[</span><span class="n">h5py</span><span class="p">.</span><span class="n">File</span><span class="p">(</span><span class="n">h5_path</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">for</span> <span class="n">h5_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">h5_paths</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">.</span><span class="n">indices</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">archive</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">archives</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">archive</span><span class="p">)):</span>
+                <span class="bp">self</span><span class="p">.</span><span class="n">indices</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+                <span class="n">idx</span> <span class="o">+=</span> <span class="mi">1</span>
+
+        <span class="bp">self</span><span class="p">.</span><span class="n">_archives</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="o">@</span><span class="nb">property</span>
+    <span class="k">def</span> <span class="nf">archives</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">_archives</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span> <span class="c1"># lazy loading here!
+</span>            <span class="bp">self</span><span class="p">.</span><span class="n">_archives</span> <span class="o">=</span> <span class="p">[</span><span class="n">h5py</span><span class="p">.</span><span class="n">File</span><span class="p">(</span><span class="n">h5_path</span><span class="p">,</span> <span class="s">"r"</span><span class="p">)</span> <span class="k">for</span> <span class="n">h5_path</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">.</span><span class="n">h5_paths</span><span class="p">]</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">.</span><span class="n">_archives</span>
+
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="n">a</span><span class="p">,</span> <span class="n">i</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">indices</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+        <span class="n">archive</span> <span class="o">=</span> <span class="bp">self</span><span class="p">.</span><span class="n">archives</span><span class="p">[</span><span class="n">a</span><span class="p">]</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">archive</span><span class="p">[</span><span class="sa">f</span><span class="s">"trajectory_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s">"</span><span class="p">]</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">dataset</span><span class="p">[:])</span>
+        <span class="n">labels</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">dataset</span><span class="p">.</span><span class="n">attrs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">"data"</span><span class="p">:</span> <span class="n">data</span><span class="p">,</span> <span class="s">"labels"</span><span class="p">:</span> <span class="n">labels</span><span class="p">}</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="p">.</span><span class="n">limit</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">min</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">indices</span><span class="p">),</span> <span class="bp">self</span><span class="p">.</span><span class="n">limit</span><span class="p">])</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">.</span><span class="n">indices</span><span class="p">)</span></code></pre></figure>
+
+<p>That’s it :)</p>
+
+<p>Now:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">loader</span> <span class="o">=</span> <span class="n">torch</span><span class="p">.</span><span class="n">utils</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">DataLoader</span><span class="p">(</span><span class="n">H5Dataset</span><span class="p">([</span><span class="s">"/some/path.h5"</span><span class="p">,</span> <span class="s">"/some/path2.h5"</span><span class="p">]),</span> <span class="n">num_workers</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">batch</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">loader</span><span class="p">))</span></code></pre></figure>
+
+<p>Does not raise an error anymore!</p>
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="PyTorch Dataloader for HDF5 data" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

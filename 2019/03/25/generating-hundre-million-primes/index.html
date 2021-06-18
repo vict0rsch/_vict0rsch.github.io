@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generating 100 000 000 primes with Python &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="Generating 100 000 000 primes with Python ">
+    <link rel="canonical" href="https://vict0rs.ch/2019/03/25/generating-hundre-million-primes/">
+    
+    
+    <meta property="og:title" content="Generating 100 000 000 primes with Python " />
+    <meta property="og:url" content="https://vict0rs.ch/2019/03/25/generating-hundre-million-primes/" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/https://fr.cdn.v5.futura-sciences.com/buildsv6/images/wide1920/f/a/d/fadba6db83_107981_02-1791.jpg" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/light-bulb.svg" />
+    
+    
+    <meta property="og:description" content="I needed primes. A lot of primes. So I generated them. Here they are!" />
+    <meta name="description" content="I needed primes. A lot of primes. So I generated them. Here they are!" />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<div class="article-cover">
+    <div>
+        
+        <img src="https://fr.cdn.v5.futura-sciences.com/buildsv6/images/wide1920/f/a/d/fadba6db83_107981_02-1791.jpg" class="image">
+        
+    </div>
+</div>
+
+<article>
+    <div class="container">
+        <header>
+            
+            <div class="meta">
+                <span class='meta_text'>By</span> <address><a rel="author" href="" title="Victor Schmidt"
+                        target="_blank">Victor Schmidt</a></address> <span class='meta_text'>&mdash;
+                    <time pubdate datetime="2019-25-March" title="March 25, 2019">March 25, 2019</time></span>
+            </div>
+            
+            <h1 class="title">Generating 100 000 000 primes with Python</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <ol id="markdown-toc">
+  <li><a href="#generating-a-hundred-million-primes" id="markdown-toc-generating-a-hundred-million-primes">Generating a hundred million primes</a>    <ol>
+      <li><a href="#optimizing" id="markdown-toc-optimizing">Optimizing</a></li>
+    </ol>
+  </li>
+  <li><a href="#i-just-want-the-file" id="markdown-toc-i-just-want-the-file">I just want the file!</a></li>
+</ol>
+
+<h1 id="generating-a-hundred-million-primes">Generating a hundred million primes</h1>
+
+<p>I did not reinvent the wheel and simply used the code from <a href="https://stackoverflow.com/questions/2211990/how-to-implement-an-efficient-infinite-generator-of-prime-numbers-in-python/10733621#10733621">this StackOverflow answer</a> and included it in a script. It’s a smart <a href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Eratosthene Sieve</a></p>
+
+<p>The script uses Python 3.6 but it can easily be adapted to older versions. Beware of the string formating and <code class="language-plaintext highlighter-rouge">itertools</code> mainly</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">itertools</span> <span class="k">as</span> <span class="n">it</span>
+
+<span class="k">def</span> <span class="nf">erat3</span><span class="p">():</span>
+    <span class="n">D</span> <span class="o">=</span> <span class="p">{</span> <span class="mi">9</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">25</span><span class="p">:</span> <span class="mi">5</span> <span class="p">}</span>
+    <span class="k">yield</span> <span class="mi">2</span>
+    <span class="k">yield</span> <span class="mi">3</span>
+    <span class="k">yield</span> <span class="mi">5</span>
+    <span class="n">MASK</span><span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="n">MODULOS</span><span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">29</span><span class="p">)</span> <span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">it</span><span class="p">.</span><span class="n">compress</span><span class="p">(</span>
+            <span class="n">it</span><span class="p">.</span><span class="n">islice</span><span class="p">(</span><span class="n">it</span><span class="p">.</span><span class="n">count</span><span class="p">(</span><span class="mi">7</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span>
+            <span class="n">it</span><span class="p">.</span><span class="n">cycle</span><span class="p">(</span><span class="n">MASK</span><span class="p">)):</span>
+        <span class="n">p</span> <span class="o">=</span> <span class="n">D</span><span class="p">.</span><span class="n">pop</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">p</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">D</span><span class="p">[</span><span class="n">q</span><span class="o">*</span><span class="n">q</span><span class="p">]</span> <span class="o">=</span> <span class="n">q</span>
+            <span class="k">yield</span> <span class="n">q</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">q</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span>
+            <span class="k">while</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">D</span> <span class="ow">or</span> <span class="p">(</span><span class="n">x</span><span class="o">%</span><span class="mi">30</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">MODULOS</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">+=</span> <span class="mi">2</span><span class="o">*</span><span class="n">p</span>
+            <span class="n">D</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">"__main__"</span><span class="p">:</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="p">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s">"--n"</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="s">"number of primes to generate"</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="p">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s">"--outf"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">""</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">"output file, with extension"</span><span class="p">)</span>
+    <span class="n">opt</span> <span class="o">=</span> <span class="n">parser</span><span class="p">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">opt</span><span class="p">.</span><span class="n">outf</span><span class="p">:</span>
+        <span class="n">opt</span><span class="p">.</span><span class="n">outf</span> <span class="o">=</span> <span class="s">"./%d_primes.txt"</span> <span class="o">%</span> <span class="n">opt</span><span class="p">.</span><span class="n">n</span>
+
+    <span class="n">primes_gen</span> <span class="o">=</span> <span class="n">erat3</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">primes_gen</span><span class="p">):</span>
+        <span class="n">j</span> <span class="o">=</span> <span class="n">i</span> <span class="o">%</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>
+        <span class="n">l</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">opt</span><span class="p">.</span><span class="n">n</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">opt</span><span class="p">.</span><span class="n">outf</span><span class="p">,</span> <span class="s">"a"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="n">f</span><span class="p">.</span><span class="n">writelines</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">+</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">l</span><span class="p">])</span>
+            <span class="n">l</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">int</span><span class="p">(</span><span class="mf">1e6</span><span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'(</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">s</span><span class="p">)</span><span class="si">}</span><span class="s">s) wrote at step </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s">'</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">&gt;=</span> <span class="n">opt</span><span class="p">.</span><span class="n">n</span><span class="p">:</span>
+                <span class="k">break</span>
+    <span class="k">print</span><span class="p">(</span><span class="sa">f</span><span class="s">'</span><span class="si">{</span><span class="n">opt</span><span class="p">.</span><span class="n">n</span><span class="si">}</span><span class="s"> prime numbers in </span><span class="si">{</span><span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">s</span><span class="si">}</span><span class="s">s'</span><span class="p">)</span></code></pre></figure>
+
+<p>To generate a million primes:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python generate_primes.py --n=1000000 --outf='./1e6_primes.txt'
+</code></pre></div></div>
+
+<h2 id="optimizing">Optimizing</h2>
+
+<p>I suggest you have a look at the PrimeSieve project -&gt; <a href="https://primesieve.org/">primesieve.org</a> they have a highly optimized C++ implementation and its associated <a href="https://github.com/hickford/primesieve-python">Python bindings</a>.</p>
+
+<h1 id="i-just-want-the-file">I just want the file!</h1>
+
+<p><a href="https://drive.google.com/file/d/1Cf4eqqwURkWwIBXF0e8T0qwzsCKkq0uo/view?usp=sharing"><strong>Here you go.</strong></a></p>
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Generating 100 000 000 primes with Python" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

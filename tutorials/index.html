@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep-Learning Implementations Tutorial &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="Deep-Learning Implementations Tutorial ">
+    <link rel="canonical" href="https://vict0rs.ch/tutorials/">
+    
+    
+    <meta property="og:title" content="Deep-Learning Implementations Tutorial " />
+    <meta property="og:url" content="https://vict0rs.ch/tutorials/" />
+    
+    
+    <meta property="og:description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    <meta name="description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<article>
+    <div class="container">
+        <header>
+            
+            <h1 class="title">Deep-Learning Implementations Tutorial</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            <h2 class="subtitle">Ready to use Keras and Lasagne? I'll soon do Tensorflow also.</h2>
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <h2 id="table-of-contents">Table Of Contents</h2>
+
+<p><strong><a href="#philosophy">Philosophy</a></strong></p>
+
+<p><strong><a href="#presentation-of-tutorials">Presentation of Tutorials</a></strong></p>
+
+<p><strong><a href="#how-to-learn-from-this-tutorial">How to Learn from this Tutorial</a></strong></p>
+
+<p><strong><a href="#the-toothbrush-technique">The Toothbrush Technique</a></strong></p>
+
+<p><strong><a href="#to-do">To do</a></strong></p>
+
+<h2 id="philosophy">Philosophy</h2>
+
+<p><strong>My point here is to give implementation code, I have absolutely not tried to optimize the networks to the tasks : I get them to run so that YOU can play around. I don’t think you come here to learn how to predict MNIST or any particular dataset, I rather assume you want to get some basic running code to build on to address your own task.</strong></p>
+
+<p>For more general knowledge regarding Machine/Deep Learning, have a look at the <strong><a href="/resources">useful ressources</a></strong>. You’ll find the complete <strong>code</strong> files on my <strong><a href="https://github.com/vict0rsch/deep_learning">Github</a></strong> in the Keras and Lasagne folders.</p>
+
+<h2 id="presentation-of-tutorials">Presentation of Tutorials</h2>
+
+<p>Lasagne and Keras are Theano-based so I recommend you get familiar with Theano before starting these ones.</p>
+
+<p>However <strong>Keras</strong> is way closer to usual Python than Lasagne so it requires a weaker understanding of Theano. The main thing to understand to get started with Keras is Theano’s graph structure.</p>
+
+<p>To know more about Theano, go check my <a href="/2016/01/20/theano/">Theano quick intro</a> post which is about a few features of Theano that will be needed in Lasagne mostly and just a little in Keras. You will not learn Theano there but get a glimpse at how it works and how it can be used in a Deep Learning context. Theano is about much more than this, especially regarding <a href="http://deeplearning.net/software/theano/tutorial/using_gpu.html">GPU</a> calculation and <a href="http://deeplearning.net/software/theano/tutorial/gradients.html">Automatic Differentiation</a>.</p>
+
+<p>If you use TensorFlow (as a backend for Keras for instance) you can still go through the Theano post as Tensorflow’s philosophy on using graphs is very similar : you declare “sessions” instead of “compiling” the graph but the underlying process is conceptually the same.</p>
+
+<p>See the official Theano tutorial <a href="http://deeplearning.net/software/theano/tutorial/">here</a>.</p>
+
+<p>I have not worked a lot with Convolutional Networks so I won’t mention them here, for now.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">Set up</th>
+      <th style="text-align: center">Theano</th>
+      <th style="text-align: center">Keras</th>
+      <th style="text-align: center">Lasagne</th>
+      <th style="text-align: center">Recurrent</th>
+      <th style="text-align: center">Resources</th>
+      <th style="text-align: center">AWS + GPU</th>
+      <th style="text-align: center">Lose Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center"><a href="/2016/11/30/setup/"><img src="http://s2.postimg.org/hgrwawlid/three115.png" alt="i1" /></a></td>
+      <td style="text-align: center"><a href="/2016/01/20/theano/"><img src="http://s18.postimg.org/cuim8chtx/four56.png" alt="i2" /></a></td>
+      <td style="text-align: center"><a href="/tutorials/keras"><img src="http://s12.postimg.org/xvsdbaepl/unicorn.png" alt="i3" /></a></td>
+      <td style="text-align: center"><a href="/tutorials/lasagne"><img src="http://s24.postimg.org/5sotgm269/stack13.png" alt="i4" /></a></td>
+      <td style="text-align: center"><a href="/2016/01/13/recurrent/"><img src="http://s12.postimg.org/fdm1mirux/graph16.png" alt="i6" /></a></td>
+      <td style="text-align: center"><a href="/resources/"><img src="http://s22.postimg.org/6alksj4t9/idea14.png" alt="i5" /></a></td>
+      <td style="text-align: center"><a href="/2016/12/03/aws_gpu/"><img src="http://s4.postimg.org/99096dk9p/cloud_computing.png" alt="i7" /></a></td>
+      <td style="text-align: center"><a href="http://9gag.com/"><img src="http://s22.postimg.org/y0v2jhcf1/clock164.png" alt="i6" /></a></td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="amazon-instances">Amazon Instances</h2>
+<p>You will find that Neural Network computations are very expensive and slow on CPUs. This is why all(?) such frameworks are GPU-accelerated. What if you don’t have access to a GPU? You can still use Amazon’s computers for ~1€/hour. See my attempt to a tutorial <a href="/2016/12/03/aws_gpu/">here</a>.</p>
+
+<h2 id="how-to-learn-from-this-tutorial">How to Learn from this Tutorial</h2>
+
+<p>Machine learning is a vast area. Time and concentration are the two things you need the most to get into it. Don’t jump to the next step if you’re not sure you’re clear with the present one’s outcomes.</p>
+
+<ol>
+  <li>Learn about Machine Learning -&gt; Resources -&gt; <a href="/resources/#starting-with-machine-learning">Starting with Machine Learning</a>
+    <ul>
+      <li><strong>Requirements</strong>: None. Except basic knowledge in maths</li>
+      <li><strong>Outcomes</strong>: Understand what ((un)supervised)learning and training mean, what are some of the most famous techniques and the importance of data (feature selection/extraction, overfitting).</li>
+    </ul>
+  </li>
+  <li>Learn about Deep Learning Theory and feedforward networks (your best bet may very well be M. Nielsen’s blog)  -&gt; <a href="/resources/#starting-with-deep-learning">Starting with Deep Learning</a>
+    <ul>
+      <li><strong>Requirements</strong>: Python, very basic linear algebra and analysis (vector products and differenciation basically) + outcome (1)</li>
+      <li><strong>Outcomes</strong>: Understand how neural networks are built, trained, improved. Both on the theory and the implementation side. You’ll also understand how networks are coded to get a sense of how frameworks work.</li>
+    </ul>
+  </li>
+  <li>Get familiar with Theano -&gt; <a href="/2016/01/20/theano/">Theano</a>
+    <ul>
+      <li><strong>Requirements</strong>: Python</li>
+      <li><strong>Outcomes</strong>: Be able to understand Theano code and write functions relying on (shared) variables.</li>
+    </ul>
+  </li>
+  <li>
+    <p>Get into some code</p>
+
+    <p>a - Start easy with Keras and feedforward networks -&gt; <a href="/tutorials/keras/feedforward/">Keras</a></p>
+
+    <ul>
+      <li><strong>Requirements</strong>: Python + outcomes (1) and (2)</li>
+      <li><strong>Outcomes</strong>: Understand how the Keras framework can be used and therefore implement any dense feedforward network you like.</li>
+    </ul>
+
+    <p>b - Go into the details with Lasagne (still with feedforward networks) -&gt; <a href="/tutorials/lasagne/feedforward/">Lasagne</a></p>
+
+    <ul>
+      <li><strong>Requirements</strong>: Python + outcomes (1), (2) and (3)</li>
+      <li><strong>Outcomes</strong>: Understand how the Lasagne framework can be used and therefore implement any dense feedforward network you like. Understand the differences with Keras.</li>
+    </ul>
+  </li>
+  <li>Dig into Recurrent Networks -&gt; <a href="/resources/#on-recurrent-neural-networks">Resources</a>
+    <ul>
+      <li><strong>Requirements</strong>: outcomes (1) and (2) (strong)</li>
+      <li><strong>Outcomes</strong>: Understand the core concepts and usage of recurrent nets. Get the variety of structures.</li>
+    </ul>
+  </li>
+  <li>Spend some time understanding the handling of dimensions in recurrent nets -&gt; <a href="/2016/01/13/recurrent/">Recurrent</a>
+    <ul>
+      <li><strong>Requirements</strong>: outcomes (1), (2), one of (4), (5)</li>
+      <li><strong>Outcomes</strong>: Be able to create the appropriate dataset and format your data according to the task you seek.</li>
+    </ul>
+  </li>
+  <li>Get back to code
+    <ul>
+      <li><strong>Requirements</strong>:</li>
+      <li><strong>Outcomes</strong>:</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="the-toothbrush-technique">The Toothbrush Technique</h2>
+
+<p>The Toothbrush technique is used to debug code. The concept is easy: pick up your toothbrush, a pen or a spoon and walk it through your code as if they understood it. Better yet use a friend or coworker: you won’t need their brain, rather their ears.</p>
+
+<p>The thing is that debugging can be hard and the error might very well be silly. However looking as someone else’s code is often hard and/or laborious, so asking a friend/coworker to debug it is hardly possible.<br />
+On the other hand, explaining it to your toothbrush makes you rethink the whole coding process you went through and hopefully find that (silly?) mistake or incoherence.</p>
+
+<p>Contact <a href="https://www.linkedin.com/in/cl%C3%A9ment-nicolle-18ba2267">Clément</a> to learn more or see the <a href="https://www.youtube.com/watch?v=tkm0TNFzIeg">Feynman technique</a>, the Nobel prize’s famous technique to understand and remember things.</p>
+
+<h2 id="to-do">To do</h2>
+
+<ul>
+  <li>Update tutorial to new Keras + Python 3.5</li>
+  <li>Try on AWS’s GPUs</li>
+  <li>Tensorflow</li>
+</ul>
+
+<p><br /></p>
+
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Deep-Learning Implementations Tutorial" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+                <div class='postDate'>Jan. 2016</div>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lasagne Feedforward Tutorial &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="Lasagne Feedforward Tutorial ">
+    <link rel="canonical" href="https://vict0rs.ch/tutorials/lasagne/feedforward/">
+    
+    
+    <meta property="og:title" content="Lasagne Feedforward Tutorial " />
+    <meta property="og:url" content="https://vict0rs.ch/tutorials/lasagne/feedforward/" />
+    
+    
+    <meta property="og:description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    <meta name="description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<article>
+    <div class="container">
+        <header>
+            
+            <h1 class="title">Lasagne Feedforward Tutorial</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            <h2 class="subtitle">Code walk-through - Jan. 2016</h2>
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <p>This section will walk you through the code of <code class="language-plaintext highlighter-rouge">feedforward_lasagne_mnist.py</code> (<a href="https://github.com/Vict0rSch/deep_learning/blob/master/lasagne/feedforward/feedforward_lasagne_mnist.py">here</a>), which I suggest you have open while reading. This tutorial is widely based on the <a href="https://github.com/Lasagne/Lasagne/blob/master/examples/mnist.py">Lasagne mnist example</a>. This official example is really well built and detailed, especially the comments in the code. The purpose here is to simplify a little bit the original code, make it similar to our <a href="../keras/">Keras example</a> and understand in details what is happenning, when and why.</p>
+
+<p>If you are not yet familiar with what mnist is, please spend a couple minutes <a href="http://yann.lecun.com/exdb/mnist/">there</a>. It is basically a set of hadwritten digit images of size 28*28 (= 784) in greyscale (0-255). There are 60,000 training examples and 10,000 testing examples. The training examples could be also split into 50,000 training examples and 10,000 validation examples.</p>
+
+<p>By the way, Lasagne’s documentation is really good, detailed and cites papers. Also the <a href="https://groups.google.com/forum/#!forum/lasagne-users">community</a> answers fast to questions or implementation problems.</p>
+
+<h4 id="lasagne-documentation"><a href="http://lasagne.readthedocs.org/en/stable/index.html">Lasagne Documentation</a></h4>
+
+<h4 id="lasagnes-github"><a href="https://github.com/Lasagne">Lasagne’s Github</a></h4>
+
+<p><strong>/!\</strong> Be aware that Lasagne relies heavily on Theano and that understanding it is <strong>necessary</strong> to be able to use Lasagne. The <a href="../theano.md">introduction</a> is the minimum required but knowing Theano in greater details could be a good idea…</p>
+
+<h1 id="recognizing-handwritten-digits-with-lasagne">Recognizing handwritten digits with Lasagne</h1>
+
+<h2 id="table-of-contents">Table of Contents</h2>
+<p><strong><a href="#general-organization">General Organization</a></strong></p>
+
+<p><strong><a href="#imports">Imports</a></strong></p>
+
+<p><strong><a href="#loading-the-data">Loading the Data</a></strong></p>
+
+<p><strong><a href="#creating-the-network">Creating the Network</a></strong></p>
+
+<p><strong><a href="#throwing-one-batch-at-a-time">Throwing one batch at a time</a></strong></p>
+
+<p><strong><a href="#running-the-network">Running the Network</a></strong></p>
+
+<p><strong><a href="#usage">Usage</a></strong></p>
+
+<p><strong><a href="#quick-exercise">Quick Exercise</a></strong></p>
+
+<h2 id="general-organization">General organization</h2>
+
+<p>Lasagne is much more “<em>hands on</em>” than Keras. This means the Lasagne Library is all about the <strong>networks</strong> (layers, optimizers, initializations and so on) but that’s it. You have to build everything else yourself, which is a big plus if you want control over your code. This also means concepts like callbacks are useless since you have an open training code.</p>
+
+<p>First we <strong>import</strong> everything we’ll need (as usual). Then we define a <strong>loading</strong> function <code class="language-plaintext highlighter-rouge">load_data()</code> which we will not look at in details since all that matters is that it returns the expected data.</p>
+
+<p>Then we define two other helper functions: one to build the network itself (<code class="language-plaintext highlighter-rouge">build_mlp()</code>), the other to generate the mini-batches from the loaded data (<code class="language-plaintext highlighter-rouge">iterate_minibatches()</code>).</p>
+
+<p>The main function is <code class="language-plaintext highlighter-rouge">run_network()</code>. It does everything you expect from it: load the data, build the model/network, compile the needed Theano functions, train the network and lastly test it.</p>
+
+<p>As in the <a href="../keras/readme.md">Keras example</a> the main function is within a <code class="language-plaintext highlighter-rouge">try/except</code> so that you can interrupt the training without losing everything.</p>
+
+<h2 id="imports">Imports</h2>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">sys</code>, <code class="language-plaintext highlighter-rouge">os</code>, <code class="language-plaintext highlighter-rouge">time</code> and <code class="language-plaintext highlighter-rouge">numpy</code> do not need explanations.</li>
+  <li>We import <code class="language-plaintext highlighter-rouge">theano</code>and <code class="language-plaintext highlighter-rouge">theano.tensor</code> because we’ll use Theano variables and a few of it’s built-in functions.</li>
+  <li>Then, we import the <code class="language-plaintext highlighter-rouge">lasagne</code> library as a whole</li>
+  <li><code class="language-plaintext highlighter-rouge">rmsprop</code> is the optimizer we’ll use, just like in the Keras example. We use it mainly because it is one of the algorithm that scale the learning rate according to the gradient. To learn more see <a href="https://www.youtube.com/watch?v=O3sxAc4hxZU">here</a> G. Hinton’s explanatory video and <a href="http://www.cs.toronto.edu/~tijmen/csc321/slides/lecture_slides_lec6.pdf">there</a> the slides</li>
+  <li>Just like in Keras, <code class="language-plaintext highlighter-rouge">layers</code> are the core of the networks. Here we’ll only use <code class="language-plaintext highlighter-rouge">Dense</code> and <code class="language-plaintext highlighter-rouge">Dropout</code> layers. The <code class="language-plaintext highlighter-rouge">InputLayer</code> is a specific <code class="language-plaintext highlighter-rouge">layer</code> that takes in the data to be forwarded in the network.</li>
+  <li>Again, we’ll use the <code class="language-plaintext highlighter-rouge">softmax</code> and rectified linear unit (<code class="language-plaintext highlighter-rouge">rectify</code>) activation functions</li>
+  <li>Last but not least, the cost/loss/objective function is a <code class="language-plaintext highlighter-rouge">categorical_crossentropy</code></li>
+</ul>
+
+<h2 id="loading-the-data">Loading the data</h2>
+<p>We will not get into the details of this function, since the only important thing to understand is what it returns. You could load the data another way if you do not want to re-download the mnist dataset. For instance you could use the one you downloaded doing the Keras example.</p>
+
+<p><code class="language-plaintext highlighter-rouge">loading_data()</code> returns numpy <code class="language-plaintext highlighter-rouge">ndarrays</code> of <code class="language-plaintext highlighter-rouge">numpy.float32</code> values with shapes:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">X_train</span><span class="p">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">50000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">y_train</span><span class="p">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">50000</span><span class="p">,)</span>
+
+<span class="n">X_val</span><span class="p">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">y_val</span><span class="p">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10000</span><span class="p">,)</span>
+
+<span class="n">X_test</span><span class="p">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">)</span>
+<span class="n">y_test</span><span class="p">.</span><span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10000</span><span class="p">,)</span></code></pre></figure>
+
+<p>For the inputs (<code class="language-plaintext highlighter-rouge">X</code>), the dimensions are as follows : <code class="language-plaintext highlighter-rouge">(nb_of_examples, nb_of_channels, image_first_dimension, image_second_dimension)</code>. This means if you had colored images in <code class="language-plaintext highlighter-rouge">rgb</code> you’d have a <code class="language-plaintext highlighter-rouge">3</code> instead of a <code class="language-plaintext highlighter-rouge">1</code> in the <code class="language-plaintext highlighter-rouge">number_of_channels</code>. Also if we reshaped the images like in the Keras example to have vector-like inputs, we’d have <code class="language-plaintext highlighter-rouge">784, 1</code> instead of <code class="language-plaintext highlighter-rouge">28, 28</code> as image dimension.</p>
+
+<p>The targets are <code class="language-plaintext highlighter-rouge">ndarrays</code> with one dimension, filled with the labels as <code class="language-plaintext highlighter-rouge">numpy.uint8</code> values.</p>
+
+<h2 id="creating-the-network">Creating the network</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">build_mlp</span><span class="p">(</span><span class="n">input_var</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">l_in</span> <span class="o">=</span> <span class="n">InputLayer</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="bp">None</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">28</span><span class="p">),</span> <span class="n">input_var</span><span class="o">=</span><span class="n">input_var</span><span class="p">)</span>
+
+    <span class="n">l_hid1</span> <span class="o">=</span> <span class="n">DenseLayer</span><span class="p">(</span>
+            <span class="n">l_in</span><span class="p">,</span> <span class="n">num_units</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span>
+            <span class="n">nonlinearity</span><span class="o">=</span><span class="n">rectify</span><span class="p">,</span>
+            <span class="n">W</span><span class="o">=</span><span class="n">lasagne</span><span class="p">.</span><span class="n">init</span><span class="p">.</span><span class="n">GlorotUniform</span><span class="p">())</span>
+    <span class="n">l_hid1_drop</span> <span class="o">=</span> <span class="n">DropoutLayer</span><span class="p">(</span><span class="n">l_hid1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+    <span class="n">l_hid2</span> <span class="o">=</span> <span class="n">DenseLayer</span><span class="p">(</span>
+            <span class="n">l_hid1_drop</span><span class="p">,</span> <span class="n">num_units</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+            <span class="n">nonlinearity</span><span class="o">=</span><span class="n">rectify</span><span class="p">)</span>
+    <span class="n">l_hid2_drop</span> <span class="o">=</span> <span class="n">DropoutLayer</span><span class="p">(</span><span class="n">l_hid2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+
+    <span class="n">l_out</span> <span class="o">=</span> <span class="n">DenseLayer</span><span class="p">(</span>
+            <span class="n">l_hid2_drop</span><span class="p">,</span> <span class="n">num_units</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+            <span class="n">nonlinearity</span><span class="o">=</span><span class="n">softmax</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">l_out</span> </code></pre></figure>
+
+<p>Here we stack layers to build a network. Each <code class="language-plaintext highlighter-rouge">layer</code> takes as argument the previous <code class="language-plaintext highlighter-rouge">layer</code>. This is how Theano works: one step at a time, we define how variables depend on each other. Basically we say: the input layer will be modified as follows by the first hidden layer. The next layer will do the same etc. So the whole network is contained in the <code class="language-plaintext highlighter-rouge">l_out</code> object, which is an instance of <code class="language-plaintext highlighter-rouge">lasagne.layers.dense.DenseLayer</code> and is basically a Theano expression that depends only on the <code class="language-plaintext highlighter-rouge">input_var</code>.</p>
+
+<p><strong>To summarize</strong>, this function takes a Theano Variable as input and says how the <strong>forward</strong> pass in our network affects this variable.</p>
+
+<p>The network in question is as follows:</p>
+
+<ul>
+  <li>The <code class="language-plaintext highlighter-rouge">InputLayer</code> expects 4-dimentional inputs with  shapes <code class="language-plaintext highlighter-rouge">(None, 1, 28 ,28)</code>. The <code class="language-plaintext highlighter-rouge">None</code> means the number of example to pass forward is not fixed and the network is can take any batch size.</li>
+  <li>The first hidden layer is has 500 units, <a href="http://deeplearning.net/software/theano/library/tensor/nnet/nnet.html#theano.tensor.nnet.relu">rectified linear unit</a> activation function and 40% of dropout (<code class="language-plaintext highlighter-rouge">l_hid1_drop </code>). Weights and Biases are initialized according to the <a href="http://lasagne.readthedocs.org/en/stable/modules/init.html#lasagne.init.Glorot"><code class="language-plaintext highlighter-rouge">GlorotUniform()</code></a> distribution (which is default).</li>
+  <li>The second hidden layer has 300 units, rectified linear unit activation function and 40% of dropout and same initialization.</li>
+  <li>The output layer has 10 units (because we have 10 categories / labels in mnist), no dropout (of course…) and a <a href="http://deeplearning.net/software/theano/library/tensor/nnet/nnet.html#tensor.nnet.softmax">softmax</a> activation function to output a probability. <code class="language-plaintext highlighter-rouge">softmax</code> output + <code class="language-plaintext highlighter-rouge">categorical_crossentropy</code> is standard for multiclass classification.</li>
+  <li>This structure 500-300-10 comes from Y. LeCun’s <a href="http://yann.lecun.com/exdb/mnist/">website</a> citing G. Hinton’s unpublished work</li>
+</ul>
+
+<h2 id="throwing-one-batch-at-a-time">Throwing one batch at a time</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">iterate_minibatches</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">targets</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">))</span>
+        <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">start_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span> <span class="o">-</span> <span class="n">batchsize</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">batchsize</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">shuffle</span><span class="p">:</span>
+            <span class="n">excerpt</span> <span class="o">=</span> <span class="n">indices</span><span class="p">[</span><span class="n">start_idx</span><span class="p">:</span><span class="n">start_idx</span> <span class="o">+</span> <span class="n">batchsize</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">excerpt</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">start_idx</span><span class="p">,</span> <span class="n">start_idx</span> <span class="o">+</span> <span class="n">batchsize</span><span class="p">)</span>
+        <span class="k">yield</span> <span class="n">inputs</span><span class="p">[</span><span class="n">excerpt</span><span class="p">],</span> <span class="n">targets</span><span class="p">[</span><span class="n">excerpt</span><span class="p">]</span></code></pre></figure>
+
+<p>Again, we won’t dive into the Python code since it’s just a helper function, rather we’ll look at what it does.</p>
+
+<p>This function takes data (<code class="language-plaintext highlighter-rouge">input</code> and <code class="language-plaintext highlighter-rouge">target</code>) as input and generates (random) subsets of this data (of length <code class="language-plaintext highlighter-rouge">batchsize</code>). The point here is to iterate over the datasets without reloading them in memory each time we start with a new batch. <a href="http://stackoverflow.com/questions/231767/what-does-the-yield-keyword-do-in-python">Understand python’s <code class="language-plaintext highlighter-rouge">yield</code> and generators</a>.</p>
+
+<p>The point here is to generate batches to learn from (either to train, validate or test the model/network).</p>
+
+<h2 id="running-the-network">Running the network</h2>
+
+<p>This is the core of our training, the function we’ll call to effectively train a network. It first loads the data and builds the network, then it defines the Theano expressions we’ll need to train (mainly train and test losses, the updates and the accuracy calculation) before compiling them. Then we switch to the ‘numerical’ applications by iterating over our training and validation data <code class="language-plaintext highlighter-rouge">num_epoch</code> times. Finally we evaluate the network on the test data.</p>
+
+<h4 id="data">Data</h4>
+<p><a href="http://stats.stackexchange.com/questions/19048/what-is-the-difference-between-test-set-and-validation-set">Validation vs. Test?</a></p>
+<blockquote>
+  <p>The validation phase is often split into two parts:<br />
+In the first part you just look at your models and select the best performing approach using the validation data (=validation)<br />
+Then you estimate the accuracy of the selected approach (=test).</p>
+</blockquote>
+
+<p>Another way to see it is that you use the <em>validation</em> data to check that your network’s parameters don’t overfit your training data. Then, the <em>test</em> data is used to check that you have not overfitted your hyper parameters to the validation data.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">()</span>
+<span class="k">else</span><span class="p">:</span>
+        <span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">data</span></code></pre></figure>
+
+<p>Because you may not want to reload the whole dataset each time you modify your network, you can optionnaly pass data as an argument to <code class="language-plaintext highlighter-rouge">run_network()</code></p>
+
+<h4 id="theano-variables-creating-the-network-and-the-losses">Theano variables: creating the network and the losses</h4>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># Creating the Theano variables
+</span><span class="n">input_var</span> <span class="o">=</span> <span class="n">T</span><span class="p">.</span><span class="n">tensor4</span><span class="p">(</span><span class="s">'inputs'</span><span class="p">)</span>
+<span class="n">target_var</span> <span class="o">=</span> <span class="n">T</span><span class="p">.</span><span class="n">ivector</span><span class="p">(</span><span class="s">'targets'</span><span class="p">)</span>
+
+<span class="c1"># Building the Theano expressions on these variables
+</span><span class="n">network</span> <span class="o">=</span> <span class="n">build_mlp</span><span class="p">(</span><span class="n">input_var</span><span class="p">)</span>
+
+<span class="n">prediction</span> <span class="o">=</span> <span class="n">lasagne</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">get_output</span><span class="p">(</span><span class="n">network</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">categorical_crossentropy</span><span class="p">(</span><span class="n">prediction</span><span class="p">,</span> <span class="n">target_var</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">loss</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">test_prediction</span> <span class="o">=</span> <span class="n">lasagne</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">get_output</span><span class="p">(</span><span class="n">network</span><span class="p">,</span>
+                                                    <span class="n">deterministic</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">test_loss</span> <span class="o">=</span> <span class="n">categorical_crossentropy</span><span class="p">(</span><span class="n">test_prediction</span><span class="p">,</span> <span class="n">target_var</span><span class="p">)</span>
+<span class="n">test_loss</span> <span class="o">=</span> <span class="n">test_loss</span><span class="p">.</span><span class="n">mean</span><span class="p">()</span>
+<span class="n">test_acc</span> <span class="o">=</span> <span class="n">T</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">T</span><span class="p">.</span><span class="n">eq</span><span class="p">(</span><span class="n">T</span><span class="p">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">test_prediction</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="n">target_var</span><span class="p">),</span>
+                          <span class="n">dtype</span><span class="o">=</span><span class="n">theano</span><span class="p">.</span><span class="n">config</span><span class="p">.</span><span class="n">floatX</span><span class="p">)</span></code></pre></figure>
+
+<p>There is a lot going on here so we’ll go line by line.</p>
+
+<p>Lines 2 and 3 we create the Theano variables that will be propagated into the network.</p>
+
+<p>Line 6, we build the network from the <code class="language-plaintext highlighter-rouge">input_var</code> Theano variable. As stated before network is an instance of <code class="language-plaintext highlighter-rouge">lasagne.layers.dense.DenseLayer</code> stating how the forward pass into our network affects <code class="language-plaintext highlighter-rouge">input_var</code>.</p>
+
+<p>Line 8 we get the Theano variable generated by <code class="language-plaintext highlighter-rouge">network</code> from <code class="language-plaintext highlighter-rouge">input_var</code>. It is an instance of <code class="language-plaintext highlighter-rouge">theano.tensor.var.TensorVariable</code>.</p>
+
+<p>Line 9 and 10 we evaluate the loss. Again, be aware we are still talking “<em>literally</em> “, at this point no number is involved. What happends is we compute how the loss depends on <code class="language-plaintext highlighter-rouge">prediction</code> and <code class="language-plaintext highlighter-rouge">target_var</code></p>
+
+<p>Lines 12 to 15, the same thing happens except this time there is a parameter <code class="language-plaintext highlighter-rouge">deterministic=True</code> which basically means no dropout because we are testing our network, not training it.</p>
+
+<p>Line 16 we evaluate the accuracy of our network on the validation data. Within the <code class="language-plaintext highlighter-rouge">mean</code> we count the number of times the right number is predicted.</p>
+
+<h4 id="compiling-the-graph--theano-functions">Compiling the graph : Theano functions</h4>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">params</span> <span class="o">=</span> <span class="n">lasagne</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">get_all_params</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">trainable</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">updates</span> <span class="o">=</span> <span class="n">rmsprop</span><span class="p">(</span><span class="n">loss</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.001</span><span class="p">)</span>
+
+<span class="c1"># Compiling the graph by declaring the Theano functions
+</span><span class="n">train_fn</span> <span class="o">=</span> <span class="n">theano</span><span class="p">.</span><span class="n">function</span><span class="p">([</span><span class="n">input_var</span><span class="p">,</span> <span class="n">target_var</span><span class="p">],</span>
+                                   <span class="n">loss</span><span class="p">,</span> <span class="n">updates</span><span class="o">=</span><span class="n">updates</span><span class="p">)</span>
+<span class="n">val_fn</span> <span class="o">=</span> <span class="n">theano</span><span class="p">.</span><span class="n">function</span><span class="p">([</span><span class="n">input_var</span><span class="p">,</span> <span class="n">target_var</span><span class="p">],</span>
+                                 <span class="p">[</span><span class="n">test_loss</span><span class="p">,</span> <span class="n">test_acc</span><span class="p">])</span></code></pre></figure>
+
+<p>Here we need to look at a (slightly) bigger picture.  The point of <em>training</em> a network is to forward examples, evaluate the cost function and then update the weights and biases according to an aupdate algorithm (<code class="language-plaintext highlighter-rouge">rmsprop</code> here).</p>
+
+<p>This is what the Theano function <code class="language-plaintext highlighter-rouge">train_fn </code> line 5 does: given the input (<code class="language-plaintext highlighter-rouge">input_var</code>) and its target (<code class="language-plaintext highlighter-rouge">target_var</code>), evaluate the cost function and then update the weights and biases accordingly.</p>
+
+<p>The updates are defined lines 1 and 2 and triggered in the Theano function (<code class="language-plaintext highlighter-rouge">updates=updates</code>):
+First we get all the networks parameters that can be trained, that is to say the weights and biases. In our case, it will be a list of 3 weights and 3 biases <a href="http://deeplearning.net/software/theano/tutorial/examples.html#using-shared-variables">shared variables</a>. Dig into it if you’re not clear with shared variables (see also <a href="https://www.quora.com/What-is-the-meaning-and-benefit-of-shared-variables-in-Theano">Quora</a>).</p>
+
+<p>The <code class="language-plaintext highlighter-rouge">val_fn </code> on the other hand only computes the loss and accuracy of the data it is given. It can therefore be the validation or the test data.</p>
+
+<p>When we declare those Theano functions, the graph linking variables and expressions through operations is computed, which could take some time.</p>
+
+<h4 id="actual-training-in-the-epoch-loop">Actual training in the epoch loop</h4>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_epochs</span><span class="p">):</span>
+
+    <span class="c1"># Going over the training data
+</span>    <span class="n">train_err</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">train_batches</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">iterate_minibatches</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span>
+                                             <span class="mi">500</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">train_err</span> <span class="o">+=</span> <span class="n">train_fn</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+        <span class="n">train_batches</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Going over the validation data
+</span>    <span class="n">val_err</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">val_acc</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">val_batches</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">iterate_minibatches</span><span class="p">(</span><span class="n">X_val</span><span class="p">,</span> <span class="n">y_val</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span>
+        <span class="n">err</span><span class="p">,</span> <span class="n">acc</span> <span class="o">=</span> <span class="n">val_fn</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+        <span class="n">val_err</span> <span class="o">+=</span> <span class="n">err</span>
+        <span class="n">val_acc</span> <span class="o">+=</span> <span class="n">acc</span>
+        <span class="n">val_batches</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="c1"># Then we print the results for this epoch:
+</span>    <span class="k">print</span><span class="p">(</span><span class="s">"Epoch {} of {} took {:.3f}s"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span>
+                <span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">num_epochs</span><span class="p">,</span> <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"training loss:</span><span class="se">\t\t</span><span class="s">{:.6f}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">train_err</span> <span class="o">/</span> <span class="n">train_batches</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"validation loss:</span><span class="se">\t\t</span><span class="s">{:.6f}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">val_err</span> <span class="o">/</span> <span class="n">val_batches</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">"validation accuracy:</span><span class="se">\t\t</span><span class="s">{:.2f} %"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span>
+                <span class="n">val_acc</span> <span class="o">/</span> <span class="n">val_batches</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span></code></pre></figure>
+
+<p>For each epoch we train over the whole training data and evaluate the training loss. Then we go over the validation data and evaluate both the validation loss and validation accuracy.</p>
+
+<p>What happens is we get a batch of examples which we divide into <code class="language-plaintext highlighter-rouge">inputs</code> and <code class="language-plaintext highlighter-rouge">targets</code>. We give these numerical inputs to the associated Theano function (<code class="language-plaintext highlighter-rouge">train_fn</code> or <code class="language-plaintext highlighter-rouge">val_fn</code>) that computes the associated results.</p>
+
+<p>Everything else is about averaging the losses and accuracies regarding the number of batches fed to the network.</p>
+
+<p>We can see here that you are completely free of doing <em>whatever</em> you want during the training easily since you have access to both the epoch and batch loops.</p>
+
+<h4 id="test-and-return-the-network">Test and return the network</h4>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># Now that the training is over, let's test the network:
+</span><span class="n">test_err</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">test_acc</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">test_batches</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">iterate_minibatches</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">batch</span>
+    <span class="n">err</span><span class="p">,</span> <span class="n">acc</span> <span class="o">=</span> <span class="n">val_fn</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+    <span class="n">test_err</span> <span class="o">+=</span> <span class="n">err</span>
+    <span class="n">test_acc</span> <span class="o">+=</span> <span class="n">acc</span>
+    <span class="n">test_batches</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"Final results in {0} seconds:"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span>
+            <span class="n">time</span><span class="p">.</span><span class="n">time</span><span class="p">()</span><span class="o">-</span><span class="n">global_start_time</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"  test loss:</span><span class="se">\t\t\t</span><span class="s">{:.6f}"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">test_err</span> <span class="o">/</span> <span class="n">test_batches</span><span class="p">))</span>
+<span class="k">print</span><span class="p">(</span><span class="s">"  test accuracy:</span><span class="se">\t\t</span><span class="s">{:.2f} %"</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span>
+            <span class="n">test_acc</span> <span class="o">/</span> <span class="n">test_batches</span> <span class="o">*</span> <span class="mi">100</span><span class="p">))</span>
+<span class="k">return</span> <span class="n">network</span></code></pre></figure>
+
+<p>With everything we’ve seen so far, this part is a piece of cake. We simply test the network feeding <code class="language-plaintext highlighter-rouge">val_fn</code> with the test data and not the validation data.</p>
+
+<p>Finally we print the relevant quantities and return the network (which is, again, an instance of <code class="language-plaintext highlighter-rouge">lasagne.layers.dense.DenseLayer</code>.</p>
+
+<p>As an exercise (very easy…) you could try to implement the LossHistory callback from the <a href="../keras/">Keras example</a>.</p>
+
+<p>A more difficult example is to modify the code so as to be able to retrain a network (passing <code class="language-plaintext highlighter-rouge">network=None</code> as parameters to <code class="language-plaintext highlighter-rouge">run_network()</code> is the easiest part).</p>
+<h2 id="usage">Usage</h2>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">feedforward_lasagne_mnist</span> <span class="k">as</span> <span class="n">flm</span>
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">flm</span><span class="p">.</span><span class="n">run_network</span><span class="p">()</span></code></pre></figure>
+
+<p>if you do not want to reload the data every time:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">feedforward_lasagne_mnist</span> <span class="k">as</span> <span class="n">flm</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">flm</span><span class="p">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">flm</span><span class="p">.</span><span class="n">run_network</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+
+<span class="c1"># change some parameters in your code
+</span>
+<span class="nb">reload</span><span class="p">(</span><span class="n">flm</span><span class="p">)</span>
+<span class="n">network</span> <span class="o">=</span> <span class="n">flm</span><span class="p">.</span><span class="n">run_network</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span></code></pre></figure>
+
+<p>Using an Intel i7 CPU at 3.5GHz and an NVidia GTX 970 GPU, we achieve 0.9829 accuracy (1.71% error) in 32.2 seconds of training using this implementation (including loading and compilation).</p>
+
+<h2 id="quick-exercise">Quick Exercise</h2>
+
+<p>Ok, now you’ve seen how Lasagne uses Theano. To make sure you’ve got the concepts as a whole here is a little exercise. Say I give you the last layer of a network and an example. How would you predict the associated number using this already trained network?</p>
+
+<p>For instance write the function <code class="language-plaintext highlighter-rouge">get_class()</code> here :</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">feedforward_lasagne_mnist</span> <span class="k">as</span> <span class="n">flm</span>
+
+<span class="n">data</span> <span class="o">=</span> <span class="n">flm</span><span class="p">.</span><span class="n">load_data</span><span class="p">()</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">data</span>
+
+<span class="n">network</span> <span class="o">=</span> <span class="n">flm</span><span class="p">.</span><span class="n">run_network</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">data</span><span class="p">)</span>
+<span class="n">example</span> <span class="o">=</span> <span class="n">X_test</span><span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">]</span>
+
+<span class="n">get_class</span><span class="p">(</span><span class="n">network</span><span class="p">,</span> <span class="n">example</span><span class="p">)</span> </code></pre></figure>
+
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Lasagne Feedforward Tutorial" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+                <div class='postDate'>Jan. 2016</div>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

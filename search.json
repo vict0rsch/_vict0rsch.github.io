@@ -1,0 +1,465 @@
+[
+  
+  
+    {
+      "title"    : "PyTorch Dataloader for HDF5 data",
+      "url"      : "https://vict0rs.ch/2021/06/15/pytorch-h5/",
+      "category" : "",
+      "tags"     : "PyTorch, Python, Code",
+      "date"     : "2021-06-15",
+      "subtitle" : " ",
+      "excerpt"  : "Just a useful snippet",
+      "type": "post"
+    } ,
+  
+  
+  
+  
+  
+    {
+      "title"    : "Minydra: a simple versatile Python command-line parser",
+      "url"      : "https://vict0rs.ch/2020/12/08/minydra-commandline-parser/",
+      "category" : "",
+      "tags"     : "Python, Code",
+      "date"     : "2020-12-08",
+      "subtitle" : " ",
+      "excerpt"  : "Minydra allows you to parse arbitrary arguments passed through the commandline: strings, bools, numbers, lists and dicts. Ideal to handle complex configs without getting into the complexities of Hydra.",
+      "type": "post"
+    } ,
+  
+  
+  
+  
+  
+    {
+      "title"    : "A Calculator to quantify AI&#39;s carbon emissions",
+      "url"      : "https://vict0rs.ch/2019/12/11/mlco2-calculator/",
+      "category" : "",
+      "tags"     : "General, Climate Change",
+      "date"     : "2019-12-11",
+      "subtitle" : " ",
+      "excerpt"  : "With a team of fellow researchers, I developped an online calculator allowing you to compute your GPU's CO2 emissions",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Something you can do with AI to tackle Climate Change",
+      "url"      : "https://vict0rs.ch/2019/05/06/vicc/",
+      "category" : "",
+      "tags"     : "General, Climate Change, GANs",
+      "date"     : "2019-05-06",
+      "subtitle" : " ",
+      "excerpt"  : "At Mila, I am part of a project aiming at bringing the future closer to people so that they can act on it",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Generating 100 000 000 primes with Python",
+      "url"      : "https://vict0rs.ch/2019/03/25/generating-hundre-million-primes/",
+      "category" : "",
+      "tags"     : "Maths",
+      "date"     : "2019-03-25",
+      "subtitle" : " ",
+      "excerpt"  : "I needed primes. A lot of primes. So I generated them. Here they are!",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Climate Change AI: the Mila&#39;s hiring interns",
+      "url"      : "https://vict0rs.ch/2019/02/22/ccai/",
+      "category" : "",
+      "tags"     : "News, General",
+      "date"     : "2019-02-22",
+      "subtitle" : " ",
+      "excerpt"  : "The Mila is hiring interns to work with Pr. Bengio on what AI can do to fight climate change",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Amortized algorithm analysis: making sense of the Accounting Method",
+      "url"      : "https://vict0rs.ch/2019/02/17/accounting/",
+      "category" : "",
+      "tags"     : "General, Algorithms",
+      "date"     : "2019-02-17",
+      "subtitle" : " ",
+      "excerpt"  : "The Accounting Method is widely used to analyse the amortized cost of an algorithm. Lots of ressources out there try and explain it. Here's my view",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Joining the MILA for a PhD",
+      "url"      : "https://vict0rs.ch/2019/02/04/mila/",
+      "category" : "",
+      "tags"     : "News, General",
+      "date"     : "2019-02-04",
+      "subtitle" : " ",
+      "excerpt"  : "Just arrived in Montréal to fight climate change with AI. We're hiring!",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Multi-label Text Classification with Tensorflow",
+      "url"      : "https://vict0rs.ch/2018/06/17/multilabel-text-classification-tensorflow/",
+      "category" : "",
+      "tags"     : "Tensorflow, Multilabel, Data",
+      "date"     : "2018-06-17",
+      "subtitle" : " ",
+      "excerpt"  : "Multilabel classification requires some changes to the mainstream single-label case: here they are!",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Streaming f1-score in Tensorflow: the multilabel setting",
+      "url"      : "https://vict0rs.ch/2018/06/06/tensorflow-streaming-multilabel-f1/",
+      "category" : "",
+      "tags"     : "Tensorflow, Metrics, Multilabel",
+      "date"     : "2018-06-06",
+      "subtitle" : "Going further than tf.contrib",
+      "excerpt"  : "This situation presents 2 challenges: computing an overall f1-score when you only have per-batch values, and doing so in a multilabel setting where micro, macro and weighted f1 scores are expected. What a journey!",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Splitting a multilabel dataset with Python",
+      "url"      : "https://vict0rs.ch/2018/05/24/sample-multilabel-dataset/",
+      "category" : "",
+      "tags"     : "General, Multilabel, Algorithms",
+      "date"     : "2018-05-24",
+      "subtitle" : "Implementing the Iterative Stratifier from Sechidis et al., 2011 to sample from a multilabel dataset",
+      "excerpt"  : "Splitting a multi-label dataset into train and test sets is more complicated than the single-label case. You can't simply split each class. You have to be more clever, and stratify - here's how.",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Save and Restore a Tensorflow model with its Dataset using simple_save",
+      "url"      : "https://vict0rs.ch/2018/05/17/restore-tf-model-dataset/",
+      "category" : "",
+      "tags"     : "Tensorflow, Data",
+      "date"     : "2018-05-17",
+      "subtitle" : "Restoring a graph, finding the appropriate Tensors and Operations",
+      "excerpt"  : "The saved_model API allows for easy saving. Restoring the model and performing inference is a bit trickier when the input Tensors come from a tf.data.Dataset. We'll see here how this works.",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "MacOS Terminal and Shell Setup with configuration files",
+      "url"      : "https://vict0rs.ch/2018/01/30/mac-terminal-shell-power-user/",
+      "category" : "",
+      "tags"     : "Other, Software",
+      "date"     : "2018-01-30",
+      "subtitle" : "Make your Terminal beautifully efficient",
+      "excerpt"  : "That's my personal setup: links, descriptions and configuration. From ZSH to Pyenv through Spaceship and Tmux",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "AWS AMI for p2 instances with Tensorflow 1.0",
+      "url"      : "https://vict0rs.ch/2017/02/22/p2-aws-tensorflow-1/",
+      "category" : "",
+      "tags"     : "AWS, GPU, Hardware",
+      "date"     : "2017-02-22",
+      "subtitle" : "Meet vict0rsch-2.0 from North Virginia",
+      "excerpt"  : "Here is my second AMI, ugraded from the previous one with a lot of what you need",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "12 GB GPU for 0.1$ per hour? Hello AWS p2",
+      "url"      : "https://vict0rs.ch/2017/02/09/p2-instance-aws-bitfusion/",
+      "category" : "",
+      "tags"     : "AWS, GPU, Hardware",
+      "date"     : "2017-02-09",
+      "subtitle" : " ",
+      "excerpt"  : "Use my vict0rsch-2.0 AMI on a p2.xlarge instance",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "La sécurité sur internet expliquée à ta grand mère",
+      "url"      : "https://vict0rs.ch/2017/01/15/secu-web-fr/",
+      "category" : "",
+      "tags"     : "Other, Random",
+      "date"     : "2017-01-15",
+      "subtitle" : "Liste de choses à savoir pour être un minimum en sécurité sur internet",
+      "excerpt"  : "Les grandes lignes que peuvent comprendre les petits cousins et les vieux oncles pour faire un peu attention sur internet. English version some day.",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "How to Use AWS GPU instances with Tensorflow and Keras Deep Learning frameworks",
+      "url"      : "https://vict0rs.ch/2016/12/03/aws_gpu/",
+      "category" : "",
+      "tags"     : "AWS, GPU, Hardware, Software, Other",
+      "date"     : "2016-12-03",
+      "subtitle" : " ",
+      "excerpt"  : "Using a personal AMI, I'll go through every single step from 0 (you don't even know what an instance is) to running a Tensorflow example on GPU including how to connect to the instance",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "From 0 to Tensorflow",
+      "url"      : "https://vict0rs.ch/2016/11/30/setup/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : "2016-11-30",
+      "subtitle" : "Set everything up",
+      "excerpt"  : "I will show you the world... Kidding. Let's tool up for Tensorflow Keras etc. STATUS -> being written, be patient",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Theano Quick Intro",
+      "url"      : "https://vict0rs.ch/2016/01/20/theano/",
+      "category" : "",
+      "tags"     : "Theano, Symbolic",
+      "date"     : "2016-01-20",
+      "subtitle" : "Getting familair with the computation graph",
+      "excerpt"  : "Theano and Tensorflow don't handle computations as others do. They are millenials so they feel the need to be special.",
+      "type": "post"
+    } ,
+  
+  
+  
+    {
+      "title"    : "On recurrent nets and Data Dimensions",
+      "url"      : "https://vict0rs.ch/2016/01/13/recurrent/",
+      "category" : "",
+      "tags"     : "General, Keras, Lasagne",
+      "date"     : "2016-01-13",
+      "subtitle" : " ",
+      "excerpt"  : "Focus on how to format your data, understand their dimensions and walk through Keras and Lasagne examples.",
+      "type": "post"
+    } ,
+  
+  
+  
+  
+  
+  
+    {
+      "title"    : null,
+      "url"      : "https://vict0rs.ch/404/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : " ",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : null,
+      "url"      : "https://vict0rs.ch/feed.xml",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : " ",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : null,
+      "url"      : "https://vict0rs.ch/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : " ",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Keras Recurrent Tutorial",
+      "url"      : "https://vict0rs.ch/tutorials/keras/recurrent/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : "Code walk-through - Jan. 2016",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Keras Tutorials : Feedforward or Recurrent?",
+      "url"      : "https://vict0rs.ch/tutorials/keras/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : "Chose left or right wisely",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Useful resources: Deep Learning papers &amp; blog posts to get started",
+      "url"      : "https://vict0rs.ch/resources/dev/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : "Papers, videos, blogs, papers and reading-lists to go from scratch to Recurrent Neural Networks",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Lasagne Tutorials : Feedforward or Recurrent?",
+      "url"      : "https://vict0rs.ch/tutorials/lasagne/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : "Chose left or right wisely",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Deep-Learning Implementations Tutorial",
+      "url"      : "https://vict0rs.ch/tutorials/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : "Ready to use Keras and Lasagne? I'll soon do Tensorflow also.",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Lasagne Feedforward Tutorial",
+      "url"      : "https://vict0rs.ch/tutorials/lasagne/feedforward/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : "Code walk-through - Jan. 2016",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Useful resources: Deep Learning papers &amp; blog posts to get started",
+      "url"      : "https://vict0rs.ch/resources/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : "Papers, videos, blogs, papers and reading-lists to go from scratch to Recurrent Neural Networks",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Hi!",
+      "url"      : "https://vict0rs.ch/about/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : "Wanna know more about me?",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : "Keras Feedforward Tutorial",
+      "url"      : "https://vict0rs.ch/tutorials/keras/feedforward/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : "Code walk-through - Jan. 2016",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : null,
+      "url"      : "https://vict0rs.ch/search.json",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : " ",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : null,
+      "url"      : "https://vict0rs.ch/posts/2/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : " ",
+      "excerpt"  : " ",
+      "type": "page"
+    } ,
+  
+  
+  
+    {
+      "title"    : null,
+      "url"      : "https://vict0rs.ch/posts/3/",
+      "category" : "",
+      "tags"     : "",
+      "date"     : " ",
+      "subtitle" : " ",
+      "excerpt"  : " ",
+      "type": "page"
+    } 
+  
+  
+]

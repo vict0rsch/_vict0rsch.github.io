@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On recurrent nets and Data Dimensions &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="On recurrent nets and Data Dimensions ">
+    <link rel="canonical" href="https://vict0rs.ch/2016/01/13/recurrent/">
+    
+    
+    <meta property="og:title" content="On recurrent nets and Data Dimensions " />
+    <meta property="og:url" content="https://vict0rs.ch/2016/01/13/recurrent/" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/blog-cover.jpg" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/light-bulb.svg" />
+    
+    
+    <meta property="og:description" content="Focus on how to format your data, understand their dimensions and walk through Keras and Lasagne examples." />
+    <meta name="description" content="Focus on how to format your data, understand their dimensions and walk through Keras and Lasagne examples." />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<div class="article-cover">
+    <div>
+        
+        <img src="/images/blog-cover.jpg" class="image">
+        
+    </div>
+</div>
+
+<article>
+    <div class="container">
+        <header>
+            
+            <div class="meta">
+                <span class='meta_text'>By</span> <address><a rel="author" href="" title="Victor Schmidt"
+                        target="_blank">Victor Schmidt</a></address> <span class='meta_text'>&mdash;
+                    <time pubdate datetime="2016-13-January" title="January 13, 2016">January 13, 2016</time></span>
+            </div>
+            
+            <h1 class="title">On recurrent nets and Data Dimensions</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <h2 id="table-of-contents">Table Of Contents</h2>
+
+<p><strong><a href="#recap">Recap</a></strong></p>
+
+<p><strong><a href="#batch-time-and-data">Batch, Time and Data</a></strong></p>
+
+<p><strong><a href="backpropagation-through-Time">Backpropagation Through Time</a></strong></p>
+
+<p><strong><a href="example-with-lasagne">Example with Lasagne</a></strong></p>
+
+<p><strong><a href="example-with-Keras">Example with Keras</a></strong></p>
+
+<h2 id="recap">Recap</h2>
+<p>My point here is to undertand how to handle dimensions and therefore understand how to implement recurrent neural networks. As you may already know, there is a lot of ways of using RNNs. I’m going to focus on <a href="http://karpathy.github.io/">Andrej Karpathy</a>’s illustration which I find clear and to the point :</p>
+
+<p><img src="http://karpathy.github.io/assets/rnn/diags.jpeg" alt="Karpathy's RNNs illustration" /></p>
+
+<blockquote>
+  <p>Each rectangle is a vector and arrows represent functions (e.g. matrix multiply). Input vectors are in red, output vectors are in blue and green vectors hold the RNN’s state (more on this soon). From left to right: <strong>(1)</strong> Vanilla mode of processing without RNN, from fixed-sized input to fixed-sized output (e.g. image classification). <strong>(2)</strong> Sequence output (e.g. image captioning takes an image and outputs a sentence of words). <strong>(3)</strong> Sequence input (e.g. sentiment analysis where a given sentence is classified as expressing positive or negative sentiment). <strong>(4)</strong> Sequence input and sequence output (e.g. Machine Translation: an RNN reads a sentence in English and then outputs a sentence in French). <strong>(5)</strong> Synced sequence input and output (e.g. video classification where we wish to label each frame of the video). Notice that in every case are no pre-specified constraints on the lengths sequences because the recurrent transformation (green) is fixed and can be applied as many times as we like.</p>
+</blockquote>
+
+<p>I’d like to add two minor points to this:</p>
+
+<ul>
+  <li>
+    <p>First (call me Captain Obvious if you like), time goes from left to right. So Horizontally, Inputs and Outputs are different each time. On the other hand, the Network (middle, green) is the “same”, however updated from its recurrence.</p>
+  </li>
+  <li>
+    <p>Second, regarding depth, the chart shows a one-layered network. Adding a second layer would be vertically drawn: it would mean adding (horizontally aligned) green boxes on top of the existing ones, pointing both to the right and the top, taking their inputs from the first layer.</p>
+  </li>
+</ul>
+
+<h2 id="batch-time-and-data">Batch, Time and Data</h2>
+<p>With recurrent networks, we speak of time. Time means we feed examples one <strong>after</strong> the other. Does it mean <strong>online learning?</strong> Certainly not. You can still use batches! Wait… batch after batch is the common way to train networks! So what’s new?</p>
+
+<p>The difference between a feedforward and a recurrent network is that <em>batches</em> are made of <em>sequences</em>, representing timesteps. To recall A. Karpathy’s examples, these sequences can be words of a sentence or frames of a video. Or values of a time-series (financial valuations, electroencephalogram measures …).</p>
+
+<p>Say you add a third dimension to the chart. Then You’ll have “vertical” inputs, hidden layers and outputs, representing the batch. The clearest example, to my mind is looking at (5):</p>
+
+<ol>
+  <li>A first batch of inputs is fed to the network: “vertically” you’ll have a number of examples, fed in <em>parallel</em> to the network, horizontally you’ll have the various <strong>timesteps</strong> of the sequence.</li>
+  <li>The first matrix forwarded into the network, the first red rectangle, is the <strong>first time step of the first batch</strong>.</li>
+  <li>As usual, the network <strong>outputs</strong> values out of this input</li>
+  <li>However now these values will be <strong>reused</strong> <em>later</em></li>
+  <li>Then a second input is given: it is the <strong>second timestep</strong> of the first batch</li>
+  <li>The network now takes this <strong>new input + the previous prediction</strong> to generate its output and feed his “next-step-self”</li>
+  <li>Once all the timesteps of the first batch have been fed to the network, the <a href="https://en.wikipedia.org/wiki/Backpropagation_through_time"><strong>backpropagation through time algorithm</strong></a> is run, weights and biases are updated and the second batch comes in.</li>
+</ol>
+
+<p>The other ones are just derived from it, all you need is not to store/take into account outputs to get (3), feed empty inputs to get (2) and do both to get (4). (1) is a simple feedforward net (dense or convolutional).</p>
+
+<p>So let’s get back to dimensions:</p>
+
+<ul>
+  <li>you’ll feed <code class="language-plaintext highlighter-rouge">batch_size</code> examples at a time</li>
+  <li>each one containing <code class="language-plaintext highlighter-rouge">seq_len</code> timesteps</li>
+  <li>and each of this timestep being <code class="language-plaintext highlighter-rouge">input_features</code>-dimensional, that is to say your examples have <code class="language-plaintext highlighter-rouge">input_features</code> features.</li>
+</ul>
+
+<h2 id="backpropagation-through-time">Backpropagation through time</h2>
+
+<p>Quick and simple explanation on <a href="https://en.wikipedia.org/wiki/Backpropagation_through_time#Algorithm">Wikipedia</a>:</p>
+
+<p><img src="http://s21.postimg.org/5ypxek2vb/1000px_Unfold_through_time.png" alt="bptt" /></p>
+
+<p>The idea is to unfold through time the network’s graph (in this example, <code class="language-plaintext highlighter-rouge">seq_len = 3</code>) and then apply the original backpropagation algorithm.</p>
+
+<h2 id="example-with-lasagne">Example with Lasagne</h2>
+<p>Let’s have a quick look at Lasagne’s <a href="https://github.com/Lasagne/Lasagne/blob/master/examples/recurrent.py">recurrent.py</a> example.</p>
+
+<p>The <strong>task</strong> is the following, which is simply an addition:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># [...]
+</span><span class="n">MAX_LENGTH</span> <span class="o">=</span> <span class="mi">55</span>
+<span class="c1"># [...]
+</span><span class="n">N_BATCH</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="c1"># [...]
+</span>
+<span class="s">'''
+the target for the
+    following
+    ``| 0.5 | 0.7 | 0.3 | 0.1 | 0.2 | ... | 0.5 | 0.9 | ... | 0.8 | 0.2 |
+      |  0  |  0  |  1  |  0  |  0  |     |  0  |  1  |     |  0  |  0  |``
+    would be 0.3 + .9 = 1.2.  This task was proposed in [1]_ and explored in
+    e.g. [2]_.
+
+[...]
+
+ References
+    ----------
+    .. [1] Hochreiter, Sepp, and Jürgen Schmidhuber. "Long short-term memory."
+    Neural computation 9.8 (1997): 1735-1780.
+    .. [2] Sutskever, Ilya, et al. "On the importance of initialization and
+    momentum in deep learning." Proceedings of the 30th international
+    conference on machine learning (ICML-13). 2013.
+
+'''</span></code></pre></figure>
+
+<p>So the point of the netowrk here would be to learn how to add numbers based on a sequence: the sequence is made of of a couple numbers <code class="language-plaintext highlighter-rouge">(a, b)</code>. <code class="language-plaintext highlighter-rouge">a</code> is to be added to the sum if <code class="language-plaintext highlighter-rouge">b</code> is <code class="language-plaintext highlighter-rouge">1</code>. There are exactly two <code class="language-plaintext highlighter-rouge">b</code> that are <code class="language-plaintext highlighter-rouge">1</code>, the others are <code class="language-plaintext highlighter-rouge">0</code>.</p>
+
+<p>The <strong>input layer</strong> is therefore declared as follows:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c1"># First, we build the network, starting with an input layer
+# Recurrent layers expect input of shape
+# (batch size, max sequence length, number of features)
+</span><span class="n">l_in</span> <span class="o">=</span> <span class="n">lasagne</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">InputLayer</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="n">N_BATCH</span><span class="p">,</span> <span class="n">MAX_LENGTH</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></code></pre></figure>
+
+<p>This means the input data will have 3 dimensions:</p>
+
+<ul>
+  <li>Batches of size <code class="language-plaintext highlighter-rouge">N_BATCH</code></li>
+  <li>Sequences will be of size <code class="language-plaintext highlighter-rouge">MAX_LENGTH</code></li>
+  <li>Each example - an <code class="language-plaintext highlighter-rouge">(a, b)</code> pair - is of dimension 2</li>
+</ul>
+
+<p>Which corresponds to a shape <code class="language-plaintext highlighter-rouge">(batch_size = N_BATCH, seq_len = MAX_LENGTH, input_features = 2)</code> for the input data.</p>
+
+<h2 id="example-with-keras">Example with Keras</h2>
+<p>Here we’ll look at <a href="https://github.com/fchollet/keras/blob/master/examples/imdb_lstm.py">imdb_lstm.py</a> and refer to the <a href="http://keras.io/layers/embeddings/">documentation</a>. This one is a little harder than the previous one.</p>
+
+<p>What is the <strong>task</strong>? The aim is to classify IMDB movie reviews and say whether or not they are positive regarding the movie. To do so, we’ll use Keras’s “IMDB Movie reviews sentiment classification” dataset:</p>
+<blockquote>
+  <p>Dataset of 25,000 movies reviews from IMDB, labeled by sentiment (positive/negative). Reviews have been preprocessed, and each review is encoded as a sequence of word indexes (integers). For convenience, words are indexed by overall frequency in the dataset, so that for instance the integer “3” encodes the 3rd most frequent word in the data.</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">max_features</span> <span class="o">=</span> <span class="mi">20000</span>
+<span class="n">maxlen</span> <span class="o">=</span> <span class="mi">100</span>  <span class="c1"># cut texts after this number of words (among top max_features most common words)
+</span><span class="n">batch_size</span> <span class="o">=</span> <span class="mi">32</span>
+
+<span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">),</span> <span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span> <span class="o">=</span> <span class="n">imdb</span><span class="p">.</span><span class="n">load_data</span><span class="p">(</span><span class="n">nb_words</span><span class="o">=</span><span class="n">max_features</span><span class="p">,</span>
+                                                      <span class="n">test_split</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)</span>
+
+
+<span class="n">X_train</span> <span class="o">=</span> <span class="n">sequence</span><span class="p">.</span><span class="n">pad_sequences</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">sequence</span><span class="p">.</span><span class="n">pad_sequences</span><span class="p">(</span><span class="n">X_test</span><span class="p">,</span> <span class="n">maxlen</span><span class="o">=</span><span class="n">maxlen</span><span class="p">)</span></code></pre></figure>
+
+<p>Here we simply load the data. <code class="language-plaintext highlighter-rouge">X_train</code> is a list of reviews and <code class="language-plaintext highlighter-rouge">X_train[i]</code> is a list of words, indexed by integers.<br />
+There are <code class="language-plaintext highlighter-rouge">max_features</code> different words in those reviews.<br />
+There are 25,000 examples, split between 20,000 for training and 5,000 for testing.<br />
+<code class="language-plaintext highlighter-rouge">X_train[i]</code> are cut to <code class="language-plaintext highlighter-rouge">maxlen</code> so that all sequences are of the same length.</p>
+
+<p>Then how is the data input into the network? Using an <code class="language-plaintext highlighter-rouge">embedding</code> layer:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">Embedding</span><span class="p">(</span><span class="n">max_features</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="n">input_length</span><span class="o">=</span><span class="n">maxlen</span><span class="p">))</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">LSTM</span><span class="p">(</span><span class="mi">128</span><span class="p">))</span>
+<span class="p">[...]</span></code></pre></figure>
+
+<p>Look at C. Olah’s <a href="http://colah.github.io/posts/2014-07-NLP-RNNs-Representations/">post</a> to learn more on those embedding layers. What you need to know, indepently from the task is that these layers are built as follows:</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">keras.layers.embeddings.Embedding(input_dim, output_dim, [...])</code><br />
+input_dim: int &gt;= 0. Size of the vocabulary</p>
+</blockquote>
+
+<p>And their outpus have shapes</p>
+
+<blockquote>
+  <p>3D tensor with shape: <code class="language-plaintext highlighter-rouge">(nb_samples, sequence_length, output_dim)</code></p>
+</blockquote>
+
+<p>So once again what goes into the regular RNN (an LSTM layer in this case) is data of shape <code class="language-plaintext highlighter-rouge">(batch_size = 32, seq_len = maxlen, input_features = 128)</code></p>
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="On recurrent nets and Data Dimensions" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

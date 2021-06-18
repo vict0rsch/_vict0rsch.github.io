@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Save and Restore a Tensorflow model with its Dataset using simple_save &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="Save and Restore a Tensorflow model with its Dataset using simple_save ">
+    <link rel="canonical" href="https://vict0rs.ch/2018/05/17/restore-tf-model-dataset/">
+    
+    
+    <meta property="og:title" content="Save and Restore a Tensorflow model with its Dataset using simple_save " />
+    <meta property="og:url" content="https://vict0rs.ch/2018/05/17/restore-tf-model-dataset/" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/tf.png" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/light-bulb.svg" />
+    
+    
+    <meta property="og:description" content="The saved_model API allows for easy saving. Restoring the model and performing inference is a bit trickier when the input Tensors come from a tf.data.Dataset. We'll see here how this works." />
+    <meta name="description" content="The saved_model API allows for easy saving. Restoring the model and performing inference is a bit trickier when the input Tensors come from a tf.data.Dataset. We'll see here how this works." />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<div class="article-cover">
+    <div>
+        
+        <img src="/images/tf.png" class="image">
+        
+    </div>
+</div>
+
+<article>
+    <div class="container">
+        <header>
+            
+            <div class="meta">
+                <span class='meta_text'>By</span> <address><a rel="author" href="" title="Victor Schmidt"
+                        target="_blank">Victor Schmidt</a></address> <span class='meta_text'>&mdash;
+                    <time pubdate datetime="2018-17-May" title="May 17, 2018">May 17, 2018</time></span>
+            </div>
+            
+            <h1 class="title">Save and Restore a Tensorflow model with its Dataset using simple_save</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            <h2 class="subtitle">Restoring a graph, finding the appropriate Tensors and Operations</h2>
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <ol id="markdown-toc">
+  <li><a href="#introduction" id="markdown-toc-introduction">Introduction</a></li>
+  <li><a href="#code" id="markdown-toc-code">Code</a></li>
+  <li><a href="#failedpreconditionerror" id="markdown-toc-failedpreconditionerror">FailedPreconditionError</a>    <ol>
+      <li><a href="#code-draft" id="markdown-toc-code-draft">Code draft</a></li>
+    </ol>
+  </li>
+  <li><a href="#initializing-the-iterator" id="markdown-toc-initializing-the-iterator">Initializing the Iterator</a></li>
+</ol>
+
+<h1 id="introduction">Introduction</h1>
+
+<p>I recently found my self in a tricky situation. Never had it been easier to save and restore a Tensorflow model than with <code class="language-plaintext highlighter-rouge">tf.saved_model.simple_save</code> and then <code class="language-plaintext highlighter-rouge">tf.saved_model.loader.load</code>. On the other hand, very little documentation exists regarding the interaction with the Dataset API and how to restore a saved <code class="language-plaintext highlighter-rouge">tf.data.Dataset</code>’s <code class="language-plaintext highlighter-rouge">Iterator</code>.</p>
+
+<p>This post contains standalone and deterministic code to make it easily reproducible for you: we create a model, train it, save it, restore it and check that inferences match.</p>
+
+<p>The code runs under python 3 and Tensorflow 1.8.</p>
+
+<h1 id="code">Code</h1>
+
+<p>The following code generates random data for the sake of the demonstration.</p>
+
+<ol>
+  <li>We start by creating the placeholders. They will hold the data at runtime. From them, we create the <code class="language-plaintext highlighter-rouge">Dataset</code> and then its <code class="language-plaintext highlighter-rouge">Iterator</code>. We get the iterator’s generated tensor, called <code class="language-plaintext highlighter-rouge">input_tensor</code> which will serve as input to our model.</li>
+  <li>The model itself is built from <code class="language-plaintext highlighter-rouge">input_tensor</code>: a GRU-based bidirectional RNN followed by a dense classifier. Because why not.</li>
+  <li>The loss is a <code class="language-plaintext highlighter-rouge">softmax_cross_entropy_with_logits</code>, optimized with <code class="language-plaintext highlighter-rouge">Adam</code>. After 2 epochs (of 2 batches each), we save the “trained” model with <code class="language-plaintext highlighter-rouge">tf.saved_model.simple_save</code>. If you run the code as is, then the model will be saved in a folder called <code class="language-plaintext highlighter-rouge">simple/</code> in your current working directory.</li>
+  <li>In a new graph, we then restore the saved model with <code class="language-plaintext highlighter-rouge">tf.saved_model.loader.load</code>. We grab the placeholders and logits with <code class="language-plaintext highlighter-rouge">graph.get_tensor_by_name</code> and the <code class="language-plaintext highlighter-rouge">Iterator</code> initializing operation with <code class="language-plaintext highlighter-rouge">graph.get_operation_by_name</code>.</li>
+  <li>Lastly we run an inference for both batches in the dataset, and check that the saved and restored model both yield the same values. They do!</li>
+</ol>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">shutil</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">from</span> <span class="nn">tensorflow.python.saved_model</span> <span class="kn">import</span> <span class="n">tag_constants</span>
+
+
+<span class="k">def</span> <span class="nf">model</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">):</span>
+    <span class="s">"""Create the model which consists of
+    a bidirectional rnn (GRU(10)) followed by a dense classifier
+
+    Args:
+        graph (tf.Graph): Tensors' graph
+        input_tensor (tf.Tensor): Tensor fed as input to the model
+
+    Returns:
+        tf.Tensor: the model's output layer Tensor
+    """</span>
+    <span class="n">cell</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">rnn_cell</span><span class="p">.</span><span class="n">GRUCell</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">graph</span><span class="p">.</span><span class="n">as_default</span><span class="p">():</span>
+        <span class="p">((</span><span class="n">fw_outputs</span><span class="p">,</span> <span class="n">bw_outputs</span><span class="p">),</span> <span class="p">(</span><span class="n">fw_state</span><span class="p">,</span> <span class="n">bw_state</span><span class="p">))</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">bidirectional_dynamic_rnn</span><span class="p">(</span>
+            <span class="n">cell_fw</span><span class="o">=</span><span class="n">cell</span><span class="p">,</span>
+            <span class="n">cell_bw</span><span class="o">=</span><span class="n">cell</span><span class="p">,</span>
+            <span class="n">inputs</span><span class="o">=</span><span class="n">input_tensor</span><span class="p">,</span>
+            <span class="n">sequence_length</span><span class="o">=</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span> <span class="o">*</span> <span class="mi">32</span><span class="p">,</span>
+            <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span>
+            <span class="n">swap_memory</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+            <span class="n">scope</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+        <span class="n">outputs</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">concat</span><span class="p">((</span><span class="n">fw_outputs</span><span class="p">,</span> <span class="n">bw_outputs</span><span class="p">),</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">dense</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">layers</span><span class="p">.</span><span class="n">dense</span><span class="p">(</span><span class="n">mean</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">dense</span>
+
+
+<span class="k">def</span> <span class="nf">get_opt_op</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="n">logits</span><span class="p">,</span> <span class="n">labels_tensor</span><span class="p">):</span>
+    <span class="s">"""Create optimization operation from model's logits and labels
+
+    Args:
+        graph (tf.Graph): Tensors' graph
+        logits (tf.Tensor): The model's output without activation
+        labels_tensor (tf.Tensor): Target labels
+
+    Returns:
+        tf.Operation: the operation performing a stem of Adam optimizer
+    """</span>
+    <span class="k">with</span> <span class="n">graph</span><span class="p">.</span><span class="n">as_default</span><span class="p">():</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">'loss'</span><span class="p">):</span>
+            <span class="n">loss</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">reduce_mean</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">nn</span><span class="p">.</span><span class="n">softmax_cross_entropy_with_logits</span><span class="p">(</span>
+                    <span class="n">logits</span><span class="o">=</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels_tensor</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'xent'</span><span class="p">),</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s">"mean-xent"</span>
+                    <span class="p">)</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">variable_scope</span><span class="p">(</span><span class="s">'optimizer'</span><span class="p">):</span>
+            <span class="n">opt_op</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">train</span><span class="p">.</span><span class="n">AdamOptimizer</span><span class="p">(</span><span class="mf">1e-2</span><span class="p">).</span><span class="n">minimize</span><span class="p">(</span><span class="n">loss</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">opt_op</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c1"># Set random seed for reproducibility
+</span>    <span class="c1"># and create synthetic data
+</span>    <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">30</span><span class="p">)</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">5</span><span class="p">)[</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="p">(</span><span class="mi">64</span><span class="p">,))]</span>
+
+    <span class="n">graph1</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">graph1</span><span class="p">.</span><span class="n">as_default</span><span class="p">():</span>
+        <span class="c1"># Random seed for reproducibility
+</span>        <span class="n">tf</span><span class="p">.</span><span class="n">set_random_seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+        <span class="c1"># Placeholders
+</span>        <span class="n">batch_size_ph</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'batch_size_ph'</span><span class="p">)</span>
+        <span class="n">features_data_ph</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">float32</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="mi">30</span><span class="p">],</span> <span class="s">'features_data_ph'</span><span class="p">)</span>
+        <span class="n">labels_data_ph</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">placeholder</span><span class="p">(</span><span class="n">tf</span><span class="p">.</span><span class="n">int32</span><span class="p">,</span> <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="s">'labels_data_ph'</span><span class="p">)</span>
+        <span class="c1"># Dataset
+</span>        <span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">Dataset</span><span class="p">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">features_data_ph</span><span class="p">,</span> <span class="n">labels_data_ph</span><span class="p">))</span>
+        <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">batch</span><span class="p">(</span><span class="n">batch_size_ph</span><span class="p">)</span>
+        <span class="n">iterator</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">Iterator</span><span class="p">.</span><span class="n">from_structure</span><span class="p">(</span><span class="n">dataset</span><span class="p">.</span><span class="n">output_types</span><span class="p">,</span> <span class="n">dataset</span><span class="p">.</span><span class="n">output_shapes</span><span class="p">)</span>
+        <span class="n">dataset_init_op</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">.</span><span class="n">make_initializer</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'dataset_init'</span><span class="p">)</span>
+        <span class="n">input_tensor</span><span class="p">,</span> <span class="n">labels_tensor</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">.</span><span class="n">get_next</span><span class="p">()</span>
+
+        <span class="c1"># Model
+</span>        <span class="n">logits</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">graph1</span><span class="p">,</span> <span class="n">input_tensor</span><span class="p">)</span>
+        <span class="c1"># Optimization
+</span>        <span class="n">opt_op</span> <span class="o">=</span> <span class="n">get_opt_op</span><span class="p">(</span><span class="n">graph1</span><span class="p">,</span> <span class="n">logits</span><span class="p">,</span> <span class="n">labels_tensor</span><span class="p">)</span>
+
+        <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph1</span><span class="p">)</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+            <span class="c1"># Initialize variables
+</span>            <span class="n">tf</span><span class="p">.</span><span class="n">global_variables_initializer</span><span class="p">().</span><span class="n">run</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">sess</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">epoch</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+                <span class="n">batch</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="c1"># Initialize dataset (could feed epochs in Dataset.repeat(epochs))
+</span>                <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span>
+                    <span class="n">dataset_init_op</span><span class="p">,</span>
+                    <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span>
+                        <span class="n">features_data_ph</span><span class="p">:</span> <span class="n">features</span><span class="p">,</span>
+                        <span class="n">labels_data_ph</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span>
+                        <span class="n">batch_size_ph</span><span class="p">:</span> <span class="mi">32</span>
+                    <span class="p">})</span>
+                <span class="n">values</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">epoch</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                            <span class="c1"># Training
+</span>                            <span class="n">_</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">([</span><span class="n">opt_op</span><span class="p">,</span> <span class="n">logits</span><span class="p">])</span>
+                            <span class="k">print</span><span class="p">(</span><span class="s">'Epoch {}, batch {} | Sample value: {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">value</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+                            <span class="n">batch</span> <span class="o">+=</span> <span class="mi">1</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="c1"># Final inference
+</span>                            <span class="n">values</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">logits</span><span class="p">))</span>
+                            <span class="k">print</span><span class="p">(</span><span class="s">'Epoch {}, batch {} | Final inference | Sample value: {}'</span><span class="p">.</span><span class="nb">format</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]))</span>
+                            <span class="n">batch</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="k">except</span> <span class="n">tf</span><span class="p">.</span><span class="n">errors</span><span class="p">.</span><span class="n">OutOfRangeError</span><span class="p">:</span>
+                        <span class="k">break</span>
+            <span class="c1"># Save model state
+</span>            <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">Saving...'</span><span class="p">)</span>
+            <span class="n">cwd</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">getcwd</span><span class="p">()</span>
+            <span class="n">path</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">cwd</span><span class="p">,</span> <span class="s">'simple'</span><span class="p">)</span>
+            <span class="n">shutil</span><span class="p">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">ignore_errors</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">inputs_dict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">"batch_size_ph"</span><span class="p">:</span> <span class="n">batch_size_ph</span><span class="p">,</span>
+                <span class="s">"features_data_ph"</span><span class="p">:</span> <span class="n">features_data_ph</span><span class="p">,</span>
+                <span class="s">"labels_data_ph"</span><span class="p">:</span> <span class="n">labels_data_ph</span>
+            <span class="p">}</span>
+            <span class="n">outputs_dict</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">"logits"</span><span class="p">:</span> <span class="n">logits</span>
+            <span class="p">}</span>
+            <span class="n">tf</span><span class="p">.</span><span class="n">saved_model</span><span class="p">.</span><span class="n">simple_save</span><span class="p">(</span>
+                <span class="n">sess</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">inputs_dict</span><span class="p">,</span> <span class="n">outputs_dict</span>
+            <span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'Ok'</span><span class="p">)</span>
+    <span class="c1"># Restoring
+</span>    <span class="n">graph2</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Graph</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">graph2</span><span class="p">.</span><span class="n">as_default</span><span class="p">():</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">(</span><span class="n">graph</span><span class="o">=</span><span class="n">graph2</span><span class="p">)</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+            <span class="c1"># Restore saved values
+</span>            <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">Restoring...'</span><span class="p">)</span>
+            <span class="n">tf</span><span class="p">.</span><span class="n">saved_model</span><span class="p">.</span><span class="n">loader</span><span class="p">.</span><span class="n">load</span><span class="p">(</span>
+                <span class="n">sess</span><span class="p">,</span>
+                <span class="p">[</span><span class="n">tag_constants</span><span class="p">.</span><span class="n">SERVING</span><span class="p">],</span>
+                <span class="n">path</span>
+            <span class="p">)</span>
+            <span class="k">print</span><span class="p">(</span><span class="s">'Ok'</span><span class="p">)</span>
+            <span class="c1"># Get restored placeholders
+</span>            <span class="n">labels_data_ph</span> <span class="o">=</span> <span class="n">graph2</span><span class="p">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="s">'labels_data_ph:0'</span><span class="p">)</span>
+            <span class="n">features_data_ph</span> <span class="o">=</span> <span class="n">graph2</span><span class="p">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="s">'features_data_ph:0'</span><span class="p">)</span>
+            <span class="n">batch_size_ph</span> <span class="o">=</span> <span class="n">graph2</span><span class="p">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="s">'batch_size_ph:0'</span><span class="p">)</span>
+            <span class="c1"># Get restored model output
+</span>            <span class="n">restored_logits</span> <span class="o">=</span> <span class="n">graph2</span><span class="p">.</span><span class="n">get_tensor_by_name</span><span class="p">(</span><span class="s">'dense/BiasAdd:0'</span><span class="p">)</span>
+            <span class="c1"># Get dataset initializing operation
+</span>            <span class="n">dataset_init_op</span> <span class="o">=</span> <span class="n">graph2</span><span class="p">.</span><span class="n">get_operation_by_name</span><span class="p">(</span><span class="s">'dataset_init'</span><span class="p">)</span>
+
+            <span class="c1"># Initialize restored dataset
+</span>            <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span>
+                <span class="n">dataset_init_op</span><span class="p">,</span>
+                <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span>
+                    <span class="n">features_data_ph</span><span class="p">:</span> <span class="n">features</span><span class="p">,</span>
+                    <span class="n">labels_data_ph</span><span class="p">:</span> <span class="n">labels</span><span class="p">,</span>
+                    <span class="n">batch_size_ph</span><span class="p">:</span> <span class="mi">32</span>
+                <span class="p">}</span>
+
+            <span class="p">)</span>
+            <span class="c1"># Compute inference for both batches in dataset
+</span>            <span class="n">restored_values</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+                <span class="n">restored_values</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">restored_logits</span><span class="p">))</span>
+                <span class="k">print</span><span class="p">(</span><span class="s">'Restored values: '</span><span class="p">,</span> <span class="n">restored_values</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+    <span class="c1"># Check if original inference and restored inference are equal
+</span>    <span class="n">valid</span> <span class="o">=</span> <span class="nb">all</span><span class="p">((</span><span class="n">v</span> <span class="o">==</span> <span class="n">rv</span><span class="p">).</span><span class="nb">all</span><span class="p">()</span> <span class="k">for</span> <span class="n">v</span><span class="p">,</span> <span class="n">rv</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">restored_values</span><span class="p">))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">'</span><span class="se">\n</span><span class="s">Inferences match: '</span><span class="p">,</span> <span class="n">valid</span><span class="p">)</span></code></pre></figure>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ python3 save_and_restore.py
+
+Epoch 0, batch 0 | Sample value: [-0.13851789 -0.3087595   0.12804556  0.20013677 -0.08229901]
+Epoch 0, batch 1 | Sample value: [-0.00555491 -0.04339041 -0.05111827 -0.2480045  -0.00107776]
+Epoch 1, batch 0 | Sample value: [-0.19321944 -0.2104792  -0.00602257  0.07465433  0.11674127]
+Epoch 1, batch 1 | Sample value: [-0.05275984  0.05981954 -0.15913513 -0.3244143   0.10673307]
+Epoch 2, batch 0 | Final inference | Sample value: [-0.26331693 -0.13013336 -0.12553    -0.04276478  0.2933622 ]
+Epoch 2, batch 1 | Final inference | Sample value: [-0.07730117  0.11119192 -0.20817074 -0.35660955  0.16990358]
+
+Saving...
+INFO:tensorflow:Assets added to graph.
+INFO:tensorflow:No assets to write.
+INFO:tensorflow:SavedModel written to: b'/some/path/simple/saved_model.pb'
+Ok
+
+Restoring...
+INFO:tensorflow:Restoring parameters from b'/some/path/simple/variables/variables'
+Ok
+Restored values:  [-0.26331693 -0.13013336 -0.12553    -0.04276478  0.2933622 ]
+Restored values:  [-0.07730117  0.11119192 -0.20817074 -0.35660955  0.16990358]
+
+Inferences match:  True
+</code></pre></div></div>
+
+<h1 id="failedpreconditionerror">FailedPreconditionError</h1>
+
+<p>Before reaching this working piece of code, I kept running into this error :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FailedPreconditionError (see above for traceback): GetNext() failed because the iterator has not been initialized
+</code></pre></div></div>
+
+<p>It took me a long time to figure it out. I had to go through several StackOverflow questions and many blog posts to even phrase my problem. I even got to Google’s second search page..!</p>
+
+<p>Saving worked fine, restoring the graph too, Tensors were fetched and initialized, what could go wrong?</p>
+
+<h2 id="code-draft">Code draft</h2>
+
+<p>Here is a skeleton of how my code worked (careful, it’s <strong>wrong</strong>):</p>
+
+<p>Saving</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">features_ph</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Placeholder</span><span class="p">(...)</span>
+<span class="n">labels_ph</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">Placeholder</span><span class="p">(...)</span>
+
+<span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">Dataset</span><span class="p">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">features_data_ph</span><span class="p">,</span> <span class="n">labels_data_ph</span><span class="p">))</span>
+<span class="n">iterator</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">make_initializable_iterator</span><span class="p">()</span>
+
+<span class="n">input_tensor</span><span class="p">,</span> <span class="n">labels_tensor</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">.</span><span class="n">get_next</span><span class="p">()</span>
+
+<span class="n">logits</span> <span class="o">=</span> <span class="n">my_model_function</span><span class="p">(</span><span class="n">input_tensor</span><span class="p">)</span>
+<span class="n">opt_op</span> <span class="o">=</span> <span class="n">my_optimizing_function</span><span class="p">(</span><span class="n">logits</span><span class="p">,</span> <span class="n">labels_tensor</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+    <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">dataset_init_op</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">features_data_ph</span><span class="p">:</span> <span class="n">some_numpy_values</span><span class="p">,</span>
+        <span class="n">labels_data_ph</span><span class="p">:</span> <span class="n">some_other_numpy_values</span>
+    <span class="p">})</span>
+    <span class="c1"># training
+</span>    <span class="p">...</span>
+    <span class="n">tf</span><span class="p">.</span><span class="n">saved_model</span><span class="p">.</span><span class="n">simple_save</span><span class="p">(...)</span></code></pre></figure>
+
+<p>Restoring</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">Dataset</span><span class="p">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">features_data_ph</span><span class="p">,</span> <span class="n">labels_data_ph</span><span class="p">))</span>
+<span class="n">iterator</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">.</span><span class="n">make_initializable_iterator</span><span class="p">()</span>
+<span class="n">input_tensor</span><span class="p">,</span> <span class="n">labels_tensor</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">.</span><span class="n">get_next</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">tf</span><span class="p">.</span><span class="n">Session</span><span class="p">()</span> <span class="k">as</span> <span class="n">sess</span><span class="p">:</span>
+    <span class="n">tf</span><span class="p">.</span><span class="n">saved_model</span><span class="p">.</span><span class="n">loader</span><span class="p">.</span><span class="n">load</span><span class="p">(...)</span>
+
+    <span class="n">restored_labels_data_ph</span> <span class="o">=</span> <span class="n">graph2</span><span class="p">.</span><span class="n">get_tensor_by_name</span><span class="p">(...)</span>
+    <span class="n">restored_features_data_ph</span> <span class="o">=</span> <span class="n">graph2</span><span class="p">.</span><span class="n">get_tensor_by_name</span><span class="p">(...)</span>
+    <span class="n">restored_logits</span> <span class="o">=</span> <span class="n">graph2</span><span class="p">.</span><span class="n">get_tensor_by_name</span><span class="p">(...)</span>
+
+    <span class="n">sess</span><span class="p">.</span><span class="n">run</span><span class="p">(</span><span class="n">iterator</span><span class="p">.</span><span class="n">initializer</span><span class="p">,</span> <span class="n">feed_dict</span><span class="o">=</span><span class="p">{</span>
+        <span class="n">restored_features_data_ph</span><span class="p">:</span> <span class="n">some_numpy_values</span><span class="p">,</span>
+        <span class="n">restored_labels_data_ph</span><span class="p">:</span> <span class="n">some_other_numpy_values</span>
+    <span class="p">})</span>
+
+    <span class="n">restored_logits</span><span class="p">.</span><span class="nb">eval</span><span class="p">(</span><span class="n">session</span><span class="o">=</span><span class="n">sess</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="s">"FailedPreconditionError (see above for traceback): GetNext() failed because the iterator has not been initialized [...]"</span></code></pre></figure>
+
+<p><br /></p>
+
+<p>Can you spot what’s wrong here?</p>
+
+<h1 id="initializing-the-iterator">Initializing the Iterator</h1>
+
+<p><code class="language-plaintext highlighter-rouge">tf.saved_model.simple_save</code> freezes a <code class="language-plaintext highlighter-rouge">graph</code>’s variables from a <code class="language-plaintext highlighter-rouge">session</code>’s values. When <code class="language-plaintext highlighter-rouge">tf.saved_model.loader.load</code> is called, it restores variables in the current default graph. However when we call <code class="language-plaintext highlighter-rouge">iterator.initializer</code>, we don’t initilaize the <em>restored</em> <code class="language-plaintext highlighter-rouge">Iterator</code>, we initialize the <em>new</em> one! But <code class="language-plaintext highlighter-rouge">restored_logits</code> still depends on the restored graph’s <code class="language-plaintext highlighter-rouge">input_tensor</code>, which itself was built from the <em>restored</em> <code class="language-plaintext highlighter-rouge">Iterator</code>.</p>
+
+<p>So we need to find the right initializing operation. An easy way to do that is to build the <code class="language-plaintext highlighter-rouge">Iterator</code> in another way:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">Dataset</span><span class="p">.</span><span class="n">from_tensor_slices</span><span class="p">((</span><span class="n">features_data_ph</span><span class="p">,</span> <span class="n">labels_data_ph</span><span class="p">))</span>
+<span class="n">iterator</span> <span class="o">=</span> <span class="n">tf</span><span class="p">.</span><span class="n">data</span><span class="p">.</span><span class="n">Iterator</span><span class="p">.</span><span class="n">from_structure</span><span class="p">(</span><span class="n">dataset</span><span class="p">.</span><span class="n">output_types</span><span class="p">,</span> <span class="n">dataset</span><span class="p">.</span><span class="n">output_shapes</span><span class="p">)</span>
+<span class="n">dataset_init_op</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">.</span><span class="n">make_initializer</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s">'dataset_init'</span><span class="p">)</span>
+<span class="n">input_tensor</span><span class="p">,</span> <span class="n">labels_tensor</span> <span class="o">=</span> <span class="n">iterator</span><span class="p">.</span><span class="n">get_next</span><span class="p">()</span></code></pre></figure>
+
+<p>Now the operation is super easy to grab from the restored graph:</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="n">dataset_init_op</span> <span class="o">=</span> <span class="n">graph</span><span class="p">.</span><span class="n">get_operation_by_name</span><span class="p">(</span><span class="s">'dataset_init'</span><span class="p">)</span></code></pre></figure>
+
+<p>And that solved it, leading to the piece of code in the beginning. Enjoy!</p>
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Save and Restore a Tensorflow model with its Dataset using simple_save" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

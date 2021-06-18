@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vict0rsch &mdash; (Deep) Learning Enthusiast</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="Vict0rsch">
+    <link rel="canonical" href="https://vict0rs.ch/posts/2/">
+    
+    
+    <meta property="og:title" content="Vict0rsch" />
+    <meta property="og:url" content="https://vict0rs.ch/posts/2/" />
+    
+    
+    <meta property="og:description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    <meta name="description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            <div class="blog-cover" style="background-image:url(/images/blog-cover.jpg);">
+
+    <section>
+        <div class="container">
+            <h1>Vict0rsch's blog. </h1>
+            <h2 style="color: white">(Deep) Learning Enthusiast</h2>
+            <h3 id="type-it-span"></h3>
+
+            
+            <a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i
+                    class="icon icon-twitter"></i></a>
+            
+            
+            
+            <a href="mailto:vsch@pm.me" title="Send me a mail!" target="_blank"><i
+                    class="icon icon-mail"></i></a>
+            
+            
+            <a href="https://fr.linkedin.com/in/victor-schmidt-30418083" title="Linkedin" target="_blank"><i class="icon icon-linkedin"></i></a>
+            
+            
+            <a href="https://github.com/vict0rsch/deep_learning" title="Github" target="_blank"><i class="icon icon-github"></i></a>
+            
+            <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss"></i> -->
+            </a>
+        </div>
+    </section>
+</div>
+
+
+<article class="container">
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2018/06/17/multilabel-text-classification-tensorflow/" rel="prefetch">Multi-label Text Classification with Tensorflow</a></h2>
+            <p>Multilabel classification requires some changes to the mainstream single-label case: here they are!</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2018-17-June" title="June 17, 2018">June 17, 2018</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+                
+                &mdash;
+                
+                <a class="Tensorflow-tag home-tag btn btn-outline">Tensorflow</a>
+                
+                
+                <a class="Multilabel-tag home-tag btn btn-outline">Multilabel</a>
+                
+                
+                <a class="Data-tag home-tag btn btn-outline">Data</a>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2018/06/06/tensorflow-streaming-multilabel-f1/" rel="prefetch">Streaming f1-score in Tensorflow: the multilabel setting</a></h2>
+            <p>This situation presents 2 challenges: computing an overall f1-score when you only have per-batch values, and doing so in a multilabel setting where micro, macro and weighted f1 scores are expected. What a journey!</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2018-06-June" title="June 06, 2018">June 06, 2018</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+                
+                &mdash;
+                
+                <a class="Tensorflow-tag home-tag btn btn-outline">Tensorflow</a>
+                
+                
+                <a class="Metrics-tag home-tag btn btn-outline">Metrics</a>
+                
+                
+                <a class="Multilabel-tag home-tag btn btn-outline">Multilabel</a>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2018/05/24/sample-multilabel-dataset/" rel="prefetch">Splitting a multilabel dataset with Python</a></h2>
+            <p>Splitting a multi-label dataset into train and test sets is more complicated than the single-label case. You can't simply split each class. You have to be more clever, and stratify - here's how.</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2018-24-May" title="May 24, 2018">May 24, 2018</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+                
+                &mdash;
+                
+                <a class="General-tag home-tag btn btn-outline">General</a>
+                
+                
+                <a class="Multilabel-tag home-tag btn btn-outline">Multilabel</a>
+                
+                
+                <a class="Algorithms-tag home-tag btn btn-outline">Algorithms</a>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2018/05/17/restore-tf-model-dataset/" rel="prefetch">Save and Restore a Tensorflow model with its Dataset using simple_save</a></h2>
+            <p>The saved_model API allows for easy saving. Restoring the model and performing inference is a bit trickier when the input Tensors come from a tf.data.Dataset. We'll see here how this works.</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2018-17-May" title="May 17, 2018">May 17, 2018</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+                
+                &mdash;
+                
+                <a class="Tensorflow-tag home-tag btn btn-outline">Tensorflow</a>
+                
+                
+                <a class="Data-tag home-tag btn btn-outline">Data</a>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2018/01/30/mac-terminal-shell-power-user/" rel="prefetch">MacOS Terminal and Shell Setup with configuration files</a></h2>
+            <p>That's my personal setup: links, descriptions and configuration. From ZSH to Pyenv through Spaceship and Tmux</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2018-30-January" title="January 30, 2018">January 30, 2018</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+                
+                &mdash;
+                
+                <a class="Other-tag home-tag btn btn-outline">Other</a>
+                
+                
+                <a class="Software-tag home-tag btn btn-outline">Software</a>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2017/02/22/p2-aws-tensorflow-1/" rel="prefetch">AWS AMI for p2 instances with Tensorflow 1.0</a></h2>
+            <p>Here is my second AMI, ugraded from the previous one with a lot of what you need</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2017-22-February" title="February 22, 2017">February 22, 2017</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+                
+                &mdash;
+                
+                <a class="AWS-tag home-tag btn btn-outline">AWS</a>
+                
+                
+                <a class="GPU-tag home-tag btn btn-outline">GPU</a>
+                
+                
+                <a class="Hardware-tag home-tag btn btn-outline">Hardware</a>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2017/02/09/p2-instance-aws-bitfusion/" rel="prefetch">12 GB GPU for 0.1$ per hour? Hello AWS p2</a></h2>
+            <p>Use my vict0rsch-2.0 AMI on a p2.xlarge instance</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2017-09-February" title="February 09, 2017">February 09, 2017</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+                
+                &mdash;
+                
+                <a class="AWS-tag home-tag btn btn-outline">AWS</a>
+                
+                
+                <a class="GPU-tag home-tag btn btn-outline">GPU</a>
+                
+                
+                <a class="Hardware-tag home-tag btn btn-outline">Hardware</a>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2017/01/15/secu-web-fr/" rel="prefetch">La sécurité sur internet expliquée à ta grand mère</a></h2>
+            <p>Les grandes lignes que peuvent comprendre les petits cousins et les vieux oncles pour faire un peu attention sur internet. English version some day.</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2017-15-January" title="January 15, 2017">January 15, 2017</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+                
+                &mdash;
+                
+                <a class="Other-tag home-tag btn btn-outline">Other</a>
+                
+                
+                <a class="Random-tag home-tag btn btn-outline">Random</a>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2016/12/03/aws_gpu/" rel="prefetch">How to Use AWS GPU instances with Tensorflow and Keras Deep Learning frameworks</a></h2>
+            <p>Using a personal AMI, I'll go through every single step from 0 (you don't even know what an instance is) to running a Tensorflow example on GPU including how to connect to the instance</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2016-03-December" title="December 03, 2016">December 03, 2016</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+                
+                &mdash;
+                
+                <a class="AWS-tag home-tag btn btn-outline">AWS</a>
+                
+                
+                <a class="GPU-tag home-tag btn btn-outline">GPU</a>
+                
+                
+                <a class="Hardware-tag home-tag btn btn-outline">Hardware</a>
+                
+                
+                <a class="Software-tag home-tag btn btn-outline">Software</a>
+                
+                
+                <a class="Other-tag home-tag btn btn-outline">Other</a>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    
+    <section class="index">
+        <!-- -->
+        <div>
+            <h2 class="title"><a href="/2016/11/30/setup/" rel="prefetch">From 0 to Tensorflow</a></h2>
+            <p>I will show you the world... Kidding. Let's tool up for Tensorflow Keras etc. STATUS -> being written, be patient</p>
+            <div class="meta" style="display:inline-block">
+                Written By <address>Victor Schmidt</address> &mdash;
+                <time pubdate datetime="2016-30-November" title="November 30, 2016">November 30, 2016</time>
+            </div>
+            
+            <div class='post-tags'>
+                
+            </div>
+            
+        </div>
+        <hr>
+    </section>
+    
+    
+    <section class="pagination" style="text-align:center">
+        
+        
+        <a href="/" class="btn btn-outline">‹ Newer</a>
+        
+        
+        
+        <a href="/posts/3" class="btn btn-outline">Older ›</a>
+        
+    </section>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

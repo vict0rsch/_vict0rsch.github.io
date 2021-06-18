@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Useful resources: Deep Learning papers & blog posts to get started &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="Useful resources: Deep Learning papers & blog posts to get started ">
+    <link rel="canonical" href="https://vict0rs.ch/resources/">
+    
+    
+    <meta property="og:title" content="Useful resources: Deep Learning papers & blog posts to get started " />
+    <meta property="og:url" content="https://vict0rs.ch/resources/" />
+    
+    
+    <meta property="og:description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    <meta name="description" content="Vict0rsch's blog about tech and AI - PhD Student @MILA, Montreal, Quebec" />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<article>
+    <div class="container">
+        <header>
+            
+            <h1 class="title">Useful resources: Deep Learning papers & blog posts to get started</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            <h2 class="subtitle">Papers, videos, blogs, papers and reading-lists to go from scratch to Recurrent Neural Networks</h2>
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <p><em>The content in this post is still extremely relevant and you should go through it. Still, I’m aware it’s a couple years old, I’ll update it some day (2018-05-17).</em></p>
+
+<p><br /></p>
+
+<!--
+Table Of Contents
+---
+**[How to use](#how-to-use)**
+
+**[Starting with Machine Learning](#starting-with-machine-learning)**
+
+**[Starting with Deep Learning](#starting-with-deep-learning)**
+
+**[Reading papers](#Reading-papers)**
+
+**[General Deep Learning papers and books](#general-deep-learning-papers-and-books)**
+
+**[On Recurrent Neural Networks](#on-recurrent-neural-networks)**
+
+**[Other](#other)**
+
+**[Reading Lists](#reading-lists)** -->
+
+<h1 id="how-to-use">How to use</h1>
+
+<p>Here is a collection of useful resources to learn / understand / discover more about (Deep) Learning. It will be updated regularly, I’ll be glad if you have  <a href="https://github.com/Vict0rSch/Deep-Learning/pulls">suggestions</a> to this list.</p>
+
+<p>Resources can be either research papers, explanatory website or even a well-written Wikipedia page. Topics are wide, I hope you’ll find what you need.</p>
+
+<h1 id="starting-with-machine-learning">Starting with Machine Learning</h1>
+
+<ol>
+  <li>
+    <p><strong><a href="http://www.r2d3.us/">http://www.r2d3.us/</a></strong> A <strong>beginner’s</strong> introduction to <strong>machine learning</strong> (with decision trees), how it works and what is at stake. The website is amazingly beautiful and didactical. If you’re ehre, on <em>this</em> page, you probably won’t need to read through that. But still, it’s too good to miss. And worth sharing with everyone. [Translations available in French, Russian and Chinese]</p>
+  </li>
+  <li>
+    <p><strong><a href="https://blog.monkeylearn.com/a-gentle-guide-to-machine-learning/">https://blog.monkeylearn.com/a-gentle-guide-to-machine-learning/</a></strong> Here is another blog post to understand the first principles of machine learning. It nicely starts with real-world problems Machine Learning helps address, and ends with how to test your model, introduciont overfitting, precision and recall.</p>
+  </li>
+  <li>
+    <p><strong><a href="https://www.coursera.org/learn/machine-learning">https://www.coursera.org/learn/machine-learning</a></strong> Here is <a href="http://www.andrewng.org/">Andrew Ng</a>’s most famous MOOC on Coursera. Again, this is a “<em>start-from-scratch</em>” ressource, it needs little maths and is easy going with coding.  The point here is to teach about <strong>machine learning</strong> in general, amongst which stand neural networks. It uses <a href="https://www.gnu.org/software/octave/">Octave</a> (free version of Matlab) which is a downside for me <em>vs</em> Python but this is not important if you’re just starting and if you’re not you can always do it in Python anyway. Also, it starts quite slowly especially regarding maths. Hold on to the course untill it gets a little harder and more interesting.</p>
+  </li>
+  <li>
+    <p><strong><a href="https://www.quora.com/topic/Machine-Learning">https://www.quora.com/topic/Machine-Learning</a></strong> You could spend years exploring Quora so jump into it! You’ll find interesting, funny and/or weird questions and fascinating, detailed and/or concise answers. It is a great resource to both widen and deepen your interests. It’s up to you.</p>
+  </li>
+  <li>
+    <p><strong><a href="#reading-lists">Reading lists</a></strong> Explore these and look for the topics you’re interested in / you have questions about. Needless to say, these reading lists also lead to other reading lists ;)</p>
+  </li>
+  <li>
+    <p><strong><a href="https://github.com/Vict0rSch/data_science_polytechnique">https://github.com/Vict0rSch/data_science_polytechnique</a></strong> Learn more on a few broad machine learning topics with these assignment descriptions and slides</p>
+  </li>
+</ol>
+
+<h1 id="starting-with-deep-learning">Starting with Deep Learning</h1>
+
+<ol>
+  <li>
+    <p><strong><a href="http://neuralnetworksanddeeplearning.com/">http://neuralnetworksanddeeplearning.com/</a></strong> This is a <strong><em><a href="https://www.google.fr/search?q=goldmine&amp;source=lnms&amp;tbm=isch&amp;sa=X&amp;ved=0ahUKEwjetPXx-qPKAhUHnBoKHZorD_EQ_AUIBygB&amp;biw=1280&amp;bih=678">goldmine</a></em></strong> to start with Deep Learning and understand neural networks. It starts from scratch, and takes you through the <strong>backpropagation</strong> algorithm, <strong>regularization</strong>, tips to train your networks etc. up to explaining <strong>convolutional</strong> networks and introducing recurrent ones. It needs very little maths and uses a simple Python code to wallk you through the <strong>implementation</strong> of feedforward and convolutional neural nets.</p>
+
+    <p><em>This is where I started with Deep Learning and I want to <strong>thank <a href="http://michaelnielsen.org/">M. Nielsen</a></strong> for his very informative and pedagogical work.</em></p>
+  </li>
+  <li>
+    <p><strong><a href="http://cs231n.stanford.edu/syllabus.html">http://cs231n.stanford.edu/syllabus.html</a></strong> A great set of lessons, from a Python/Numpy introduction to Convolutional Neural Networks. It also rapidly mentions other machine learning techniques such as SVMs and kNN. You’ll find there the slides, <strong>videos</strong> and assignments (notebooks). See all the code at <strong><a href="http://cs231n.github.io/">http://cs231n.github.io/</a></strong></p>
+  </li>
+  <li>
+    <p><strong><a href="https://www.udacity.com/course/deep-learning--ud730">https://www.udacity.com/course/deep-learning--ud730</a></strong> This is <a href="http://googleresearch.blogspot.mx/2016/01/teach-yourself-deep-learning-with.html">Google</a>’s Deep Learning MOOC with Udacity. They use Tensorflow rather than Theano (of course, TensorFlow it theirs…)  but they do tackle issues that do not depend on your programming framework. Moreover, Keras can use TensorFlow as a backend.</p>
+  </li>
+</ol>
+
+<h1 id="reading-papers">Reading papers</h1>
+
+<p>If you like reading papers and read a lot of papers (or at least once a month) I suggest you download and use <strong><a href="https://www.mendeley.com/dashboard/">Mendeley</a></strong>:</p>
+
+<blockquote>
+  <p>Free reference manager and PDF organizer</p>
+</blockquote>
+
+<p>The point is that you will be able to store and organize the papers you read to find them later on without having to dig in the web. Moreover it is super-useful to generate Latex bibliographies.</p>
+
+<p>I do not know if it is the best tool you can find, it’s just that I use it and like it.</p>
+
+<h1 id="general-deep-learning-papers-and-books">General Deep Learning papers and books</h1>
+
+<ol>
+  <li>
+    <p><strong><a href="http://www.nature.com/articles/nature14539.epdf?referrer_access_token=K4awZz78b5Yn2_AoPV_4Y9RgN0jAjWel9jnR3ZoTv0PU8PImtLRceRBJ32CtadUBVOwHuxbf2QgphMCsA6eTOw64kccq9ihWSKdxZpGPn2fn3B_8bxaYh0svGFqgRLgaiyW6CBFAb3Fpm6GbL8a_TtQQDWKuhD1XKh_wxLReRpGbR_NdccoaiKP5xvzbV-x7b_7Y64ZSpqG6kmfwS6Q1rw%3D%3D&amp;tracking_referrer=www.nature.com">Deep Learning review</a></strong> in <em>Nature</em> (2015) by Y. LeCun, Y. Bengio and G. Hinton</p>
+
+    <blockquote>
+      <p>Deep learning allows computational models that are composed of multiple processing layers to learn representations of data with multiple levels of abstraction. These methods have dramatically improved the state-of-the-art in speech recognition, visual object recognition, object detection and many other domains such as drug discovery and genomics. Deep learning discovers intricate structure in large data sets by using the backpropagation algorithm to indicate how a machine should change its internal parameters that are used to compute the representation in each layer from the representation in the previous layer. Deep convolutional nets have brought about breakthroughs in processing images, video, speech and audio, whereas recurrent nets have shone light on sequential data such as text and speech.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong><a href="http://www.deeplearningbook.org/">Deep Learning Book (Draft)</a></strong>	by I. Goodfellow, Y. Bengio and A. Courville. The book is not finished and the html version is quite ugly but it still is exhaustive and precise.</p>
+  </li>
+  <li>
+    <p><strong><a href="http://www.rmki.kfki.hu/~banmi/elte/Bishop%20-%20Pattern%20Recognition%20and%20Machine%20Learning.pdf">Pattern Recognition and Machine Learning</a></strong> by C. Bishop (2006). This 700 pages <strong>book</strong> is one of the Bibles of <strong>machine learning</strong>, tackling major subjects such as Graphical Models, Kernel Methods, Linear Models and … Neural Networks. It is quite maths-oriented but very precise and useful.</p>
+  </li>
+  <li>
+    <p><strong><a href="http://arxiv.org/pdf/1206.5533v2.pdf">Practical Recommendations for Gradient-Based Training of Deep
+Architectures</a></strong> by Y. Bengio (2012).</p>
+
+    <blockquote>
+      <p>Learning algorithms related to artificial neural networks and in particular for Deep Learning may seem to involve many bells and whistles, called hyperparameters. <strong>This chapter is meant as a practical guide with recommendations for some of the most commonly used hyper-parameters, in particular in the context of learning algorithms based on backpropagated gradient and gradient-based optimization</strong>. It also discusses how to deal with the fact that more interesting results can be obtained when allowing one to adjust many hyper-parameters. Overall, it describes elements of the practice used to successfully and efficiently train and debug large-scale and often deep multi-layer neural networks. It closes with open questions about the training difficulties observed with deeper architectures.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong><a href="http://www.jmlr.org/papers/volume13/bergstra12a/bergstra12a.pdf">Random Search for Hyper-Parameter Optimization</a></strong> in <em>Journal of Machine Learning Research</em> by J. Bergstra and Y. Bengio (2012)</p>
+
+    <blockquote>
+      <p>Grid search and manual search are the most widely used strategies for hyper-parameter optimization. This paper shows empirically and theoretically that randomly chosen trials are more efficient for hyper-parameter optimization than trials on a grid. Empirical evidence comes from a comparison with a large previous study that used grid search and manual search to configure neural networks and deep belief networks. Compared with neural networks configured by a pure grid search, we find that random search over the same domain is able to find models that are as good or better within a small fraction of the computation time. Granting random search the same computational budget, random search finds better models by effectively searching a larger, less promising con- figuration space. <strong>Compared with deep belief networks configured by a thoughtful combination of manual search and grid search, purely random search over the same 32-dimensional configuration space found statistically equal performance on four of seven data sets, and superior performance on one of seven.</strong> […]</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong><a href="http://arxiv.org/pdf/1502.01852v1.pdf">Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification</a></strong> by K. He, X. Zhang, S. Ren and J. Sun (2015)</p>
+
+    <blockquote>
+      <p>Rectified activation units (rectifiers) are essential for state-of-the-art neural networks. In this work, we study rectifier neural networks for image classification from two aspects. First, we propose a Parametric Rectified Linear Unit (PReLU) that generalizes the traditional rectified unit. <strong>PReLU improves model fitting with nearly zero extra computational cost and little overfitting risk. Second, we derive a robust initialization method that particularly considers the rectifier nonlinearities. This method enables us to train extremely deep rectified models directly from scratch and to investigate deeper or wider network architectures.</strong> Based on our PReLU networks (PReLU-nets), we achieve 4.94% top-5 test error on the ImageNet 2012 classification dataset. This is a 26% relative improvement over the ILSVRC 2014 winner (GoogLeNet, 6.66% [29]). To our knowledge, our result is the first to surpass human-level performance (5.1%, [22]) on this visual recognition challenge.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong><a href="https://www.cs.toronto.edu/~hinton/absps/JMLRdropout.pdf">Dropout : A Simple Way to Prevent Neural Networks from Overfitting</a></strong> in <em>Journal of Machine Learning Research</em> by N. Srivastava, G. Hinton, A. Krizhevsky, I Sutskever and R. Salakhutdinov (2014)</p>
+
+    <blockquote>
+      <p>Deep neural nets with a large number of parameters are very powerful machine learning systems. However, overfitting is a serious problem in such networks. Large networks are also slow to use, making it difficult to deal with overfitting by combining the predictions of many different large neural nets at test time. Dropout is a technique for addressing this problem. The key idea is to randomly drop units (along with their connections) from the neural network during training. This prevents units from co-adapting too much. During training, dropout samples from an exponential number of different “thinned” networks. At test time, it is easy to approximate the effect of averaging the predictions of all these thinned networks by simply using a single unthinned network that has smaller weights. This <strong>significantly reduces overfitting and gives major improvements over other regularization methods. We show that dropout improves the performance of neural networks on supervised learning tasks</strong> in vision, speech recognition, document classification and computational biology, obtaining state-of-the-art results on many benchmark data sets.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong><a href="http://arxiv.org/pdf/1502.03167v3.pdf">Batch Normalization: Accelerating Deep Network Training by Reducing Internal Covariate Shift</a></strong> by S. Ioffe and C. Szegedy (2015)</p>
+
+    <blockquote>
+      <p>Training Deep Neural Networks is complicated by the fact that the distribution of each layer’s inputs changes during training, as the parameters of the previous layers change. This slows down the training by requiring lower learning rates and careful parameter initialization, and makes it notoriously hard to train models with saturating nonlinearities. We refer to this phenomenon as internal covariate shift, and address the problem by normalizing layer inputs. Our method draws its strength from making normalization a part of the model architecture and performing the normalization for each training mini-batch. Batch Normalization allows us to use much higher learning rates and be less careful about initialization. It also acts as a regularizer, in some cases eliminating the need for Dropout. <strong>Applied to a state-of-the-art image classification model, Batch Normalization achieves the same accuracy with 14 times fewer training steps, and beats the original model by a significant margin</strong>. Using an ensemble of batch-normalized networks, we improve upon the best published result on ImageNet classification: reaching 4.9% top-5 validation error (and 4.8% test error), exceeding the accuracy of human raters.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h1 id="on-recurrent-neural-networks">On Recurrent Neural Networks</h1>
+
+<ol>
+  <li>
+    <p>Check out A. Karpathy’s famous blog post on <strong><a href="http://karpathy.github.io/2015/05/21/rnn-effectiveness/">The Unreasonable Effectiveness of Recurrent Neural Networks</a></strong></p>
+  </li>
+  <li>
+    <p><a href="http://www.cs.ubc.ca/~nando/">Nando de Freitas</a>’s 50min video from his Oxford class is a really good introduction to RNNs and LSTMs, from the vanishing gradient problem to the LSTM Torch code  : <strong><a href="https://www.youtube.com/watch?v=56TYLaQN4N8&amp;index=1&amp;list=PL0NrLl_3fZQ0E5mJJisEP6ZQvHVHZd5b_">Deep Learning Lecture 12: Recurrent Neural Nets and LSTMs</a></strong></p>
+  </li>
+  <li>
+    <p>Also to get a clearer understanding of how LSTMs work, see this nice blog post by Chris Olah : <strong><a href="http://colah.github.io/posts/2015-08-Understanding-LSTMs/">Understanding LSTM Networks</a></strong></p>
+  </li>
+  <li>
+    <p>Another great post by Chris Olah, on how RNNs understand and represent data in the task of Natural Language Processing. Also explains the use of <strong>Word Embeddings</strong>: <strong><a href="http://colah.github.io/posts/2014-07-NLP-RNNs-Representations/">Deep Learning, NLP, and Representations</a></strong></p>
+  </li>
+  <li>
+    <p><strong><a href="http://arxiv.org/pdf/1506.00019v4.pdf">A Critical Review of Recurrent Neural Networks for Sequence Learning</a></strong> by Z. Lipton, J. Berkowitz and C. Elkan (2015)</p>
+
+    <blockquote>
+      <p>[…]Recurrent neural networks (RNNs) are connectionist models that capture the dynamics of sequences via cycles in the network of nodes. Unlike standard feedforward neural networks, recurrent networks retain a state that can represent information from an arbitrarily long context window. Although recurrent neural networks have traditionally been difficult to train, and often contain millions of parameters, recent advances in network architectures, optimization techniques, and parallel computation have enabled successful large-scale learning with them. In recent years, systems based on long short-term memory (LSTM) and bidirectional (BRNN) architectures have demonstrated ground-breaking performance on tasks as varied as image captioning, language translation, and handwriting recognition. In this survey, we review and synthesize the research that over the past three decades first yielded and then made practical these powerful learning models. When appropriate, we reconcile conflicting notation and nomenclature. <strong>Our goal is to provide a selfcontained explication of the state of the art together with a historical perspective and references to primary research</strong>.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong><a href="http://jmlr.org/proceedings/papers/v37/jozefowicz15.pdf">An Empirical Exploration of Recurrent Network Architectures</a></strong> in <em>Proceedings of the 32nd International Conference on Machine
+Learning</em> by R. Jozefowicz, W. Zaremba and I. Sutskever (2015)</p>
+
+    <blockquote>
+      <p>The Recurrent Neural Network (RNN) is an extremely powerful sequence model that is often difficult to train. The Long Short-Term Memory (LSTM) is a specific RNN architecture whose design makes it much easier to train. While wildly successful in practice, the LSTM’s architecture appears to be ad-hoc so it is not clear if it is optimal, and the significance of its individual components is unclear. In this work, we aim to determine whether the LSTM architecture is optimal or whether much better architectures exist. We conducted a thorough architecture search where we evaluated over ten thousand different RNN architectures, and <strong>identified an architecture that outperforms both the LSTM and the recently-introduced Gated Recurrent Unit (GRU) on some but not all tasks. We found that adding a bias of 1 to the LSTM’s forget gate closes the gap between the LSTM and the GRU</strong></p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong><a href="http://arxiv.org/pdf/1409.2329v5.pdf">Recurrent Neural Network Regularization</a></strong> <em>(Under review as a conference paper at ICLR 2015)</em>	by W. Zaremba, I. Sutskever and O. Vinyals (2015)</p>
+
+    <blockquote>
+      <p>We present a simple regularization technique for Recurrent Neural Networks (RNNs) with Long Short-Term Memory (LSTM) units. Dropout, the most successful technique for regularizing neural networks, does not work well with RNNs and LSTMs. In this paper, we show <strong>how to correctly apply dropout to LSTMs, and show that it substantially reduces overfitting on a variety of tasks.</strong> These tasks include language modeling, speech recognition, image caption generation, and machine translation.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p><strong><a href="http://papers.nips.cc/paper/5346-sequence-to-sequence-learning-with-neural-networks.pdf">Sequence to sequence learning with neural networks</a></strong> <em>(NIPS)</em> by I. Sutskever, O. Vinyals and Q. Le (2014). Check out I. Sutskever’s presentation <a href="http://research.microsoft.com/apps/video/?id=239083">video</a> on this paper and his <a href="https://www.cs.toronto.edu/~ilya/pubs/">website</a> for more.</p>
+
+    <blockquote>
+      <p>Deep Neural Networks (DNNs) are powerful models that have achieved excel- lent performance on difficult learning tasks. Although DNNs work well whenever large labeled training sets are available, they cannot be used to map sequences to sequences. In this paper, we present a general end-to-end approach to sequence learning that makes minimal assumptions on the sequence structure. Our method uses amultilayered Long Short-TermMemory (LSTM) tomap the input sequence to a vector of a fixed dimensionality, and then another deep LSTM to decode the target sequence from the vector. Our main result is that on an English to French translation task from the WMT-14 dataset, the translations produced by the LSTM achieve a BLEU score of 34.8 on the entire test set, where the LSTM’s BLEU score was penalized on out-of-vocabulary words. Additionally, the LSTM did not have difficulty on long sentences. For comparison, a phrase-based SMT system achieves a BLEU score of 33.3 on the same dataset. When we used the LSTM to rerank the 1000 hypotheses produced by the aforementioned SMT system, its BLEU score increases to 36.5, which is close to the previous state of the art. The LSTM also learned sensible phrase and sentence representations that are sensitive to word order and are relatively invariant to the active and the passive voice. Fi- nally, we found that reversing the order of the words in all source sentences (but not target sentences) improved the LSTM’s performancemarkedly, because doing so introduced many short term dependencies between the source and the target sentence which made the optimization problem easier.</p>
+    </blockquote>
+  </li>
+</ol>
+
+<h1 id="other">Other</h1>
+
+<ol>
+  <li>
+    <p><strong><a href="http://cs.stanford.edu/people/karpathy/convnetjs/demo/mnist.html">http://cs.stanford.edu/people/karpathy/convnetjs/demo/mnist.html</a></strong> run convolutional neural networks in your browser using JavaScript (by <a href="https://github.com/karpathy">@Karpathy</a>)</p>
+  </li>
+  <li>
+    <p><strong><a href="http://timdettmers.com/">http://timdettmers.com/</a></strong> Is Tim Demetters’s blog with really interesting posts, mainly about using the GPU with neural networks:</p>
+    <ul>
+      <li><a href="(http://timdettmers.com/2014/08/14/which-gpu-for-deep-learning/)">Which GPU(s) to Get for Deep Learning</a>: My Experience and Advice for Using GPUs in Deep Learning</li>
+      <li>How to Parallelize Deep Learning on GPUs <a href="http://timdettmers.com/2014/10/09/deep-learning-data-parallelism/">Part 1/2: Data Parallelism</a> &amp; <a href="http://timdettmers.com/2014/11/09/model-parallelism-deep-learning/">Part 2/2: Model Parallelism</a></li>
+      <li><a href="http://timdettmers.com/2015/07/27/brain-vs-deep-learning-singularity/">The Brain vs Deep Learning Part I</a>: Computational Complexity — Or Why the Singularity Is Nowhere Near</li>
+      <li>See also his introduction to Deep Learning on Nvidia’s website <a href="http://devblogs.nvidia.com/parallelforall/deep-learning-nutshell-history-training/">Part 1</a> &amp; <a href="http://devblogs.nvidia.com/parallelforall/deep-learning-nutshell-core-concepts/">Part 2</a></li>
+    </ul>
+  </li>
+</ol>
+
+<h1 id="reading-lists">Reading lists</h1>
+
+<p>The following are insanely good, exhaustive and pertinent reading/resources lists. I suggest you browse them because my point here is not to compete with them.</p>
+
+<ol>
+  <li>
+    <p><strong><a href="https://github.com/ujjwalkarn/Machine-Learning-Tutorials">https://github.com/ujjwalkarn/Machine-Learning-Tutorials</a></strong> A general list on a <strong>lot</strong> of <strong>machine learning</strong> fields.</p>
+  </li>
+  <li>
+    <p><strong><a href="https://github.com/ChristosChristofidis/awesome-deep-learning">https://github.com/ChristosChristofidis/awesome-deep-learning</a></strong> <strong>Deep Learning</strong>-focused list of resources, going from researches to datasets and frameworks.</p>
+  </li>
+  <li>
+    <p><strong><a href="http://deeplearning.net/reading-list/">http://deeplearning.net/reading-list/</a></strong> Research and Deep Learing-oriented reading list.</p>
+  </li>
+  <li>
+    <p><strong><a href="http://www.wildml.com">http://www.wildml.com</a></strong> Nice review of deep learning, great glossary worth reading [Glossary] (http://www.wildml.com/deep-learning-glossary/)</p>
+  </li>
+</ol>
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Useful resources: Deep Learning papers & blog posts to get started" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

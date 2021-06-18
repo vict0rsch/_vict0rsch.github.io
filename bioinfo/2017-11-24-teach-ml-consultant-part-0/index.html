@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teaching Machine Learning to a Consultant - The Shell &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="Teaching Machine Learning to a Consultant - The Shell ">
+    <link rel="canonical" href="https://vict0rs.ch/bioinfo/2017-11-24-teach-ml-consultant-part-0/">
+    
+    
+    <meta property="og:title" content="Teaching Machine Learning to a Consultant - The Shell " />
+    <meta property="og:url" content="https://vict0rs.ch/bioinfo/2017-11-24-teach-ml-consultant-part-0/" />
+    
+    
+    <meta property="og:description" content="First article on my series on Teaching Machine Learning to a Consultant. We'll start with the basics: the Command Line" />
+    <meta name="description" content="First article on my series on Teaching Machine Learning to a Consultant. We'll start with the basics: the Command Line" />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<article>
+    <div class="container">
+        <header>
+            
+            <div class="meta">
+                <span class='meta_text'>By</span> <address><a rel="author" href="" title="Victor Schmidt"
+                        target="_blank">Victor Schmidt</a></address> <span class='meta_text'>&mdash;
+                    <time pubdate datetime="" title=""></time></span>
+            </div>
+            
+            <h1 class="title">Teaching Machine Learning to a Consultant - The Shell</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            <h2 class="subtitle">Part 0: Introduction to the command line</h2>
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <ol>
+  <li>The Shell</li>
+  <li>Python</li>
+  <li>Maths with Python</li>
+  <li>Machine Learning Overview</li>
+  <li>Deep Learning Overview</li>
+</ol>
+
+<p>I wont’ teach everything there is to know about ML. I’ll teach you how to get started, especially with the code. There are tons of valuable MOOCs, tutorials, courses etc. out there, no need to reinvent the wheel! (But don’t you worry, I’ll point them out).</p>
+
+<p>Let us start with a fundamental part of coding: <strong>interacting with your computer with command lines</strong>.  I’ll assume you have a Mac, because consultants have a Mac :p However all commands will stand for Linux users and it will not matter for the next parts of the tutorial.</p>
+
+<hr />
+
+<h2 id="table-of-contents">Table of Contents:</h2>
+
+<p>      1. <a href="#what-is-the-terminal">What is the Terminal?</a>
+            a. <a href="#why-use-it">Why use it?</a>
+            b. <a href="#locations">Locations</a>
+            c. <a href="#the-command-prompt">The command prompt</a>
+            d. <a href="#home">Home</a>
+      2. <a href="#commands">Commands</a>
+            a. <a href="#where-am-i-pwd">Where am I? (<code class="language-plaintext highlighter-rouge">pwd</code>)</a>
+            b. <a href="#seeing-files-ls">Seeing files (<code class="language-plaintext highlighter-rouge">ls</code>)</a>
+            c. <a href="#how-do-i-move-around-cd">How do I move around? (<code class="language-plaintext highlighter-rouge">cd</code>)</a>
+                  i. <a href="#absolute-vs-relative-paths-">Absolute vs Relative paths </a>
+            d. <a href="#handle-files-and-directories">Handle Files and Directories</a>
+                  i. <a href="#create-empty-text-file-touch">Create empty text file (<code class="language-plaintext highlighter-rouge">touch</code>)</a>
+                  ii. <a href="#create-a-new-directory-mkdir">Create a new directory (<code class="language-plaintext highlighter-rouge">mkdir</code>)</a>
+                  iii. <a href="#copy-a-file-cp">Copy a file (<code class="language-plaintext highlighter-rouge">cp</code>)</a>
+                  iv. <a href="#move-and-rename-a-file-mv">Move and Rename a File (<code class="language-plaintext highlighter-rouge">mv</code>)</a>
+                  v. <a href="#edit-a-text-file-nano">Edit a text file (<code class="language-plaintext highlighter-rouge">nano</code>)</a>
+                  vi. <a href="#see-what-is-in-a-text-file-cat">See what is in a text file (<code class="language-plaintext highlighter-rouge">cat</code>)</a>
+                  vii. <a href="#delete-a-file-rm">Delete a file (<code class="language-plaintext highlighter-rouge">rm</code>)</a>
+            e. <a href="#variables">Variables</a>
+            f. <a href="#printing-stuff-echo">Printing stuff (<code class="language-plaintext highlighter-rouge">echo</code>)</a>
+            g. <a href="#add-options-to-commands">Add options to Commands</a>
+                  i. <a href="#delete-a-directory-rm--rf">Delete a directory (<code class="language-plaintext highlighter-rouge">rm -rf</code>)</a>
+                  ii. <a href="#copy-a-directory-cp--r">Copy a directory (<code class="language-plaintext highlighter-rouge">cp -r</code>)</a>
+                  iii. <a href="#see-hidden-files-ls--a">See hidden files (<code class="language-plaintext highlighter-rouge">ls -a</code>)</a>
+                  iv. <a href="#wildcards-*">Wildcards (<code class="language-plaintext highlighter-rouge">*</code>)</a>
+      3. <a href="#going-further">Going Further</a>
+            a. <a href="#chaining-commands">Chaining Commands</a>
+            b. <a href="#autocomplete">Autocomplete</a>
+            c. <a href="#case-sensitivity">Case sensitivity</a>
+            d. <a href="#configuration-files">Configuration files</a>
+                  i. <a href="#the-path">The <code class="language-plaintext highlighter-rouge">PATH</code></a>
+                  ii. <a href="#alias"><code class="language-plaintext highlighter-rouge">alias</code></a>
+            e. <a href="#package-management">Package management</a>
+                  i. <a href="#improving-on-nano:-micro">Improving on Nano: Micro</a>
+            f. <a href="#exercise-:-be-more-productive-with-oh-my-zsh">Exercise : be more productive with Oh-my-zsh</a>
+                  i. <a href="#installing-zsh">Installing ZSH</a>
+                  ii. <a href="#getting-oh-my-zsh">Getting Oh-my-zsh</a>
+                  iii. <a href="#exercise-on-you-own:-ohmyzsh-plugins">Exercise on you own: Ohmyzsh plugins</a></p>
+
+<p><br id="end-of-toc" /></p>
+
+<h1 id="what-is-the-terminal">What is the Terminal?</h1>
+<p>Most people interact with their computer through the default Graphical User Interface. I bet you do too sometimes ;) It mainly means that you use the <strong>mouse</strong>. You click on a folder, start Excel, drag and drop a new file etc. 
+But there is another way to interact with your computer, mainly using the <strong>keyboard</strong> : the shell. This software performs the command you give it (like “move to this location”, “create this directory” etc.). On Macs (and Ubuntu) the default one is called <em>Bash</em>. The program that runs this software and allows you to interact with it is called the terminal (or console). The default one on Mac is called Terminal (what a name) but I recomment you use <a href="https://iterm2.com">iTerm2</a>.</p>
+
+<h2 id="why-use-it">Why use it?</h2>
+
+<p>The main idea is that you won’t run your ML algorithm by just clicking on an icon. You’ll run them from the command line so you need to be familiar with it. Also, you’ll look more of a <a href="http://knowyourmeme.com/memes/hackerman">Hackerman</a> at the office.</p>
+
+<h2 id="locations">Locations</h2>
+
+<p>In your computer, files are organised from a special folder called the <em>root</em> of your hard drive. Everything in your computer is in this folder. It is the folder you land into when you click on <code class="language-plaintext highlighter-rouge">Macintosh HD</code> in your Finder.</p>
+
+<p>This <em>root</em> directory (= folder) is noted with a <code class="language-plaintext highlighter-rouge">/</code>. The <strong><em>location</em></strong> of a directory or a file is the succession of folders one has to open, <em>from the root</em>, to get to it. In a location, folders are separated by a <code class="language-plaintext highlighter-rouge">/</code>. For instance <code class="language-plaintext highlighter-rouge">/Users/yourName</code> means that you are in the folder <code class="language-plaintext highlighter-rouge">yourName</code> which is in the folder <code class="language-plaintext highlighter-rouge">Users</code> which is at the root. If you have a file <code class="language-plaintext highlighter-rouge">blabla.txt</code> at the root of your hard drive, then its location is <code class="language-plaintext highlighter-rouge">/blabla.txt</code>.</p>
+
+<h2 id="the-command-prompt">The command prompt</h2>
+
+<p>So now let’s go! <span class="highlight">Start the “Terminal” or “iTerm2” app</span> (you can search for it in Spotlight for instance). You should see something like</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mbpvs:~ victor$ 
+</code></pre></div></div>
+
+<p>This means that on the computer called <code class="language-plaintext highlighter-rouge">mbpvs</code>, the user <code class="language-plaintext highlighter-rouge">victor</code> is at the location <code class="language-plaintext highlighter-rouge">~</code>. The <code class="language-plaintext highlighter-rouge">$</code> is a mark for the begining of the command line, you can only write stuff after this <code class="language-plaintext highlighter-rouge">$</code></p>
+
+<p><strong>From now on, I will drop the device and user name from the commands I show you</strong> as they are not informative for us and write stuff like <code class="language-plaintext highlighter-rouge">~ $ [some command]</code>. But don’t try and get rid of them, it’s just on my end, you keep everything as is.</p>
+
+<p>To show that a command is supposed to be run in the terminal, it will start with a <em>location</em> and a <code class="language-plaintext highlighter-rouge">$</code>. Do not write these <code class="language-plaintext highlighter-rouge">$</code> as they simply mean “run what is after the <code class="language-plaintext highlighter-rouge">$</code> from this location”. <strong>Running</strong> a command means writing it then pressing <code class="language-plaintext highlighter-rouge">enter</code>.
+The lines which don’t have the <code class="language-plaintext highlighter-rouge">$</code> are the output of the console. This is the answer from the shell to the command that you just ran.</p>
+
+<h2 id="home">Home</h2>
+<p>When you open a new Finder window, you start somehwere: probably in your <code class="language-plaintext highlighter-rouge">Documents</code> folder. By default, when you start a terminal, you begin in another one called your Home folder. This is where everything which is yours, as a User, is stored (including your <code class="language-plaintext highlighter-rouge">Documents</code>). This is not the part where critical parts of your OS are stored, rather everything wich is specific to your own usage of the computer. It basically means your files, some software, and some configuration.</p>
+
+<p><strong>Your Home is represented by a tilde: <code class="language-plaintext highlighter-rouge">~</code></strong> and is located in the <code class="language-plaintext highlighter-rouge">/Users</code> folder, with your computer’s username: the location designated by <code class="language-plaintext highlighter-rouge">~</code> is the same as <code class="language-plaintext highlighter-rouge">/Users/yourName</code> -&gt; <code class="language-plaintext highlighter-rouge">mbpvs:~ victor$ </code> is the same as <code class="language-plaintext highlighter-rouge">mbpvs:/Users/victor victor$ </code>.</p>
+
+<h1 id="commands">Commands</h1>
+
+<p>For the sake of the tutorial, create a folder called <code class="language-plaintext highlighter-rouge">ILoveExcel</code> (we’ll look at this command in a couple minutes, just trust me). Run the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ mkdir ./ILoveExcel
+</code></pre></div></div>
+
+<h2 id="where-am-i-pwd">Where am I? (<code class="language-plaintext highlighter-rouge">pwd</code>)</h2>
+
+<p>To know where you currently are, you can always run <code class="language-plaintext highlighter-rouge">pwd</code>: it will give your current location from the root of your hard drive. Go ahead and <span class="highlight">run this command</span> (write <code class="language-plaintext highlighter-rouge">pwd</code> then press <code class="language-plaintext highlighter-rouge">Enter</code>), you should see something like <code class="language-plaintext highlighter-rouge">/Users/yourName</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ pwd
+/Users/victor
+</code></pre></div></div>
+<p>This means that from the Root of your hard drive, you went to the folder <code class="language-plaintext highlighter-rouge">Users</code> then to the folder <code class="language-plaintext highlighter-rouge">yourName</code>. Pretty straight forward isn’t it (if not, please do comment!). <code class="language-plaintext highlighter-rouge">pwd</code> means “print working directory” by the way, pretty transparent.</p>
+
+<h2 id="seeing-files-ls">Seeing files (<code class="language-plaintext highlighter-rouge">ls</code>)</h2>
+
+<p>To see what is in the directory you are currently in, <span class="highlight">run <code class="language-plaintext highlighter-rouge">ls</code></span>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ ls
+Applications  Desktop       Downloads     Library       Music         Public        nltk_data
+CLionProjects Documents     IloveExcel    Movies        Pictures      bin           pem
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">ls</code> means “list” and will show you everything you have in the directory, which should be your Home directory right now. This is the same thing as if you opened the Finder clicked on your hard drive (Macintosh HD), went to Users and then clicked on your name. This is it. You should see those same files!</p>
+
+<h2 id="how-do-i-move-around-cd">How do I move around? (<code class="language-plaintext highlighter-rouge">cd</code>)</h2>
+
+<p>In the Finder, if you want to go to your Documents, you simply double click on the icon. What we’ll do isn’t much more complicated: <span class="highlight">write <code class="language-plaintext highlighter-rouge">cd</code> then the name of the location</span> you want to go to:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ cd ILoveExcel
+</code></pre></div></div>
+
+<p>Now check that everything is consistent! (<code class="language-plaintext highlighter-rouge">$ ls</code> and compare with your Finder)</p>
+
+<p><span class="highlight">Let’s go back home</span>. There are 3 ways to go back to your Home:</p>
+
+<ol>
+  <li>Move there! <code class="language-plaintext highlighter-rouge">$ cd ~</code></li>
+  <li>Use the shortest shortcut ever : <code class="language-plaintext highlighter-rouge">$ cd</code> -&gt; by default if you don’t specify anything after <code class="language-plaintext highlighter-rouge">cd</code> you’ll go Home</li>
+  <li>Move back one folder : <code class="language-plaintext highlighter-rouge">$ cd ..</code> If you wanted to move back <strong>two</strong> folders, you’d run <code class="language-plaintext highlighter-rouge">$ cd ../..</code> and land in <code class="language-plaintext highlighter-rouge">/Users</code></li>
+</ol>
+
+<p>Now remember the <code class="language-plaintext highlighter-rouge">ILoveExcel</code> folder (all consultants have one, don’t they?). From your home if you wanted to move there, you could run</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(a) ~ $ cd ./ILoveExcel
+</code></pre></div></div>
+<p>or from anywhere in your computer:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>(b) ~ $ cd ~/ILoveExcel
+</code></pre></div></div>
+
+<h3 id="absolute-vs-relative-paths">Absolute vs Relative paths</h3>
+
+<p>The 2 commands above seem to do the same thing but there is an important difference between the two : <strong>(a)</strong> is <em>relative</em> but <strong>(b)</strong> is <em>absolute</em>.</p>
+
+<p>This means that for <strong>(a)</strong> to work, <code class="language-plaintext highlighter-rouge">Documents</code> must be directly accessible from where you currently are. In other words <code class="language-plaintext highlighter-rouge">Documents</code> should appear in the list of files and directories printed by <code class="language-plaintext highlighter-rouge">$ ls</code>. On the other hand, <strong>(b)</strong> is absolute and will take you to the <code class="language-plaintext highlighter-rouge">ILoveExcel</code> folder from whatever location.</p>
+
+<p>Remember how <code class="language-plaintext highlighter-rouge">~</code> is equivalent to <code class="language-plaintext highlighter-rouge">/Users/yourName</code> ? <strong>This</strong> is the key difference: <strong>absolute paths declare a location with respect to the root folder and therefore start with a / but relative paths don’t</strong>, they declare a location with respect to the current working directory. The fact that a path is relative can be emphasized by prepending <code class="language-plaintext highlighter-rouge">./</code> to the destination : <code class="language-plaintext highlighter-rouge">cd ILoveExcel</code> is equivalent to <code class="language-plaintext highlighter-rouge">cd ./ILoveExcel</code>.</p>
+
+<p><span class="highlight">In the rest of Part 0 I will always use the <code class="language-plaintext highlighter-rouge">./</code> prefix for pedagogical reasons but bear in mind it is not <em>necessary</em></span>. I want to emphasize the fact that most commands actually take a <em>path</em> as argument, as <code class="language-plaintext highlighter-rouge">ls</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ ls
+</code></pre></div></div>
+<p>is equivalent to:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ ls ./
+</code></pre></div></div>
+
+<p>As <code class="language-plaintext highlighter-rouge">ls</code> takes a <em>path</em> as argument, you can specify a relative path or an absolute path. To see what is in your <code class="language-plaintext highlighter-rouge">ILoveExcel</code> folder, you can run (from your Home for instance)</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ ls ./IloveExcel
+</code></pre></div></div>
+<p>or</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ ls ~/IloveExcel
+</code></pre></div></div>
+<p>or</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ /ILoveExcel$ ls /Users/yourName/IloveExcel
+</code></pre></div></div>
+<p>However the first command will only work from your Home folder.</p>
+
+<h2 id="handle-files-and-directories">Handle Files and Directories</h2>
+
+<h3 id="create-empty-text-file-touch">Create empty text file (<code class="language-plaintext highlighter-rouge">touch</code>)</h3>
+
+<p>If you want to create an empty text file, use <code class="language-plaintext highlighter-rouge">touch</code>. You can create several files by putting a space between the paths to the files:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ touch ./revenue.csv ./costs_company_x.csv
+</code></pre></div></div>
+
+<p>As you can see if you run <code class="language-plaintext highlighter-rouge">ls</code>, a new file is here! It is empty though. We’ll see later how to write to it from the terminal (you can still edit it with Excel or any text editor from your Finder!).</p>
+
+<h3 id="create-a-new-directory-mkdir">Create a new directory (<code class="language-plaintext highlighter-rouge">mkdir</code>)</h3>
+
+<p><em>Making</em> a new directory is pretty straight forward with <code class="language-plaintext highlighter-rouge">mkdir</code>: this command takes, as <code class="language-plaintext highlighter-rouge">ls</code> and <code class="language-plaintext highlighter-rouge">touch</code>, a path as argument:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ mkdir ./Costs
+</code></pre></div></div>
+
+<p>With this command, we created a folder called <code class="language-plaintext highlighter-rouge">Revenues</code> in the <code class="language-plaintext highlighter-rouge">ILoveExcel</code> folder. <code class="language-plaintext highlighter-rouge">mkdir</code> can only create the <em>last</em> directory in the path given. You can not create the folder <code class="language-plaintext highlighter-rouge">foo/bar/</code> if <code class="language-plaintext highlighter-rouge">foo</code> does not already exist. You can however create several directories in a row by adding a space between them:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ mkdir ./Revenues ./Revenues/Company_X ./Costs/Company_X
+</code></pre></div></div>
+
+<h3 id="copy-a-file-cp">Copy a file (<code class="language-plaintext highlighter-rouge">cp</code>)</h3>
+
+<p>I’m sure you could have guessed it, the command to copy a file is <code class="language-plaintext highlighter-rouge">cp</code>. It takes 2 arguments: the path to the file you want to copy <strong>from</strong>, then (with a white space in between) the path you want to copy <strong>to</strong>, including the new name you want to give it. Take <code class="language-plaintext highlighter-rouge">revenue.csv</code> in <code class="language-plaintext highlighter-rouge">ILoveExcel</code> and  duplicate it as <code class="language-plaintext highlighter-rouge">01-01-18.csv</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ cp ./revenue.csv ./Revenues/Company_X/revenue_01-01-18.csv
+</code></pre></div></div>
+
+<p>Note that if you copy the file to a different directory as in the example, all directories in between your current location and the destination should exist <em>before</em> you copy the file as <code class="language-plaintext highlighter-rouge">cp</code> does not create directories on the fly (as with <code class="language-plaintext highlighter-rouge">mkdir</code>).</p>
+
+<h3 id="move-and-rename-a-file-mv">Move and Rename a File (<code class="language-plaintext highlighter-rouge">mv</code>)</h3>
+
+<p>It’s time to <strong>move</strong> <code class="language-plaintext highlighter-rouge">costs.csv</code> to its proper location in <code class="language-plaintext highlighter-rouge">Costs/Company_X</code>. We’ll also <strong>rename</strong> it. Both at the same time! The <code class="language-plaintext highlighter-rouge">mv</code> command is used to move and/or rename files and directories:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ mv ./costs.csv ./Costs/Company_X/costs_01-01-18.csv
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">mv</code> also works for directories. Rename <code class="language-plaintext highlighter-rouge">ILoveExcel</code> to <code class="language-plaintext highlighter-rouge">Excel</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/ILoveExcel $ cd
+~ $ mv ./ILoveExcel ./Excel
+~ $ cd ./Excel
+</code></pre></div></div>
+<p>Running <code class="language-plaintext highlighter-rouge">ls</code> you can check that the content is (obviously) preserved.</p>
+
+<h3 id="edit-a-text-file-nano">Edit a text file (<code class="language-plaintext highlighter-rouge">nano</code>)</h3>
+
+<p><code class="language-plaintext highlighter-rouge">nano</code> is a very simple text editor that runs in the terminal. It means you will not open another application like Word or TextEdit to write to a file. Let’s try it with <code class="language-plaintext highlighter-rouge">revenue_01-01-18.csv</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel $ nano ./Revenue/Company_X/revenue_01-01-18.csv
+</code></pre></div></div>
+<p>That’s it! Now you can just write text in your file. But don’t try and use the mouse, it is useless in <code class="language-plaintext highlighter-rouge">nano</code>. What happens is <code class="language-plaintext highlighter-rouge">nano</code> does not handle the information sent from the mouse, so your Terminal keeps this information: you can’t move the cursor by simply clicking somewhere (let alone drag and dropping words or right-clicking to spell-check).</p>
+
+<p>Ok so <span class="highlight">write a few lines to it, enjoy your power and now save and quit</span>. How do you do that? Well, <code class="language-plaintext highlighter-rouge">nano</code> tells you how! At the bottom of the terminal, a few lines describe possible actions amongst which: 
+<code class="language-plaintext highlighter-rouge">^O Write Out</code> (= Save) and <code class="language-plaintext highlighter-rouge">^X Exit</code>. So you have to press <code class="language-plaintext highlighter-rouge">ctrl + O</code> (<em>not</em> zero) to save, then specify the name of the file (in our case just press <code class="language-plaintext highlighter-rouge">Enter</code> to keep the same name and location) and then <code class="language-plaintext highlighter-rouge">ctrl + X</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">nano</code> can also be used to create a <em>new</em> file: if <code class="language-plaintext highlighter-rouge">revenue_01-01-18.csv</code> had not existed before we ran the command, the file would have been created when we saved it.</p>
+
+<h3 id="see-what-is-in-a-text-file-cat">See what is in a text file (<code class="language-plaintext highlighter-rouge">cat</code>)</h3>
+
+<p>To have the shell print out to you what is in a text file <span class="highlight">use <code class="language-plaintext highlighter-rouge">cat</code></span>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel $ cat ./Revenue/Company_X/revenue_01-01-18.csv
+</code></pre></div></div>
+
+<p>You should see what you wrote earlier.</p>
+
+<h3 id="delete-a-file-rm">Delete a file (<code class="language-plaintext highlighter-rouge">rm</code>)</h3>
+
+<p>Remember the <code class="language-plaintext highlighter-rouge">revenue.csv</code> file we copied earlier. As it is now in <code class="language-plaintext highlighter-rouge">Revenue/Company_X</code>, we don’t need it anymore and we’ll <em>remove</em> it. Run <code class="language-plaintext highlighter-rouge">rm</code> with the path to the file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel $ rm ./revenue.csv
+</code></pre></div></div>
+
+<p>Be careful with <code class="language-plaintext highlighter-rouge">rm</code>: the file is not sent to the Bin for potential later recovery. It is plainly deleted and your file can’t be brought back (at least not without a lot of sweat)!</p>
+
+<p>Now you know what, since you soon won’t be a Consultant anymore, you don’t need a folder full of Excel sheets anymore! Delete the <code class="language-plaintext highlighter-rouge">Excel</code> directory:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel $ cd
+~ $ rm ./Excel
+rm: ./Excel: is a directory
+</code></pre></div></div>
+<p>Wait… What? I know Excel is a directory! Why won’t <code class="language-plaintext highlighter-rouge">rm</code> delete it? We’ll have a look at that a bit later, when we learn how to use options with commands such as <code class="language-plaintext highlighter-rouge">rm</code>.</p>
+
+<h2 id="variables">Variables</h2>
+
+<p>You can define <em>variables</em> in your shell. These things are a way to store some kind of information. You <strong>declare</strong> a variable by giving it a name without any whitespace, putting an <code class="language-plaintext highlighter-rouge">=</code> sign next to it (still no whitespace) then saying what value it should store. You can then <strong>call</strong> it by putting a <code class="language-plaintext highlighter-rouge">$</code> in front of the declared name.</p>
+
+<p>For instance if you like to go to <code class="language-plaintext highlighter-rouge">~/Documents/Github/vict0rsch/deep_learning</code>, you can store this location as a string of characters in a variable and then <em>call</em> it to get its value in the appropriate context. This is exactly what your system does with your <code class="language-plaintext highlighter-rouge">home</code> folder: the location associated with <code class="language-plaintext highlighter-rouge">~</code> is actually stored in a variable called… <code class="language-plaintext highlighter-rouge">HOME</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ myFavouritePath=~/Excel/Revenues
+~ $ cd $myFavouritePath
+~/Excel/Revenues $ echo $myFavouritePath
+/Users/victor/Excel/Revenues
+~/Excel/Revenues $ echo $HOME
+/Users/victor
+</code></pre></div></div>
+
+<p>Variables you define yourself are not remembered. If you open a new terminal window, <code class="language-plaintext highlighter-rouge">$myFavouritePath</code> will be empty and won’t do anything. More on that later!</p>
+
+<h2 id="printing-stuff-echo">Printing stuff (<code class="language-plaintext highlighter-rouge">echo</code>)</h2>
+
+<p>Did you notice the <code class="language-plaintext highlighter-rouge">echo</code> in the command above? It means we want to print something. Running it with your variable as an argument means you want to print the variable (more on this topic <a href="https://www.howtogeek.com/howto/29980/whats-the-difference-between-single-and-double-quotes-in-the-bash-shell/">here</a>).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel/Revenues $ cd ..
+~/Excel $ echo hello
+hello
+</code></pre></div></div>
+
+<p>You can also print something <strong>in</strong> a text file using <code class="language-plaintext highlighter-rouge">&gt;</code> and <code class="language-plaintext highlighter-rouge">&gt;&gt;</code>. If the text file does not exist, it is created in both cases. If it does exist however, <code class="language-plaintext highlighter-rouge">&gt;</code> will overwrite the file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel $ echo $myFavouritePath &gt; test.txt
+~/Excel $ echo $myFavouritePath &gt; test.tx
+~/Excel $ cat test.txt
+/Users/victor/Excel/Revenues
+</code></pre></div></div>
+
+<p>Eventhough we wrote <code class="language-plaintext highlighter-rouge">$myFavouritePath</code>’s value twice in <code class="language-plaintext highlighter-rouge">test.txt</code>, since <code class="language-plaintext highlighter-rouge">&gt;</code> overwrites, it is only present once. On the other hand, <code class="language-plaintext highlighter-rouge">&gt;&gt;</code> will add a line at the end of the file:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel $ echo $myFavouritePath &gt;&gt; test.txt
+~/Excel $ cat test.txt
+/Users/victor/Excel/Revenues
+/Users/victor/Excel/Revenues
+</code></pre></div></div>
+
+<p>Now since <code class="language-plaintext highlighter-rouge">test.txt</code> already had <code class="language-plaintext highlighter-rouge">$myFavouritePath</code>’s value once as per the previous commands, using <code class="language-plaintext highlighter-rouge">&gt;&gt;</code> will add a new one.</p>
+
+<h2 id="add-options-to-commands">Add options to Commands</h2>
+
+<p>Most of the commands you’ll ever run can take optionnal values. To tell a command that you want to specify an option you will use <strong>flags</strong>. These have a weird name but really, they are just letters with a <code class="language-plaintext highlighter-rouge">-</code> sign in front of it. As you’ll see in the next section <code class="language-plaintext highlighter-rouge">rm</code> for instance has various options, including <code class="language-plaintext highlighter-rouge">-r</code> and <code class="language-plaintext highlighter-rouge">-f</code>. One can run <code class="language-plaintext highlighter-rouge">rm -r -f ...</code> or <code class="language-plaintext highlighter-rouge">rm -rf ...</code> equivalently.</p>
+
+<h3 id="copy-a-directory-cp--r">Copy a directory (<code class="language-plaintext highlighter-rouge">cp -r</code>)</h3>
+
+<p>To copy a non empty directory, we need to tell the <code class="language-plaintext highlighter-rouge">cp</code> command that we want to <em>recursively</em> copy it, meaning we want to copy the directory itself along with every file and child directory it contains.</p>
+
+<p>If the directory is empty, then <code class="language-plaintext highlighter-rouge">cp</code> has only one object to copy, the directory itself, and that it can do. But if the directory contains files, then <code class="language-plaintext highlighter-rouge">cp</code> has to copy the directory <em>and</em> all the files it contains. And if the directory to be copied contains files and directories, then <code class="language-plaintext highlighter-rouge">cp</code> has to copy the directory, all the files it contains, and do the same with the children directories. This is why we need <code class="language-plaintext highlighter-rouge">cp</code> to be recursive.</p>
+
+<p>We’ll therefore use the <code class="language-plaintext highlighter-rouge">-r</code> flag:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel $ ls 
+Costs Revenues
+~/Excel $ cp ./Costs ./CostsCopy
+cp: ./Costs is a directory (not copied).
+~/Documents $ cp -r ./Costs ./CostsCopy
+~/Documents $ ls
+Costs CostsCopy Revenues
+</code></pre></div></div>
+<h3 id="delete-a-directory-rm--rf">Delete a directory (<code class="language-plaintext highlighter-rouge">rm -rf</code>)</h3>
+
+<p>We don’t actually need two versions of <code class="language-plaintext highlighter-rouge">Costs</code>, let’s remove the copy. As for copying, deleting a directory requires a <em>recursive</em> deletion (except if it’s empty). We’ll also specify that we are sure we want to delete things and don’t want to be asked about it, <em>forcing</em> deletion:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel $ rm -rf ./CostsCopy
+</code></pre></div></div>
+<p>Again be extremely <strong>careful</strong>, you can’t recover from <code class="language-plaintext highlighter-rouge">rm -rf</code>.</p>
+
+<h3 id="see-hidden-files-ls--a">See hidden files (<code class="language-plaintext highlighter-rouge">ls -a</code>)</h3>
+
+<p>Some files and directories on your computer are hidden. It is different from saying they are protected or whatever, it simply means they are not displayed by default. They all start with a <code class="language-plaintext highlighter-rouge">.</code> (and this is how you make a file/directory hidden: prepend a dot to its name).</p>
+
+<p>To see those, <span class="highlight">run <code class="language-plaintext highlighter-rouge">ls -a</code> in your home</span>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel $ cd
+~ $ ls -a
+.       .Trash              Applications  Desktop       Downloads     Library       Music         Public        nltk_data
+..      .bash_history       CLionProjects Documents     IloveExcel    Movies        Pictures      bin           pem
+</code></pre></div></div>
+
+<p>The first two elements, <code class="language-plaintext highlighter-rouge">.</code> and <code class="language-plaintext highlighter-rouge">..</code> symbolize the current and parent directory. If you look into <code class="language-plaintext highlighter-rouge">.bash_history</code> (<code class="language-plaintext highlighter-rouge">cat</code> or <code class="language-plaintext highlighter-rouge">nano</code>) you’ll see the history of all commands you have run! To go through this history, press the <code class="language-plaintext highlighter-rouge">up</code> key!</p>
+
+<h3 id="wildcards-">Wildcards (<code class="language-plaintext highlighter-rouge">*</code>)</h3>
+
+<p>This <code class="language-plaintext highlighter-rouge">*</code> is called a wildcard and basically means “anything”. When specifying a path as argument to a command (as you know, this happens a lot), the <code class="language-plaintext highlighter-rouge">*</code> matches any number and kind of characters. Let’s look at examples with <code class="language-plaintext highlighter-rouge">ls</code> in a dummy directory.</p>
+
+<p>First <span class="highlight">create a few files and directories</span>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ cd ./Excel
+~/Excel $ mkdir ./dummy
+~/Excel $ cd ./dummy
+~/Excel/dummy $ mkdir ./ab1 ./ab2 ./cb1 ./cb2 ./d1 ./d2 ./db
+~/Excel/dummy $ touch ./test0.txt ./ab1/test1.txt ./cb1/test2.txt
+</code></pre></div></div>
+
+<p><span class="highlight">See everything</span>: the content of the current directory, and the content of children directories:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel/dummy $ ls ./*
+</code></pre></div></div>
+
+<p>Idem, but only for files and directories <span class="highlight">ending</span> with a “2” (the wildcard stands for any number and kind of characters but the 3 is mandatory). Note that test2.txt does not show up as it is in cb1/ which is not listed by ls *2</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel/dummy $ ls ./*2
+</code></pre></div></div>
+<p>Idem, <span class="highlight">starting</span> with an “a”</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel/dummy $ ls ./a*
+</code></pre></div></div>
+
+<p>Idem, <span class="highlight">containing</span> a “b”, anywhere: be it in the beginning, end or middle</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~/Excel/dummy $ ls ./*b*
+</code></pre></div></div>
+
+<h1 id="going-further">Going Further</h1>
+
+<h2 id="chaining-commands">Chaining Commands</h2>
+
+<p>You can run several commands in one by adding <code class="language-plaintext highlighter-rouge">&amp;&amp;</code> or <code class="language-plaintext highlighter-rouge">;</code> in between, for instance:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ cd &amp;&amp; pwd ; echo $myFavouritePath
+/Users/victor
+/Users/victor/Excel/Revenues
+</code></pre></div></div>
+
+<h2 id="autocomplete">Autocomplete</h2>
+
+<p>When running a command, hitting <code class="language-plaintext highlighter-rouge">tab</code> will tell the shell to autocomplete what you are writing: either a command or a path. Try writing <code class="language-plaintext highlighter-rouge">~ $ touc</code> and then hit <code class="language-plaintext highlighter-rouge">tab</code>. It should be autocompleted to <code class="language-plaintext highlighter-rouge">touch</code>. If there is more than one option, you will have to hit <code class="language-plaintext highlighter-rouge">tab</code> a second time and it will show you options.</p>
+
+<h2 id="case-sensitivity">Case sensitivity</h2>
+
+<p>Your OS is case sensitive, that is to say that upper and lower case letters are different. <code class="language-plaintext highlighter-rouge">~ $ mkdir ./hello</code> and <code class="language-plaintext highlighter-rouge">~ $ mkdir ./Hello</code> will create two different directories. Likewise witing <code class="language-plaintext highlighter-rouge">~ $ cd L</code> + <code class="language-plaintext highlighter-rouge">tab</code> will autocomplete to <code class="language-plaintext highlighter-rouge">cd Library</code> but <code class="language-plaintext highlighter-rouge">~ $ cd l</code> + <code class="language-plaintext highlighter-rouge">tab</code> will not.</p>
+
+<h2 id="configuration-files">Configuration files</h2>
+
+<p>When you open a new terminal window, <code class="language-plaintext highlighter-rouge">Bash</code> automatically runs a text file located in your <code class="language-plaintext highlighter-rouge">home</code> called <code class="language-plaintext highlighter-rouge">.bash_profile</code>. This (hidden) file can contain any type of command which <code class="language-plaintext highlighter-rouge">Bash</code> understands. For instance if you want to print <code class="language-plaintext highlighter-rouge">Hackerman</code> every time you open a new terminal, you can either run <code class="language-plaintext highlighter-rouge">~ $ echo Hackerman</code> each time (not very nice) or add this command to your <code class="language-plaintext highlighter-rouge">.bash_profile</code>.</p>
+
+<p>To do so, in your <code class="language-plaintext highlighter-rouge">home</code> create a new file called <code class="language-plaintext highlighter-rouge">.bash_profile</code> and add a line with <code class="language-plaintext highlighter-rouge">echo Hackerman</code>. You have various options to do so, either using <code class="language-plaintext highlighter-rouge">echo</code> or <code class="language-plaintext highlighter-rouge">nano</code>.</p>
+
+<p>If you want a custom variable to be remembered across terminals, <code class="language-plaintext highlighter-rouge">.bash_profile</code> is a good place to store it. If you add another line containing <code class="language-plaintext highlighter-rouge">myFavouritePath=Users/victor/Excel/Revenues</code> in this file, then every time you open a terminal, <code class="language-plaintext highlighter-rouge">Bash</code> will execute <code class="language-plaintext highlighter-rouge">.bash_profile</code> therefore printing <code class="language-plaintext highlighter-rouge">Hackerman</code> and defining a variable called <code class="language-plaintext highlighter-rouge">myFavouritePath</code>.</p>
+
+<p>Finally, for the changes in <code class="language-plaintext highlighter-rouge">.bash_profile</code> to be taken into account in the current terminal, you have to <code class="language-plaintext highlighter-rouge">source</code> it, meaning <code class="language-plaintext highlighter-rouge">Bash</code> will run the file’s content.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ echo echo Hackerman &gt;&gt; ./.bash_profile
+~ $ echo myFavouritePath=Users/victor/Excel/Revenues &gt;&gt; ./.bash_profile
+~ $ source ./.bash_profile
+</code></pre></div></div>
+
+<h3 id="know-where-a-program-is-stored-which">Know where a program is stored (<code class="language-plaintext highlighter-rouge">which</code>)</h3>
+
+<p>When you run a command as <code class="language-plaintext highlighter-rouge">cp</code> or <code class="language-plaintext highlighter-rouge">nano</code>, what happens is that your shell executes a programm which is stored somewhere on your hard drive. There is a command to know where exactly this program is stored:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ which nano
+/usr/bin/nano
+~ $ which cp
+/bin
+</code></pre></div></div>
+
+<h3 id="the-path">The <code class="language-plaintext highlighter-rouge">PATH</code></h3>
+
+<p>How does your computer know where to find a program to be executed? How does it know that there is such a thing as <code class="language-plaintext highlighter-rouge">nano</code> and <code class="language-plaintext highlighter-rouge">cp</code>?</p>
+
+<p>Your computer does not look everywhere for a program which is called <code class="language-plaintext highlighter-rouge">nano</code>. It looks in specific directories. These directories are listed in a specific variable called the <code class="language-plaintext highlighter-rouge">PATH</code>. This variables is an ordered list of directories in which programs are stored. These directories are separated by <code class="language-plaintext highlighter-rouge">:</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ echo $PATH
+/Users/victor/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/usr/local/sbin:/usr/sbin:/sbin
+</code></pre></div></div>
+
+<p>As exepected, the <code class="language-plaintext highlighter-rouge">PATH</code> lists, amongst others, <code class="language-plaintext highlighter-rouge">/usr/bin</code> where <code class="language-plaintext highlighter-rouge">nano</code> is stored and <code class="language-plaintext highlighter-rouge">/bin</code> where <code class="language-plaintext highlighter-rouge">cp</code> is stored. You should know that the order here is important: when running <code class="language-plaintext highlighter-rouge">nano</code>, your computer will execute the first program called <code class="language-plaintext highlighter-rouge">nano</code>, looking first (in my case) in <code class="language-plaintext highlighter-rouge">/Users/victor/.local/bin</code> then in <code class="language-plaintext highlighter-rouge">/usr/local/bin</code> etc. If no such program exists, you will get an error: <code class="language-plaintext highlighter-rouge">bash: [YourNonExistingCommand]: command not found</code>. For instance if you install a program and it is not stored in one of these directories, you won’t be able to run it from the command line.</p>
+
+<h3 id="alias"><code class="language-plaintext highlighter-rouge">alias</code></h3>
+
+<p>A variable is meant to me used by other programs. For instance the <code class="language-plaintext highlighter-rouge">PATH</code> and <code class="language-plaintext highlighter-rouge">HOME</code> variables are extremely useful for your shell to run properly. You can also store <strong>commands</strong> using <code class="language-plaintext highlighter-rouge">alias</code>. It’s pretty simple: you say that something is an <code class="language-plaintext highlighter-rouge">alias</code>, you give it a name, then you say what it should do:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ alias hello="echo hello, I am the hello alias"
+~ $ hello
+hello, I am the hello alias
+</code></pre></div></div>
+
+<p>You just created your first personal command! Congrats! As for variables, if you want this alias to be permanent and work in new terminals, add it to your <code class="language-plaintext highlighter-rouge">.bash_profile</code>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ echo alias hello=\"echo hello, I am the hello alias\" &gt;&gt; .bash_profile
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">\</code> here is needed to tell <code class="language-plaintext highlighter-rouge">echo</code> we actually want to write those <code class="language-plaintext highlighter-rouge">"</code>. You could obviously write or delete this line using <code class="language-plaintext highlighter-rouge">nano</code>.</p>
+
+<h2 id="package-management">Package management</h2>
+
+<p>You know you can install regular programs by downloading them from the web (or installing them with a CD? You’re that old?). Luckily you can do the same for programs which run in the terminal! If you want to install a new version of python, another commandline text editor and many other things you should use a <em>package manager</em>.</p>
+
+<p>The name is pretty transparent: package managers are programs which <em>manage</em> software you install. It keeps track of there version, it downloads it from trusted sources and you can easily update them.</p>
+
+<p>A popular Mac package manager is <a href="https://brew.sh"><code class="language-plaintext highlighter-rouge">Brew</code></a>. We’ll install it!</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+</code></pre></div></div>
+<p>Press the <code class="language-plaintext highlighter-rouge">return</code> key (=<code class="language-plaintext highlighter-rouge">enter</code>), allow things with your password and there you go!</p>
+
+<p>This command dowloads a file from <code class="language-plaintext highlighter-rouge">githubusercontent.com</code> using the <code class="language-plaintext highlighter-rouge">curl</code> program and executes it using <code class="language-plaintext highlighter-rouge">ruby</code> (which is a programming language).</p>
+
+<h3 id="improving-on-nano-micro">Improving on Nano: Micro</h3>
+
+<p><code class="language-plaintext highlighter-rouge">nano</code> is not too bad but it’s pretty basic. Using <code class="language-plaintext highlighter-rouge">brew</code> we can get a much nicer command-line text editor: <code class="language-plaintext highlighter-rouge">Micro</code>.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ brew install micro
+</code></pre></div></div>
+
+<p>Micro colors things according to the language contained in the text file, it supports the mouse (so you can use your mouse to select text and so on) and it uses the keys you are used to using: <code class="language-plaintext highlighter-rouge">ctrl + s</code> to save, <code class="language-plaintext highlighter-rouge">ctrl + z</code> to cancel, <code class="language-plaintext highlighter-rouge">ctrl + q</code> to quit etc (note: it uses <code class="language-plaintext highlighter-rouge">ctrl</code> not <code class="language-plaintext highlighter-rouge">command</code>).</p>
+
+<h2 id="exercise--be-more-productive-with-oh-my-zsh">Exercise : be more productive with Oh-my-zsh</h2>
+
+<p><code class="language-plaintext highlighter-rouge">Bash</code> is a nice shell but it can be improved. As an exercise, we’ll install <code class="language-plaintext highlighter-rouge">ZSH</code> then <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ZSH</code> is a different Shell software, other than the default Bash you are using. The main difference is Autocompletion when hitting tab and moving around (more advanced explanations <a href="https://www.quora.com/What-is-the-difference-between-bash-and-zsh?share=1">here</a>). It does not sound like much but it’s a life saver really, being able to navigate through suggestions instead of having to write everything.</p>
+
+<p>On top of <code class="language-plaintext highlighter-rouge">ZSH</code>, <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code> adds a lot of features like layout customization and the extremely useful <code class="language-plaintext highlighter-rouge">z</code> plugin.</p>
+
+<h3 id="installing-zsh">Installing ZSH</h3>
+
+<p>On mac :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ brew install zsh zsh-completions
+</code></pre></div></div>
+
+<p>On Linux :</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ sudo apt-get install zsh
+</code></pre></div></div>
+
+<p>Done! That was easy! Now let’s make it the default shell instead of <code class="language-plaintext highlighter-rouge">Bash</code>, run:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>~ $ chsh -s $(which zsh)
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">chsh</code> stands for Change Shell, <code class="language-plaintext highlighter-rouge">-s</code> is to save this new configuration and <code class="language-plaintext highlighter-rouge">$(which zsh)</code> means that the new shell we want to use is the one prompted by <code class="language-plaintext highlighter-rouge">which zsh</code>’s directory. Now <span class="highlight">close the terminal window and open a new one</span>. Run <code class="language-plaintext highlighter-rouge">echo $SHELL</code> and you should see something like <code class="language-plaintext highlighter-rouge">/bin/zsh</code>.</p>
+
+<h3 id="getting-oh-my-zsh">Getting Oh-my-zsh</h3>
+
+<p>To download and install <code class="language-plaintext highlighter-rouge">Oh-my-zsh</code>, simply run the following command which you should be aple to understand (except the flags but you can look them up online).</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+</code></pre></div></div>
+
+<p>That’s it! Again, close and re-open a terminal window: you have a bran new usable and beautiful shell!</p>
+
+<h3 id="exercise-on-you-own-ohmyzsh-plugins">Exercise on you own: Ohmyzsh plugins</h3>
+
+<p>To summarize what we’ve learned, use <code class="language-plaintext highlighter-rouge">micro</code> to edit your <code class="language-plaintext highlighter-rouge">.zshrc</code> file and add the following plugins: <code class="language-plaintext highlighter-rouge">git brew z osx sudo</code>. Also, personalize your <code class="language-plaintext highlighter-rouge">ZSH</code> theme as described <strong><a href="https://github.com/robbyrussell/oh-my-zsh#themes">here</a></strong></p>
+
+<p>The <code class="language-plaintext highlighter-rouge">z</code> plugin is extremely useful to navigate to places you often go to. It records every directory you visit and orders them by number of visits. Then running <code class="language-plaintext highlighter-rouge">~ $ z doc</code>, <code class="language-plaintext highlighter-rouge">z</code> will take you to the most visited location whose path contains <code class="language-plaintext highlighter-rouge">doc</code> (not case sensitive!). So if you often go to <code class="language-plaintext highlighter-rouge">~/Documents/Github/vict0rsch/deep_learning</code> running <code class="language-plaintext highlighter-rouge">z deep</code> will take you there directly! It works for every directory, so it’s way easier than defining a lot of variables.</p>
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Teaching Machine Learning to a Consultant - The Shell" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

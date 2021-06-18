@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splitting a multilabel dataset with Python &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="Splitting a multilabel dataset with Python ">
+    <link rel="canonical" href="https://vict0rs.ch/2018/05/24/sample-multilabel-dataset/">
+    
+    
+    <meta property="og:title" content="Splitting a multilabel dataset with Python " />
+    <meta property="og:url" content="https://vict0rs.ch/2018/05/24/sample-multilabel-dataset/" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/iterative.png" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/light-bulb.svg" />
+    
+    
+    <meta property="og:description" content="Splitting a multi-label dataset into train and test sets is more complicated than the single-label case. You can't simply split each class. You have to be more clever, and stratify - here's how." />
+    <meta name="description" content="Splitting a multi-label dataset into train and test sets is more complicated than the single-label case. You can't simply split each class. You have to be more clever, and stratify - here's how." />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<div class="article-cover">
+    <div>
+        
+        <img src="/images/iterative.png" class="image">
+        
+    </div>
+</div>
+
+<article>
+    <div class="container">
+        <header>
+            
+            <div class="meta">
+                <span class='meta_text'>By</span> <address><a rel="author" href="" title="Victor Schmidt"
+                        target="_blank">Victor Schmidt</a></address> <span class='meta_text'>&mdash;
+                    <time pubdate datetime="2018-24-May" title="May 24, 2018">May 24, 2018</time></span>
+            </div>
+            
+            <h1 class="title">Splitting a multilabel dataset with Python</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            <h2 class="subtitle">Implementing the Iterative Stratifier from Sechidis et al., 2011 to sample from a multilabel dataset</h2>
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <ol id="markdown-toc">
+  <li><a href="#the-specificity-of-multilabel-datasets" id="markdown-toc-the-specificity-of-multilabel-datasets">The specificity of multilabel datasets</a>    <ol>
+      <li><a href="#why-not-go-the-easy-way" id="markdown-toc-why-not-go-the-easy-way">Why not go the easy way?</a></li>
+      <li><a href="#stratifying" id="markdown-toc-stratifying">Stratifying</a></li>
+      <li><a href="#checking-the-validity-of-the-procedure" id="markdown-toc-checking-the-validity-of-the-procedure">Checking the validity of the procedure</a>        <ol>
+          <li><a href="#labels-and-examples-distributions" id="markdown-toc-labels-and-examples-distributions">Labels and Examples Distributions</a></li>
+          <li><a href="#kullback-leibler-divergence" id="markdown-toc-kullback-leibler-divergence">Kullback-Leibler divergence</a></li>
+        </ol>
+      </li>
+    </ol>
+  </li>
+  <li><a href="#iterative-stratifier" id="markdown-toc-iterative-stratifier">Iterative Stratifier</a>    <ol>
+      <li><a href="#implementation" id="markdown-toc-implementation">Implementation</a></li>
+      <li><a href="#experiment" id="markdown-toc-experiment">Experiment</a></li>
+      <li><a href="#more-info" id="markdown-toc-more-info">More info</a></li>
+    </ol>
+  </li>
+</ol>
+
+<h1 id="the-specificity-of-multilabel-datasets">The specificity of multilabel datasets</h1>
+
+<p>A <em>label</em> is the (discrete) information you which to infer from your dataset. This label can be of multiple <em>classes</em>: it is a <em>binary</em> classification task if you have 2 classes, a <em>multiclass</em> problem if you have more.</p>
+
+<p>The <strong>multilabel</strong> case is quite different from the number of values it can take. It means that each sample in your dataset can have <em>multiple</em> target values (each of these being of a different class, possibly with replacement).</p>
+
+<details><summary>Still not clear? Let’s look at an example (click to expand)</summary><div class="detailsContent">
+<p>Say you want to predict pieces of information about a book :</p>
+
+<ul>
+  <li>Single Label, Binary Classification: is the book a good read, or not?</li>
+  <li>Single Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may only choose one answer</li>
+  <li>Multi Label, Multiclass Classification: is the book about Love? Adventure? Philosophy? History? You may choose several answers</li>
+</ul>
+
+<p>I’ll let you think about the multi label, binary classification case.</p>
+
+</div></details>
+
+<p>In most Machine Learning problems you need to split your data into <em>at least</em> two sets, ideally three. You <em>need</em> a test set to evaluate your model trained on the training set. And you <em>need</em> these two to have the <strong>same label distributions</strong>!</p>
+
+<h2 id="why-not-go-the-easy-way">Why not go the easy way?</h2>
+
+<p>In the <em>single-label</em> situation, the usual and easy way to keep the datasets’ statistics equal is to sample independently each class of the original dataset. It’s a valid procedure in this case: if you want 70% of your data in the train set, you take 70% of samples with class <em>A</em>, 70% of samples with class <em>B</em> and so on.</p>
+
+<p>How would you do that if each sample can be of multiple classes simultaneously? The single-label procedure is only valid as long as you can sample <strong>independantly</strong> each class, which is no longer possible!</p>
+
+<p>Say you have 3 <em>classes</em> and each sample can have up to 2 <em>labels</em>, and want a 60/40 <em>split</em>:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>0: [C]
+1: [A, B]
+2: [B]
+3: [A, C]
+4: [A, C]
+5: [C]
+6: [A, C]
+7: [A, C]
+8: [A]
+9: [A, B]
+</code></pre></div></div>
+
+<p>You want 4 and 3 <code class="language-plaintext highlighter-rouge">A</code> per split. How do you chose which one to put in which dataset? They are not equivalent! How do you chose how to put 2 <code class="language-plaintext highlighter-rouge">B</code> in a set, 1 in the other? It depends on how you chose the repartition of <code class="language-plaintext highlighter-rouge">A</code> and the distribution of <code class="language-plaintext highlighter-rouge">C</code> will be as tricky.</p>
+
+<h2 id="stratifying">Stratifying</h2>
+
+<p>In their 2011 <a href="http://lpis.csd.auth.gr/publications/sechidis-ecmlpkdd-2011.pdf"><strong>paper</strong></a>, Sechidis <em>et. al</em> propose a (partial) solution to this problem: <strong>first</strong> focus on the least represented labels, as they are the most likely to suffer from distriution variations, <strong>then</strong> put these samples in the subset which need it the most.</p>
+
+<details><summary>Here is an example for such a procedure (click to expand)</summary><div class="detailsContent">
+<p>In our previous example, we want to sets, 60/40, which would ideally contain:</p>
+
+<ul>
+  <li>Train set:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">0.6 * 7 = 4.2</code> samples with a label <code class="language-plaintext highlighter-rouge">A</code></li>
+      <li><code class="language-plaintext highlighter-rouge">0.6 * 3 = 1.8</code> samples with a label <code class="language-plaintext highlighter-rouge">B</code></li>
+      <li><code class="language-plaintext highlighter-rouge">0.6 * 6 = 3.6</code> samples with a label <code class="language-plaintext highlighter-rouge">C</code></li>
+    </ul>
+  </li>
+  <li>Test set:
+    <ul>
+      <li><code class="language-plaintext highlighter-rouge">0.4 * 7 = 2.8</code> samples with a label <code class="language-plaintext highlighter-rouge">A</code></li>
+      <li><code class="language-plaintext highlighter-rouge">0.4 * 3 = 1.2</code> samples with a label <code class="language-plaintext highlighter-rouge">B</code></li>
+      <li><code class="language-plaintext highlighter-rouge">0.4 * 6 = 2.4</code> samples with a label <code class="language-plaintext highlighter-rouge">C</code></li>
+    </ul>
+  </li>
+</ul>
+
+<p>The stratifying procedure says:</p>
+
+<ul>
+  <li>Label count in the dataset: <code class="language-plaintext highlighter-rouge">A: 7, B: 3, C: 6</code>
+    <ul>
+      <li><strong>Choose label <code class="language-plaintext highlighter-rouge">B</code></strong>
+        <ul>
+          <li>The train set needs <code class="language-plaintext highlighter-rouge">1.8</code> so put sample <code class="language-plaintext highlighter-rouge">1: [A, B]</code> in the train set.
+            <ul>
+              <li>It now needs <code class="language-plaintext highlighter-rouge">0.8</code> labels <code class="language-plaintext highlighter-rouge">B</code> and <code class="language-plaintext highlighter-rouge">3.2</code> labels <code class="language-plaintext highlighter-rouge">A</code></li>
+            </ul>
+          </li>
+          <li>The test set now needs more labels <code class="language-plaintext highlighter-rouge">B</code>: <code class="language-plaintext highlighter-rouge">1.2 &gt; 0.8</code> so put sample <code class="language-plaintext highlighter-rouge">2: [B]</code> in the test set
+            <ul>
+              <li>It now needs <code class="language-plaintext highlighter-rouge">0.2</code> labels <code class="language-plaintext highlighter-rouge">B</code></li>
+            </ul>
+          </li>
+          <li>The train set now needs more labels <code class="language-plaintext highlighter-rouge">B</code>: <code class="language-plaintext highlighter-rouge">0.8 &gt; 0.2</code> so put sample <code class="language-plaintext highlighter-rouge">9: [A, B]</code> in the train set
+            <ul>
+              <li>It now needs <code class="language-plaintext highlighter-rouge">2.2</code> labels <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">-0.2</code> labels <code class="language-plaintext highlighter-rouge">B</code> but it does not matter, we are <strong>done</strong> with <code class="language-plaintext highlighter-rouge">B</code></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Label count in the dataset: <code class="language-plaintext highlighter-rouge">A: 5, B: 0, C: 6</code>
+    <ul>
+      <li><strong>Choose label <code class="language-plaintext highlighter-rouge">A</code></strong> (<em>surprise!</em> even though <code class="language-plaintext highlighter-rouge">C</code> was more rare in the original dataset, <code class="language-plaintext highlighter-rouge">B</code>’s repartition makes it so that we should focus on <code class="language-plaintext highlighter-rouge">A</code> more, now)
+        <ul>
+          <li>Do the same thing</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+</div></details>
+
+<h2 id="checking-the-validity-of-the-procedure">Checking the validity of the procedure</h2>
+
+<h3 id="labels-and-examples-distributions">Labels and Examples Distributions</h3>
+
+<p>From the paper (lower is better):</p>
+
+<p><img src="/images/ld-ed.png" alt="LD and ED from Sechidis et. al, 2011" /></p>
+
+<h3 id="kullback-leibler-divergence">Kullback-Leibler divergence</h3>
+
+<p>This one is not mentionned in the paper but I think it’s also a good indicator that the procedure is valid. The <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback-Leibler divergence</a> is a measure of (dis-)similarity between two probabilty distributions.</p>
+
+<p>The distributions we’ll compare are those of the flattened <strong>class</strong> distributions: each sample’s labels count one for each class. So in out previous example, <code class="language-plaintext highlighter-rouge">0: [A, C]</code> adds 1 to the count of <strong>both</strong> <code class="language-plaintext highlighter-rouge">A</code> and <code class="language-plaintext highlighter-rouge">C</code>.</p>
+
+<p>A low KL-divergence of the class distributions is not a guarantee but it’s still a good indicator in my opinion.</p>
+
+<h1 id="iterative-stratifier">Iterative Stratifier</h1>
+
+<h2 id="implementation">Implementation</h2>
+
+<p>This implementation only relies on <code class="language-plaintext highlighter-rouge">numpy</code> and Python 3.</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">stratify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">classes</span><span class="p">,</span> <span class="n">ratios</span><span class="p">,</span> <span class="n">one_hot</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="s">"""Stratifying procedure.
+
+    data is a list of lists: a list of labels, for each sample.
+        Each sample's labels should be ints, if they are one-hot encoded, use one_hot=True
+    
+    classes is the list of classes each label can take
+
+    ratios is a list, summing to 1, of how the dataset should be split
+
+    """</span>
+    <span class="c1"># one-hot decoding
+</span>    <span class="k">if</span> <span class="n">one_hot</span><span class="p">:</span>
+        <span class="n">temp</span> <span class="o">=</span> <span class="p">[[]</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">))]</span>
+        <span class="n">indexes</span><span class="p">,</span> <span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">indexes</span><span class="p">,</span> <span class="n">values</span><span class="p">):</span>
+            <span class="n">temp</span><span class="p">[</span><span class="n">k</span><span class="p">].</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">temp</span>
+
+    <span class="c1"># Organize data per label: for each label l, per_label_data[l] contains the list of samples
+</span>    <span class="c1"># in data which have this label
+</span>    <span class="n">per_label_data</span> <span class="o">=</span> <span class="p">{</span><span class="n">c</span><span class="p">:</span> <span class="nb">set</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">d</span><span class="p">:</span>
+            <span class="n">per_label_data</span><span class="p">[</span><span class="n">l</span><span class="p">].</span><span class="n">add</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+
+    <span class="c1"># number of samples
+</span>    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+    <span class="c1"># In order not to compute lengths each time, they are tracked here.
+</span>    <span class="n">subset_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="o">*</span> <span class="n">size</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ratios</span><span class="p">]</span>
+    <span class="n">target_subset_sizes</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">subset_sizes</span><span class="p">)</span>
+    <span class="n">per_label_subset_sizes</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">c</span><span class="p">:</span> <span class="p">[</span><span class="n">r</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">per_label_data</span><span class="p">[</span><span class="n">c</span><span class="p">])</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">ratios</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">classes</span>
+    <span class="p">}</span>
+
+    <span class="c1"># For each subset we want, the set of sample-ids which should end up in it
+</span>    <span class="n">stratified_data_ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">set</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ratios</span><span class="p">))]</span>
+
+    <span class="c1"># For each sample in the data set
+</span>    <span class="k">while</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1"># Compute |Di|
+</span>        <span class="n">lengths</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">l</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">label_data</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">label_data</span> <span class="ow">in</span> <span class="n">per_label_data</span><span class="p">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Find label of smallest |Di|
+</span>            <span class="n">label</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span>
+                <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">lengths</span><span class="p">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">},</span> <span class="n">key</span><span class="o">=</span><span class="n">lengths</span><span class="p">.</span><span class="n">get</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="nb">ValueError</span><span class="p">:</span>
+            <span class="c1"># If the dictionary in `min` is empty we get a Value Error. 
+</span>            <span class="c1"># This can happen if there are unlabeled samples.
+</span>            <span class="c1"># In this case, `size` would be &gt; 0 but only samples without label would remain.
+</span>            <span class="c1"># "No label" could be a class in itself: it's up to you to format your data accordingly.
+</span>            <span class="k">break</span>
+        <span class="n">current_length</span> <span class="o">=</span> <span class="n">lengths</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+
+        <span class="c1"># For each sample with label `label`
+</span>        <span class="k">while</span> <span class="n">per_label_data</span><span class="p">[</span><span class="n">label</span><span class="p">]:</span>
+            <span class="c1"># Select such a sample
+</span>            <span class="n">current_id</span> <span class="o">=</span> <span class="n">per_label_data</span><span class="p">[</span><span class="n">label</span><span class="p">].</span><span class="n">pop</span><span class="p">()</span>
+
+            <span class="n">subset_sizes_for_label</span> <span class="o">=</span> <span class="n">per_label_subset_sizes</span><span class="p">[</span><span class="n">label</span><span class="p">]</span>
+            <span class="c1"># Find argmax clj i.e. subset in greatest need of the current label
+</span>            <span class="n">largest_subsets</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argwhere</span><span class="p">(</span>
+                <span class="n">subset_sizes_for_label</span> <span class="o">==</span> <span class="n">np</span><span class="p">.</span><span class="n">amax</span><span class="p">(</span><span class="n">subset_sizes_for_label</span><span class="p">)</span>
+            <span class="p">).</span><span class="n">flatten</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">largest_subsets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">subset</span> <span class="o">=</span> <span class="n">largest_subsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># If there is more than one such subset, find the one in greatest need
+</span>            <span class="c1"># of any label
+</span>            <span class="k">else</span><span class="p">:</span>
+                <span class="n">largest_subsets</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">argwhere</span><span class="p">(</span>
+                    <span class="n">subset_sizes</span> <span class="o">==</span> <span class="n">np</span><span class="p">.</span><span class="n">amax</span><span class="p">(</span><span class="n">subset_sizes</span><span class="p">)</span>
+                <span class="p">).</span><span class="n">flatten</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">largest_subsets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">subset</span> <span class="o">=</span> <span class="n">largest_subsets</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1"># If there is more than one such subset, choose at random
+</span>                    <span class="n">subset</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">choice</span><span class="p">(</span><span class="n">largest_subsets</span><span class="p">)</span>
+
+            <span class="c1"># Store the sample's id in the selected subset
+</span>            <span class="n">stratified_data_ids</span><span class="p">[</span><span class="n">subset</span><span class="p">].</span><span class="n">add</span><span class="p">(</span><span class="n">current_id</span><span class="p">)</span>
+
+            <span class="c1"># There is one fewer sample to distribute
+</span>            <span class="n">size</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="c1"># The selected subset needs one fewer sample
+</span>            <span class="n">subset_sizes</span><span class="p">[</span><span class="n">subset</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+
+            <span class="c1"># In the selected subset, there is one more example for each label
+</span>            <span class="c1"># the current sample has
+</span>            <span class="k">for</span> <span class="n">l</span> <span class="ow">in</span> <span class="n">data</span><span class="p">[</span><span class="n">current_id</span><span class="p">]:</span>
+                <span class="n">per_label_subset_sizes</span><span class="p">[</span><span class="n">l</span><span class="p">][</span><span class="n">subset</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+            
+            <span class="c1"># Remove the sample from the dataset, meaning from all per_label dataset created
+</span>            <span class="k">for</span> <span class="n">l</span><span class="p">,</span> <span class="n">label_data</span> <span class="ow">in</span> <span class="n">per_label_data</span><span class="p">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">current_id</span> <span class="ow">in</span> <span class="n">label_data</span><span class="p">:</span>
+                    <span class="n">label_data</span><span class="p">.</span><span class="n">remove</span><span class="p">(</span><span class="n">current_id</span><span class="p">)</span>
+
+    <span class="c1"># Create the stratified dataset as a list of subsets, each containing the orginal labels
+</span>    <span class="n">stratified_data_ids</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sorted</span><span class="p">(</span><span class="n">strat</span><span class="p">)</span> <span class="k">for</span> <span class="n">strat</span> <span class="ow">in</span> <span class="n">stratified_data_ids</span><span class="p">]</span>
+    <span class="n">stratified_data</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="p">[</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">strat</span><span class="p">]</span> <span class="k">for</span> <span class="n">strat</span> <span class="ow">in</span> <span class="n">stratified_data_ids</span>
+    <span class="p">]</span>
+
+    <span class="c1"># Return both the stratified indexes, to be used to sample the `features` associated with your labels
+</span>    <span class="c1"># And the stratified labels dataset
+</span>    <span class="k">return</span> <span class="n">stratified_data_ids</span><span class="p">,</span> <span class="n">stratified_data</span></code></pre></figure>
+
+<h2 id="experiment">Experiment</h2>
+
+<p>I created a synthetic dataset, with <code class="language-plaintext highlighter-rouge">100</code> classes drawn from a decreasing exponential distribution. Each example in the dataset, <code class="language-plaintext highlighter-rouge">100 000</code> in total, has up to <code class="language-plaintext highlighter-rouge">10</code> labels (at least one, and non-repeating), each one being drawn from the class distribution.</p>
+
+<p>The following figures show</p>
+
+<ul>
+  <li>The target class distribution and their distribution in the synthetic dataset</li>
+  <li>The synthetic dataset class distribution and the 2 sampled datasets’</li>
+</ul>
+
+<div style="width:100%; text-align:center">
+<img src="/images/target-dist.png" alt="" style="max-width:300px; display:inline-block;"/>
+<img src="/images/train-test-dist.png" alt="" style="max-width:300px; display:inline-block;"/>
+<img src="/images/val-test-dist.png" alt="" style="max-width:300px; display:inline-block;"/>
+</div>
+
+<p>Zooming in, you’d see no difference, lines overlap perfectly! Computed KL-divergences agree: <code class="language-plaintext highlighter-rouge">KL(original, train) = KL(original, test) = -0.0001</code>. Final repartition is <code class="language-plaintext highlighter-rouge">69912 | 14890 | 15198</code>, <em>i.e.</em> <code class="language-plaintext highlighter-rouge">train: 69.9% | val: 14.9% | test: 15.2%</code>.</p>
+
+<p>Experiments with different distributions, number of classes, number of labels and number of examples agree, this is not a best-case scenario.</p>
+
+<h2 id="more-info">More info</h2>
+
+<ul>
+  <li>This implementation can handle string labels just as well</li>
+  <li>For some reason, sampling 3 datasets (train, val, test) works best by sequentially stratifying than specifying 3 ratios. Could be because of the low classes</li>
+  <li>I could not reproduce the paper’s metrics on the dataset. I’m not far from them but I may have made a mistake in the metrics’ code. I did raise the issue. But looking at the distribution, my implementation can’t be so far off</li>
+  <li>I implemented the <a href="https://arxiv.org/abs/1704.08756">Second Order Iterative Stratifier</a> by Szymański <em>et. al</em>, 2017 but I do not use it because its complexity is squared in the number of labels and it does not seem to result in much more than slightly lowering the variance of the algorithm. If you wanted to, it would be quite easy to code from the regular Iterative Stratifier above</li>
+</ul>
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="Splitting a multilabel dataset with Python" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>

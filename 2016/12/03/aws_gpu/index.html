@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use AWS GPU instances with Tensorflow and Keras Deep Learning frameworks &mdash; Vict0rsch</title>
+    
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,700" rel="stylesheet" type="text/css">
+    <!-- <link rel="stylesheet" href="/assets/main.css"> -->
+
+    <link rel="stylesheet" type="text/css" href="/assets/main-52ae7e3dfe5a5913b1a1f11b64d5f74b05fbe724da7d42f261065884084029ab.css" integrity="sha256-Uq5+Pf5aWROxofEbZNX3SwX75yTafULyYQZYhAhAKas=" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/assets/tingle-141cb380cbc51d7fad4249751d1e3cffb07ccff80f6b0836164a30c2b857bf2a.css" integrity="sha256-FByzgMvFHX+tQkl1HR48/7B8z/gPawg2FkowwrhXvyo=" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/assets/tingle.css"> -->
+
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="apple-touch-icon" href="/images/light-bulb.svg" />
+    <!--rss-feed <link href="/feed.xml" rel="alternate" type="application/rss+xml" title="Vict0rsch" /> -->
+    <meta name="title" content="How to Use AWS GPU instances with Tensorflow and Keras Deep Learning frameworks ">
+    <link rel="canonical" href="https://vict0rs.ch/2016/12/03/aws_gpu/">
+    
+    
+    <meta property="og:title" content="How to Use AWS GPU instances with Tensorflow and Keras Deep Learning frameworks " />
+    <meta property="og:url" content="https://vict0rs.ch/2016/12/03/aws_gpu/" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/datacenter.jpg" />
+    
+    
+    <meta property="og:image" content="https://vict0rs.ch/images/light-bulb.svg" />
+    
+    
+    <meta property="og:description" content="Using a personal AMI, I'll go through every single step from 0 (you don't even know what an instance is) to running a Tensorflow example on GPU including how to connect to the instance" />
+    <meta name="description" content="Using a personal AMI, I'll go through every single step from 0 (you don't even know what an instance is) to running a Tensorflow example on GPU including how to connect to the instance" />
+    
+    <meta property="og:site_name" content="Vict0rsch">
+    
+    <!--google analytics tracking code here-->
+<script>
+ (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+ })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ ga('create', 'UA-88678459-1', 'auto');
+ ga('send', 'pageview');
+ 
+ console.log('gogol analytics')
+</script>
+
+    
+    <script src="https://unpkg.com/nprogress@0.2.0/nprogress.js"></script>
+<style>
+#nprogress{pointer-events:none}#nprogress .bar{background:#2077b2;position:fixed;z-index:1031;top:0;left:0;width:100%;height:3px}#nprogress .peg{display:block;position:absolute;right:0;width:100px;height:100%;box-shadow:0 0 10px #2077b2,0 0 5px #2077b2;opacity:1;-webkit-transform:rotate(3deg) translate(0px,-4px);-ms-transform:rotate(3deg) translate(0px,-4px);transform:rotate(3deg) translate(0px,-4px)}#nprogress .spinner{display:block;position:fixed;z-index:1031;top:15px;right:15px}#nprogress .spinner-icon{width:18px;height:18px;box-sizing:border-box;border:solid 2px transparent;border-top-color:#2077b2;border-left-color:#2077b2;border-radius:50%;-webkit-animation:nprogress-spinner 400ms linear infinite;animation:nprogress-spinner 400ms linear infinite}.nprogress-custom-parent{overflow:hidden;position:relative}.nprogress-custom-parent #nprogress .spinner,.nprogress-custom-parent #nprogress .bar{position:absolute}@-webkit-keyframes nprogress-spinner{0%{-webkit-transform:rotate(0deg)}100%{-webkit-transform:rotate(360deg)}}@keyframes nprogress-spinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+</style>
+
+</head>
+
+<body>
+    <script>
+        NProgress.configure({
+            easing: 'ease',
+            speed: 600,
+            showSpinner: false,
+        });
+        NProgress.start();
+        var int = setInterval(()=> {
+            NProgress.inc()
+        }, 500)
+        window.onload = function(){
+            clearInterval(int);
+            NProgress.done();
+        };
+    </script>
+
+    <div id='wrapper'>
+        <div id='main'>
+            <section id="navbar" class="site-nav">
+                <header>
+                    <nav id="navigation">
+                        <a class="brand" href="/">
+                            <img src="/images/light-bulb.svg" alt="Home"><span class="hidable-nav">Home</span>
+                        </a>
+                        
+                        <a href="/resources">Resources</a>
+                        
+                        <a href="/about">About</a>
+                        
+                        
+                        <a href="#" class='search-link'>
+                                <span class="hidable-nav">Search</span> <i class="fa fa-search"></i>
+                        </a>
+                        
+                    </nav>
+                    <nav class="tagline">
+                        <span>Learn Keras and Lasagne (2015)</span>
+                        <a href="/tutorials" class="btn btn-outline">Tutorials</a>
+                    </nav>
+                </header>
+            </section>
+
+            
+<div class="article-cover">
+    <div>
+        
+        <img src="/images/datacenter.jpg" class="image">
+        
+    </div>
+</div>
+
+<article>
+    <div class="container">
+        <header>
+            
+            <div class="meta">
+                <span class='meta_text'>By</span> <address><a rel="author" href="" title="Victor Schmidt"
+                        target="_blank">Victor Schmidt</a></address> <span class='meta_text'>&mdash;
+                    <time pubdate datetime="2016-03-December" title="December 03, 2016">December 03, 2016</time></span>
+            </div>
+            
+            <h1 class="title">How to Use AWS GPU instances with Tensorflow and Keras Deep Learning frameworks</h1><span id='title_buttons'><a id='night_mode' class="btn btn-outline dark">Read
+                    in the dark</a></span>
+            
+        </header>
+
+        <section>
+            <div id='post-content'>
+                <p><em><strong>Disclaimer</strong> : I am not an expert, this is only a small contribution from a self(internet)-taught beginner with AWS who wants to synthesize what he’s learned. And I’m happy to learn even more if this is incorrect or (surely) improvable.</em></p>
+
+<p><em><strong>UPDATE</strong> Feb 22nd 2017 : I created another AMI, mainly with Tensorflow 1.0 and for p2 instances rather than g2. To use it, replace <code class="language-plaintext highlighter-rouge">vict0rsch-1.0</code> by <code class="language-plaintext highlighter-rouge">vict0rsch-2.0</code>, North California by North Virginia and g2 by p2 in the following text. See the AMI’s details <a href="/2017/02/22/p2-aws-tensorflow-1/">here</a>.</em></p>
+
+<p><strong>UPDATE 2</strong> Feb 15th 2018 : As Amazon’s <a href="https://aws.amazon.com/fr/blogs/machine-learning/new-aws-deep-learning-amis-for-machine-learning-practitioners/">Deep Learning AMI</a> is decent and comes with everything installed there is no need for me to go on with creating those, use theirs in the following tutorial!</p>
+
+<hr />
+
+<ol id="markdown-toc">
+  <li><a href="#launch-your-amazon-gpu-instance" id="markdown-toc-launch-your-amazon-gpu-instance">Launch your Amazon GPU instance</a></li>
+  <li><a href="#before-you-go" id="markdown-toc-before-you-go">Before you go</a></li>
+  <li><a href="#in-a-nutshell" id="markdown-toc-in-a-nutshell">In a nutshell</a></li>
+  <li><a href="#selecting-an-ami" id="markdown-toc-selecting-an-ami">Selecting an AMI</a>    <ol>
+      <li><a href="#region" id="markdown-toc-region">Region</a></li>
+      <li><a href="#ami" id="markdown-toc-ami">AMI</a></li>
+    </ol>
+  </li>
+  <li><a href="#lauching-the-instance" id="markdown-toc-lauching-the-instance">Lauching the instance</a>    <ol>
+      <li><a href="#choose-an-instance-type" id="markdown-toc-choose-an-instance-type">Choose an Instance Type</a></li>
+      <li><a href="#security-groups" id="markdown-toc-security-groups">Security groups</a></li>
+      <li><a href="#storage" id="markdown-toc-storage">Storage</a></li>
+      <li><a href="#key-pair" id="markdown-toc-key-pair">Key Pair</a></li>
+    </ol>
+  </li>
+  <li><a href="#connecting-to-the-instance" id="markdown-toc-connecting-to-the-instance">Connecting to the instance</a>    <ol>
+      <li><a href="#ssh" id="markdown-toc-ssh">SSH</a></li>
+      <li><a href="#scp" id="markdown-toc-scp">SCP</a></li>
+      <li><a href="#ssh---scp-errors" id="markdown-toc-ssh---scp-errors">SSH - SCP Errors</a></li>
+      <li><a href="#outbound-connections" id="markdown-toc-outbound-connections">Outbound connections</a></li>
+    </ol>
+  </li>
+  <li><a href="#guis" id="markdown-toc-guis">GUIs</a>    <ol>
+      <li><a href="#text-editor" id="markdown-toc-text-editor">Text editor</a></li>
+      <li><a href="#file-transfers" id="markdown-toc-file-transfers">File transfers</a></li>
+    </ol>
+  </li>
+  <li><a href="#testing" id="markdown-toc-testing">Testing</a>    <ol>
+      <li><a href="#tensorflows-examples" id="markdown-toc-tensorflows-examples">Tensorflow’s examples</a></li>
+      <li><a href="#your-own-work" id="markdown-toc-your-own-work">Your own work</a></li>
+    </ol>
+  </li>
+  <li><a href="#end-of-work" id="markdown-toc-end-of-work">End of work</a>    <ol>
+      <li><a href="#terminate" id="markdown-toc-terminate">Terminate</a></li>
+      <li><a href="#stop" id="markdown-toc-stop">Stop</a></li>
+      <li><a href="#so" id="markdown-toc-so">So…?</a></li>
+    </ol>
+  </li>
+  <li><a href="#improvements--update-form" id="markdown-toc-improvements--update-form">Improvements + Update form</a></li>
+  <li><a href="#pricing" id="markdown-toc-pricing">Pricing</a></li>
+  <li><a href="#using-tensorboard-on-the-remote-aws-instance" id="markdown-toc-using-tensorboard-on-the-remote-aws-instance">Using Tensorboard on the remote AWS instance</a></li>
+</ol>
+
+<h2 id="launch-your-amazon-gpu-instance">Launch your Amazon GPU instance</h2>
+
+<p>The purpose here is to get you to launch an Amazon instance from an AMI.</p>
+
+<p>What the hell is an AMI? It is an Amazon Machine Image, which basically describes the software installed on a machine. So here we are going to launch a pre-configured instance.</p>
+
+<p>It will (mainly) have :</p>
+
+<ul>
+  <li>Ubuntu Server 16.04 as OS</li>
+  <li><a href="https://www.continuum.io/">Anaconda</a> 4.2.0 (scientific Python distribution)</li>
+  <li>Python 3.5</li>
+  <li>Cuda 8.0 (“parallel computing platform and programming model”, used to send code to the GPU)</li>
+  <li>cuDNN 5.1 (Cuda’s library for Deep Learning used by Tensorflow and Theano)</li>
+  <li><a href="https://www.tensorflow.org/">Tensorflow</a> 0.12 for Python 3.5 and GPU-enabled</li>
+  <li><a href="https://keras.io/">Keras</a> 1.1.2 (use with Tensorflow backend)</li>
+</ul>
+
+<p><em>To be done:</em></p>
+<ul>
+  <li><a href="http://deeplearning.net/software/theano/index.html">Theano</a> 0.8 I currently have issues during <code class="language-plaintext highlighter-rouge">theano.test()</code> if anyone wants to help</li>
+  <li><a href="http://lasagne.readthedocs.io/en/latest/index.html">Lasagne</a> 0.1</li>
+  <li>rsub by default</li>
+</ul>
+
+<p>This AMI can be seen as a list of softwares, it does not specify the hardware you are going to use. Therefore the 3 main steps of this tutorial will be :</p>
+
+<ol>
+  <li>Select the AMI</li>
+  <li>Select the Instance (hardware)</li>
+  <li>Connect to it</li>
+</ol>
+
+<h2 id="before-you-go">Before you go</h2>
+
+<p>If you have never launched an EC2 instance (maybe if you’re changing region?) your EC2 instances limit is set to 0 by default. Therefore at launch time, at the end of the whole process you’ll be prompted a <strong>“Launch Failed” error…</strong></p>
+
+<p>To save you some time here is what you’ve got to do : go to http://aws.amazon.com/contact-us/ec2-request and write them a nice message asking for a higher limit. I randomly asked for 3 and got 5. Maybe it’s standard. Don’t forget to select the right region as AMIs are region-specific. So is pricing.</p>
+
+<p>I asked for a “Web” contact method and they got back to me in <strong>2 business days</strong>. So if you’re in a hurry maybe the phone method is faster. I don’t know. People with experience could elaborate on that.</p>
+
+<p>You can still try stuff with the micro free tier instances (which don’t have GPU).
+___</p>
+
+<h2 id="in-a-nutshell">In a nutshell</h2>
+
+<ol>
+  <li>Go to EC2 instances in North California region</li>
+  <li>Select <code class="language-plaintext highlighter-rouge">vict0rsch-1.0</code> community AMI</li>
+  <li>Select <code class="language-plaintext highlighter-rouge">g2.2xlarge</code> instance</li>
+  <li>Set up Security group</li>
+  <li>Download RSA private key</li>
+  <li>Connect <em>via</em> ssh : <code class="language-plaintext highlighter-rouge">ssh -i key.pem ubuntu@address</code></li>
+</ol>
+
+<hr />
+
+<h2 id="selecting-an-ami">Selecting an AMI</h2>
+
+<h4 id="region">Region</h4>
+
+<p>I assume you have created an AWS account. The AMI we are going to use (mine, feel free to comment on this) is located in the <strong>North California</strong> region. So be sure that once you get to the AWS Console you select North California in the top right corner.</p>
+
+<h4 id="ami">AMI</h4>
+
+<p>Now in “Services” (top left) select EC2 and click that big beautiful blue button that says “Launch Instance”.</p>
+
+<p>You’ll be asked to “Choose an Amazon Machine Image (AMI)”. On the left, click “<strong>Community AMIs</strong>”, look for <code class="language-plaintext highlighter-rouge">vict0rsch-1.0</code> and select it.</p>
+
+<h2 id="lauching-the-instance">Lauching the instance</h2>
+
+<h4 id="choose-an-instance-type">Choose an Instance Type</h4>
+
+<p>To speed up computation, we’ll use a GPU instance, so select a <code class="language-plaintext highlighter-rouge">g2.2xlarge</code> instance. Now click on “Review and launch”</p>
+
+<h4 id="security-groups">Security groups</h4>
+
+<p>We need to define who’s gonna be able to connect to the instance (by default it can connect itself to any address via any protocol).</p>
+
+<p>So create a new security group with a name and description of your choice.</p>
+
+<p>In “Source” click on <strong>My IP</strong>, and the line should look like <code class="language-plaintext highlighter-rouge">ssh | TCP | 22 | My IP your.ip/32</code></p>
+
+<h4 id="storage">Storage</h4>
+
+<p>The whole setup takes a bit more than 9GB. By default the AMI makes the instance have 24GB storage. See the “Storage” tab (no shit…) to edit this according to your needs.</p>
+
+<p>Now “<strong>Launch</strong>” !</p>
+
+<h4 id="key-pair">Key Pair</h4>
+
+<p>You’ve been prompted with a Key pair choice. This is about the <strong>private RSA key</strong> that will allow you to connect to the instance. Create a new one, give it a name and download it. Then move it wherever you want but it might be a good idea not to let it in your downloads directory.</p>
+
+<p>You can create a new key at every instance launch but you will need the declared one to connect to the instance.</p>
+
+<p>OK! Your instance is being launched by Amazon, click on the blue link with the instance ID or go to your console (it’s the same anyway) and go in the “<strong>Instances</strong>” tab. It will only take a few minutes before it’s running and you can connect to it.</p>
+
+<h2 id="connecting-to-the-instance">Connecting to the instance</h2>
+
+<h4 id="ssh">SSH</h4>
+
+<p>You’ll connect to the instance <em>via</em> ssh. To do so you need the instance’s address which is found writen in bold at the bottom of the window when you select the instance. It looks like <code class="language-plaintext highlighter-rouge">Public DNS: ec2-54-183-195-215.us-west-1.compute.amazonaws.com</code></p>
+
+<p>The default user of Ubuntu Server instances is <code class="language-plaintext highlighter-rouge">ubuntu</code> but on other AMIs such as the Amazon Linux ones it is usually <code class="language-plaintext highlighter-rouge">ec2-user</code>.</p>
+
+<p>We’ll use te flag <code class="language-plaintext highlighter-rouge">-i</code> to specify that we use an identity file i.e. the key we downloaded from Amazon.</p>
+
+<p><strong>Now connect to your instance :</strong></p>
+
+<p><code class="language-plaintext highlighter-rouge">ssh -i path_to_key/key.pem ubuntu@ec2-54-183-195-215.us-west-1.compute.amazonaws.com</code></p>
+
+<p>(of course don’t use this address, rather your <code class="language-plaintext highlighter-rouge">Public DNS</code> above)</p>
+
+<p>Accept to add the RSA key and there you are! You should be prompted with something like <code class="language-plaintext highlighter-rouge">ubuntu@ip-172-31-5-202:~$</code></p>
+
+<h4 id="scp">SCP</h4>
+
+<p>To <strong>copy</strong> (transfer) files from your computer to the instance use <code class="language-plaintext highlighter-rouge">scp</code> as follows :</p>
+
+<p><code class="language-plaintext highlighter-rouge">scp -i path_to_key/key.pem file_on_your_computer ubuntu@ec2-54-183-195-215.us-west-1.compute.amazonaws.com:path_on_remote_instance</code></p>
+
+<p>Add the flags <code class="language-plaintext highlighter-rouge">-rp</code> to transfer directories.</p>
+
+<p>If you want to copy files from the instance to your own computer, state first the with the instance and then your own computer. So from YOUR computer you would do <code class="language-plaintext highlighter-rouge">scp -i path_to_key/key.pem  user@address:location/file path_to_file/on_your_machine</code></p>
+
+<h4 id="ssh---scp-errors">SSH - SCP Errors</h4>
+
+<p>If you are prompted with the  <code class="language-plaintext highlighter-rouge">Permission denied (publickey)</code><strong>error</strong> or the operation is timed out it can mean:</p>
+
+<ul>
+  <li>Your instance is not running (yet?)</li>
+  <li>That you are not using the right RSA key</li>
+  <li>You are trying to log into another machine (wrong address)</li>
+  <li>You are trying to log in with the wrong user</li>
+  <li>Your instance does not allow your IP (so go and add it in its security group)</li>
+  <li>Your <code class="language-plaintext highlighter-rouge">.pem</code> file does not have the right permissions (<code class="language-plaintext highlighter-rouge">Permissions 0644 for 'XXX.pem' are too open.</code>) -&gt; change them with <code class="language-plaintext highlighter-rouge">chmod 400 mykey.pem</code></li>
+</ul>
+
+<p>I also had <code class="language-plaintext highlighter-rouge">Connection closed by &lt;address&gt;</code> errors. So far the only way I found was to create a new KeyPair from the Amazon console. You can save your progress by taking a snapshot, terminating the instance and starting a new one with a new KeyPair from the snapshot.</p>
+
+<p>If the <code class="language-plaintext highlighter-rouge">scp</code> command does not say anything and fails, check that you did not forget the path on the remote host at the end of the address : <code class="language-plaintext highlighter-rouge">[...].com:~/</code> for instance.</p>
+
+<p>Anyway you can have <code class="language-plaintext highlighter-rouge">scp</code> and <code class="language-plaintext highlighter-rouge">ssh</code> be more verbose using <code class="language-plaintext highlighter-rouge">-v</code> <code class="language-plaintext highlighter-rouge">-vv</code> or <code class="language-plaintext highlighter-rouge">-vvv</code> depending on the details you want.</p>
+
+<h4 id="outbound-connections">Outbound connections</h4>
+
+<p>By default your instance can connect anywhere. You can change that (or make it so if it seems that the instance can’t connect to the internet) to add a rule to the security group.</p>
+
+<p>To do so, from the “Instances” tab, go to the far right of your running instance’s line and click on its security group link. Then click on the bottom “Outbound” tab and edit the rules. If you see <code class="language-plaintext highlighter-rouge">All traffic | All | All | 0.0.0.0/0</code> it means, obviously, that the instance can do whatever it wants!</p>
+
+<h2 id="guis">GUIs</h2>
+
+<h4 id="text-editor">Text editor</h4>
+<p>You can use Sublime Text <strong>2</strong> (not 3 saddly) to edit your remote files from your own computer using <strong><a href="https://github.com/Drarok/rsub">rsub</a></strong> See this <a href="http://log.liminastudio.com/writing/tutorials/sublime-tunnel-of-love-how-to-edit-remote-files-with-sublime-text-via-an-ssh-tunnel">tutorial</a> (and don’t forget the Sublime Text 2 app must be running on your computer). This means Sublime Text will edit the remote file using <code class="language-plaintext highlighter-rouge">scp</code> under the hood so you can use your GUI for the EC2 instance.</p>
+
+<p>Be careful, if the connection between your computer and the remote instance is lost (internet hicup, reboot etc.), Sublime Text 2 will not tell you that it is not connected anymore. So if you change things in your code and it seems like it has no effect, maybe Sublime is not writing on the remote instance anymore! Check by adding a dumb <code class="language-plaintext highlighter-rouge">print</code> somewhere or doing a <code class="language-plaintext highlighter-rouge">cat</code> on the instance. In doubt, close the sublime window and <code class="language-plaintext highlighter-rouge">rsub</code> again!</p>
+
+<h4 id="file-transfers">File transfers</h4>
+<p>You can play hero and do everything using <code class="language-plaintext highlighter-rouge">scp</code>. Or you can make your life easier with a software that will basically act like a file explorator and transfer agent between the remote instance and your computer. Get <strong><a href="https://filezilla-project.org/">Filezilla</a></strong> and follow these <a href="http://stackoverflow.com/questions/16744863/connect-to-amazon-ec2-file-directory-using-filezilla-and-sftp">instructions</a>.</p>
+
+<h2 id="testing">Testing</h2>
+
+<h4 id="tensorflows-examples">Tensorflow’s examples</h4>
+<p>You can check that everyting runs by going to Tensorflow’s examples : <code class="language-plaintext highlighter-rouge">cd ~/anaconda3/lib/python3.5/site-packages/tensorflow/models/image/cifar10</code> then either <code class="language-plaintext highlighter-rouge">python -m cifar10_train.py</code> or open an iPython console and <code class="language-plaintext highlighter-rouge">run cifar10_train.py</code>.
+Tensorflow will first download the data it needs to train and then train displaying this kind of line :</p>
+
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">2016-12-03 18:41:43.992273: step 100, loss = 4.08 (790.8 examples/sec; 0.162 sec/batch)</code></p>
+</blockquote>
+
+<p>You can check that this training speed is quite good compared to what they get <a href="https://www.tensorflow.org/versions/r0.12/tutorials/deep_cnn/index.html">here</a>.</p>
+
+<h4 id="your-own-work">Your own work</h4>
+<p>Once you’re logged in your instance, you’re basically within a GUI-free Ubuntu machine. Using the <code class="language-plaintext highlighter-rouge">scp</code> commands described above, you can transfer code and check that it runs as expected (or better!). Also using rsub is quite handy. Hacky testing : <code class="language-plaintext highlighter-rouge">nano my_file.py</code> then paste your code, <code class="language-plaintext highlighter-rouge">ctr+X</code> to quit and save (say <code class="language-plaintext highlighter-rouge">yes</code>) and <code class="language-plaintext highlighter-rouge">python my_file.py</code>.</p>
+
+<p>If the instance lacks specific libraries, well just like at home you can <code class="language-plaintext highlighter-rouge">apt-get</code> and <code class="language-plaintext highlighter-rouge">pip3</code> (etc.) what you need. However if you terminate the instance whithout saving a snapshot all personal settings will be gone when restarting later from my AMI. See next section. Suggest improvements if you feel like other people are going to need this library and it should be default.</p>
+
+<h2 id="end-of-work">End of work</h2>
+
+<p>You’ve done some nonesense for a while, now playtime is over. If you keep your instance running Amazon’s going to keep billing you. You can either stop or terminate your instance.</p>
+
+<h4 id="terminate">Terminate</h4>
+<p>You don’t need this instance anymore, all the data it contains is going to be deleted. Consider taking a snapshot to backup your data (of course it’s stored on Amazon, on S3, so it will be charged but cheaper than EBS). No more billing related to the instance however.</p>
+
+<h4 id="stop">Stop</h4>
+<p>You’ll re-use this instance soon enough. Its volumes are kept in Amazon Elastic Block Store (EBS). No more instance billing and your data’s still here when you restart it (right click Instance state -&gt; start) but you pay for EBS which is more expensive. But not that much if you have only a few GBs and not big TBs.</p>
+
+<h4 id="so">So…?</h4>
+
+<ul>
+  <li>Terminate if the job is done. Billing = zero.</li>
+  <li>Termninate and snapshot if job is done but someday you’ll need it again. Billing = compressed snapshot on S3.</li>
+  <li>Stop if it is a recurrent work. billing = volume on EBS.</li>
+</ul>
+
+<p><a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">More</a> and <a href="http://docs.rightscale.com/faq/clouds/aws/Whats_the_difference_between_Terminating_and_Stopping_an_EC2_Instance.html">more</a> and <a href="https://images.duckduckgo.com/iu/?u=https%3A%2F%2Fs-media-cache-ak0.pinimg.com%2F736x%2Ff2%2Fde%2F6d%2Ff2de6d3610642b866edcf76f7f86129a.jpg&amp;f=1">more</a>.</p>
+
+<h2 id="improvements--update-form">Improvements + Update form</h2>
+
+<p>You can either suggest improvements <a href="https://forums.aws.amazon.com/thread.jspa?threadID=244014">here</a>, build your own AMI from this one or from scratch -&gt; see <a href="http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AMIs.html">here</a>.</p>
+
+<p>As far as this very tutorial is concerned, please pull-request edits, corrections, improvement suggestions and use issues to get help. I’m however far from being experienced with this… Let’s hope there will be someone somewhere in the community  to help you. Or stackoverflow may be a good idea.</p>
+
+<p>Also I will maintain a TO DO list for the next version of the AMI according to your feedback. I am not sure how this is going to evolve so if you want to be updated sign up to this <strong><a href="https://goo.gl/forms/rutdrahXGJHLvO9h1">form</a></strong>. The use I’ll have of this will be mainly to tell you when the next version is out but the most important thing is <strong>I may delete the AMI</strong> (I’m paying for it so I won’t have too many of these) after such an upgrade. At which point you may want to snapshot your work to start on the new one so you’ll need to know when this is going to happen.</p>
+
+<h2 id="pricing">Pricing</h2>
+
+<p>I won’t go into details here but roughly speaking you are charged <strong>per hour</strong> and according to the volume of your (S3) <strong>snapshots</strong> and (EBS) <strong>volumes</strong>.</p>
+
+<p>Checkout “My Billing Dashboard” when you click on your account in the top right corner.</p>
+
+<h2 id="using-tensorboard-on-the-remote-aws-instance">Using Tensorboard on the remote AWS instance</h2>
+
+<p>If you want to use Tensorboard, go to your instance’s security group settings and add a <strong>custom TCP inbound rule for port 6006</strong> (tensorboard’s default) and allow whoever you want (your ip only or anyone?). You’ll then be able to access the tensorboard web page at your <strong>public DNS’s address</strong> : <code class="language-plaintext highlighter-rouge">http://ec2-blabla.us-west-1.compute.amazonaws.com:6006/</code></p>
+
+            </div>
+            
+<div class="social">
+    
+    <div class='custom_twitter_share'>
+        <a href="https://twitter.com/share" class="twitter-share-button"  data-text="How to Use AWS GPU instances with Tensorflow and Keras Deep Learning frameworks" data-related="vict0rsch">Tweet</a>
+    </div>
+    
+    
+    <div class='custom_fb_share'>
+        <div class="fb-like" data-width="150" data-layout="button_count" data-action="like" data-show-faces="true" data-send="false"></div>
+    </div>
+    
+    
+    
+    
+</div>
+
+        </section>
+
+        <footer>
+            <address>
+                
+                <p>
+                    Written by <strong><a rel="author" href="https://twitter.com/vict0rsch" title=""
+                            target="_blank">Victor Schmidt</a></strong>
+                    <span class="muted"></span>
+                    
+                    &nbsp;- <iframe class='followGithub' src="https://ghbtns.com/github-btn.html?user=vict0rsch&type=follow&count=false&size=small"
+                        frameborder="0" scrolling="0" width="220px" height="20px" align="top"></iframe>
+                    
+                </p>
+                
+            </address>
+
+        </footer>
+
+        
+        <section>
+            <!-- <div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'http-vict0rsch-github-io'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script> -->
+
+        </section>
+        
+    </div>
+</article>
+        </div>
+    </div>
+
+    <footer class="site-footer" id="footer">
+        <div class="container" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2.5rem">
+            <div id="footer-subcontainer">
+                <nav>
+                    &copy; 2021
+                    <!-- <a href=""></a> &middot; -->
+                    <a href="/">Posts</a> &middot;
+                    <a class="search-link" href="#">Search</a> &middot;
+                    
+                    <a href="/resources">Resources</a> &middot;
+                    
+                    
+                    <a href="/about">About</a>
+                    <span id="iframe-middot">
+                        &middot;
+                    </span>
+
+                    
+                    <div id="iframe-stars">
+                        <iframe src="https://ghbtns.com/github-btn.html?user=vict0rsch&repo=deep_learning&type=star&count=true&size=small"
+                            frameborder="0" scrolling="0" width="84px" height="20px" align="top"></iframe>
+                    </div>
+                </nav>
+                <a class="brand" href="/" id="logo-footer">
+                    <img src="/images/light-bulb.svg" alt="Home">
+                </a>
+            </div>
+            <nav class="social" style="display: none">
+                
+                <!--<a href="https://twitter.com/vict0rsch" title="Follow on Twitter" target="_blank"><i class="icon icon-twitter black"></i></a> -->
+                
+                
+                <!--<a href="/feed.xml" title="RSS Feed">
+                <i class="icon icon-rss
+                black"></i>
+            </a> -->
+            </nav>
+        </div>
+        <!-- <p style="text-align: center">Incorporated theme by <a href="https://sendtoinc.com">Inc</a></p> -->
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.4.0.min.js"
+  integrity="sha256-BJeo0qm959uMBGb65z40ejJYGSgR7REI4+CW1fNKwOg=" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/typeit@v6/dist/typeit.min.js" />
+
+// <script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/anchor-js/3.2.0/anchor.min.js"></script>
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+<script integrity="sha256-OtUha0k2/9UfGo5Gk1z/sd7U+h+D976k0yB92whsPW4=" crossorigin="anonymous" src="/assets/jquery.details.min-3ad5216b4936ffd51f1a8e46935cffb1ded4fa1f83f7bea4d3207ddb086c3d6e.js" type="text/javascript"></script>
+<script integrity="sha256-4wzmvLQ/OBBCfxELN4DUGzj7PW+xnN7NlI0d//TQB18=" crossorigin="anonymous" src="/assets/main-e30ce6bcb43f3810427f110b3780d41b38fb3d6fb19cdecd948d1dfff4d0075f.js" type="text/javascript"></script>
+<script integrity="sha256-onGmRDUJ8Zf39A1uJov1b9pZtNzd5TxySBgWLJF0VY4=" crossorigin="anonymous" src="/assets/tingle-a271a6443509f197f7f40d6e268bf56fda59b4dcdde53c724818162c9174558e.js" type="text/javascript"></script>
+<script integrity="sha256-CfaxBGUjUvpFlFRKgjFuU0wjm8nOSRE6pEV3OnmjJIc=" crossorigin="anonymous" src="/assets/search-09f6b104652352fa4594544a82316e534c239bc9ce49113aa445773a79a32487.js" type="text/javascript"></script>
+<script integrity="sha256-bcehUY3Ujb9kllPCKFSl6b1nP5+Be8VJ9/5tW9wOLyQ=" crossorigin="anonymous" src="/assets/resourceCards-6dc7a1518dd48dbf649653c22854a5e9bd673f9f817bc549f7fe6d5bdc0e2f24.js" type="text/javascript"></script>
+
+
+
+
+<script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + '://platform.twitter.com/widgets.js'; fjs.parentNode.insertBefore(js, fjs); } }(document, 'script', 'twitter-wjs');</script>
+
+
+
+<div id="fb-root"></div>
+<script>(function (d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=253595308025739";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+
+
+
+
+
+
+
+</body>
+
+</html>
